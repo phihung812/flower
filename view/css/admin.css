@@ -1,0 +1,157 @@
+body {
+    display: flex;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    width: 200px;
+    background-color: #000;
+    color: #fff;
+    height: 100vh;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.main-content {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.link-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.link-item {
+    margin: 15px 0;
+}
+
+.link {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.link:hover {
+    background-color: #333;
+}
+
+.icon {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.welcome_admin {
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.add {
+    width: 60%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-listPro a{
+    width: 100%;
+    height: 100%;
+}
+
+.form__group {
+    margin-bottom: 15px;
+}
+
+.form__label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form__input input,
+.form__input select {
+    width: 580px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form__submit {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.form__submit:hover {
+    background-color: #0056b3;
+}
+
+/* css danh sách sản phẩm */
+.listPro {
+    width: 100%;
+    border-collapse: collapse;
+    border: 0.5px solid #888;
+}
+
+.listPro .thead {
+    background-color: #a3caf3;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border: 0.5px solid #888;
+}
+
+.listPro tr td img {
+    width: 100px;
+    height: 100px;
+}
+
+.listPro tr td a {
+    text-decoration: none;
+}
+
+.listPro tr td a button {
+    width: 50px;
+    height: 30px;
+    background-color: #7066f3;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+.btn-listPro {
+    width: 600px;
+    height: 40px;
+    background-color: #007BFF;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.href-listPro{
+    color: white;
+    text-decoration: none;
+}
