@@ -21,7 +21,7 @@
                 </a>
             </li>
             <li class="link-item">
-                <a href="index.php?act=Category" class="link">
+                <a href="index.php?act=list_danhmuc" class="link">
                     <span class="icon">&#128640;</span> Danh Mục
                 </a>
             </li>
