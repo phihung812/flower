@@ -1,6 +1,12 @@
 <div class="main-content">
     <div class="welcome_admin">Thêm Sản Phẩm</div>
+    <?php
+    // Kiểm tra và hiển thị thông báo nếu có
+    if (isset($thongbao) && ($thongbao != "")) {
+        echo "<h3 style='color:red;'>$thongbao</h3>";
+    }
 
+    ?>
     <div class="add">
         <form class="wrapper__form" action="" method="POST" enctype="multipart/form-data">
             <div class="form__group">
@@ -26,9 +32,9 @@
                     <label>Danh mục</label>
                     <div class="form__input">
                         <select name="category">
-                            <option value="">Hoa hồng</option>
-                            <option value="">Hoa lan</option>
-                            <option value="">Hoa cúc</option>
+                            <?php foreach ($listCategory as $category) { ?>
+                                <option value="<?php echo $category->id ?>"> <?php echo $category->name ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                 </div>
@@ -56,7 +62,7 @@
                 <div class="form__label">
                     <label>Mã số</label>
                     <div class="form__input">
-                        <input type="text" name="sku">
+                        <input style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase();" type="text" name="sku">
                     </div>
                 </div>
             </div>
@@ -90,7 +96,7 @@
             <a class="href-listPro" href="index.php?act=listProduct">
                 <div class="btn-listPro">Danh sách</div>
             </a>
-            <p><?php echo $thongbao ?></p>
+
         </form>
     </div>
 </div>

@@ -7,6 +7,9 @@
     <title>Admin</title>
     <link rel="stylesheet" href="./css/admin.css">
 </head>
+<style>
+    
+</style>
 <body>
     <div class="container">
         <ul class="link-items">
@@ -31,8 +34,8 @@
                 </a>
             </li>
             <li class="link-item">
-                <a href="index.php?act=Account" class="link">
-                    <span class="icon">&#128100;</span> Khách Hàng
+                <a href="index.php?act=listTaikhoan" class="link">
+                    <span class="icon">&#128100;</span> Người dùng
                 </a>
             </li>
             <li class="link-item">

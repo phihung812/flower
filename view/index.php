@@ -1,6 +1,8 @@
 <?php
 require_once "../controller/productController.php";
 require_once "../controller/danhmuc.php";
+require_once "../controller/taikhoanController.php";
+
 
 require_once "admin/header.php";
 
@@ -19,7 +21,11 @@ if (isset($_GET['act'])) {
             $product = new ProductController();
             $product->deleteProduct();
             break;
-////////////////////////////////////////
+        case 'editProduct':
+            $product = new ProductController();
+            $product->updateProduct();
+            break;
+        ////////////////////////////////////////
         case 'add_danhmuc':
             $danhmuc = new danhmucController();
             $danhmuc->add();
@@ -36,7 +42,21 @@ if (isset($_GET['act'])) {
             $danhmuc = new danhmucController();
             $danhmuc->edit_danhmuc();
             break;
+        // --------------------------------------
+        case 'listTaikhoan':
+            $taikhoan = new TaikhoanController();
+            $taikhoan->list_taikhoan();
+            break;
+        case 'delete_taikhoan':
+            $taikhoan = new TaikhoanController();
+            $taikhoan->deleteTaikhoan();
+            break;
+        case 'edit_taikhoan':
+            $taikhoan = new TaikhoanController();
+            $taikhoan->updateTaikhoan();
+            break;
     }
+
 } else {
     require_once "admin/home.php";
 }
