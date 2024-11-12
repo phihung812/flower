@@ -2,40 +2,55 @@
 require_once "connect.php";
 class danhmuc
 {
-    public $connect;
-    public function __construct()
-    {
-        $this->connect = new Connect();
-    }
-
-public function all_danhmuc(){
-    $sql="SELECT * FROM `category`";
-    $this->connect->setQuery($sql);
-    return  $this->connect->loadData();
-}
-public function Data_danhmuc($id){
-    $sql="SELECT * FROM `category` WHERE id=?";
-    $this->connect->setQuery($sql);
-    return  $this->connect->loadData([$id],false);
+  public $connect;
+  public function __construct()
+  {
+    $this->connect = new Connect();
   }
-  public function Insert_danhmuc($id,$name,$description,$created_at,$updated_at){
-    $sql="INSERT INTO `category` VALUES (?,?,?,?,?)";
+
+  public function all_danhmuc()
+  {
+    $sql = "SELECT * FROM `category`";
     $this->connect->setQuery($sql);
-  return  $this->connect->execute([$id,$name,$description,$created_at,$updated_at]);
- }
- public function update_danhmuc($name,$description,$created_at,$updated_at,$id){
-    $sql=" UPDATE `category` SET `name`=?,`description`=?,`created_at`=?,`updated_at`=? WHERE  `id`=?";
+    return $this->connect->loadData();
+  }
+  public function Data_danhmuc($id)
+  {
+    $sql = "SELECT * FROM `category` WHERE id=?";
     $this->connect->setQuery($sql);
-   return  $this->connect->loadData([$name,$description,$created_at,$updated_at,$id]);
- }
-   
-    public function delete_danhmuc($id){
-        $sql = "DELETE FROM `category` WHERE id = ?";
-        $this->connect->setQuery($sql);
-        return $this->connect->loadData([$id],false);
-      }
-         
-   }
+    return $this->connect->loadData([$id], false);
+  }
+
+  public function Insert_danhmuc($id, $name, $description)
+  {
+    $sql = "INSERT INTO `category` (id, name, description) VALUES (?,?,?)";
+    $this->connect->setQuery($sql);
+    return $this->connect->execute([$id, $name, $description]);
+  }
+
+  public function update_danhmuc($name, $description, $id)
+  {
+    $sql = "UPDATE `category` SET `name`=?, `description`=? WHERE `id`=?";
+    $this->connect->setQuery($sql);
+    return $this->connect->loadData([$name, $description, $id]);
+  }
+
+
+  public function delete_danhmuc($id)
+  {
+    $sql = "DELETE FROM `category` WHERE id = ?";
+    $this->connect->setQuery($sql);
+    return $this->connect->loadData([$id], false);
+  }
+  public function checkCategory($id)
+  {
+    $sql = "SELECT COUNT(*) FROM `product` WHERE `category_id` = ?";
+    $this->connect->setQuery($sql);
+    return $this->connect->loadData([$id]);
+  }
+  
+
+}
 
 
 

@@ -21,17 +21,33 @@
                 <td><?php echo $product->id ?></td>
                 <td><?php echo $product->name ?></td>
                 <td><?php echo $product->description ?></td>
-                <td><?php echo "Tạm thời để trống" ?></td>
+                <td>
+                    <?php foreach ($listCategory as $category) {
+                        if ($category->id == $product->category_id) {
+                            $x = $category;
+                            echo $x->name;
+                        }
+
+                    } ?>
+                </td>
                 <td><?php echo $product->base_price ?></td>
                 <td><?php echo $product->available_stock ?></td>
                 <td><?php echo $product->sku ?></td>
-                <td><?php echo $product->status ?></td>
+                <td>
+                    <?php
+                    if($product->status=='unavailable'){
+                        echo "Hết hàng";
+                    } else{
+                        echo "Còn hàng";
+                    }
+                    ?>
+                </td>
                 <td>
                     <img style="width:100px;height:100px;" src="<?php echo $product->main_image ?>" alt="">
                 </td>
                 <td><?php echo $product->created_at ?></td>
                 <td><?php echo $product->updated_at ?></td>
-                <td>
+                <td style="width:110px;">
                     <a href="index.php?act=editProduct&idProduct=<?php echo $product->id ?>">
                         <button>Sửa</button>
                     </a>
@@ -42,5 +58,7 @@
             </tr>
         <?php } ?>
     </table>
-    <a href="">Thêm sản phẩm</a>
+    <a class="href-add_danhmuc" href="index.php?act=addProduct">
+        <button class="btn-table_danhmuc">Thêm sản phẩm</button>
+    </a>
 </div>

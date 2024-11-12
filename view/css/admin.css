@@ -69,7 +69,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.button-listPro a{
+.button-listPro a {
     width: 100%;
     height: 100%;
 }
@@ -142,6 +142,7 @@ td {
     border-radius: 5px;
     color: white;
 }
+
 .btn-listPro {
     width: 600px;
     height: 40px;
@@ -151,56 +152,159 @@ td {
     justify-content: center;
     align-items: center;
 }
-.href-listPro{
+
+.href-listPro {
     color: white;
     text-decoration: none;
 }
 
 
-.table_danhmuc{
-    width: 1000px;
-    border-collapse: collapse;
-    border: 0,5px solid #888;
-}
-.talle_danhmuc thead tr th,td{
-    padding: 8px;
-    text-align: left;
-    border: 0,5px solid #888;
-}
-.table_danhmuc thead tr th{
-    background-color: #18b73d;
-}
 
-.fon_danhmuc{
 
- margin-top: 10px;
- margin-left: 380px;
- border-radius: 10px;
-width: 200px;
-    font-size: 25px;
-    color: #000;
-    padding: 10px;
-    background-color: #00ff15;
-}
-.fon_danhmuc a{
-    text-decoration: none;
-}
-.them_danhmuc{
+
+
+
+.them_danhmuc {
     padding: 50px;
     width: 400px;
-    background-color: #fff;
-  } 
-  .them_danhmuc form input{
+    height: auto;
+    border: 0.5px solid #cccccc;
+}
+
+.them_danhmuc form input {
     font-size: 25px;
-  }
-  .them_danhmuc form{
-  margin-left: 40px;
-  }
-  .them_danhmuc form button{
+}
+
+.them_danhmuc form {
+    margin-left: 40px;
+}
+
+.them_danhmuc form button {
     margin-left: 90px;
     font-size: 25px;
     width: 200px;
-    padding:10px;
+    padding: 10px;
     border-radius: 10px;
-    background-color:  #00ff15;
-  }
+    background-color: #00ff15;
+}
+
+/* css danh danh muc */
+.table_danhmuc {
+    width: 100%;
+    border-collapse: collapse;
+    border: 0.5px solid #888;
+}
+
+.table_danhmuc .thead {
+    background-color: #a3caf3;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border: 0.5px solid #888;
+}
+
+
+.table_danhmuc tr td a {
+    text-decoration: none;
+}
+
+.table_danhmuc tr td a button {
+    width: 50px;
+    height: 30px;
+    background-color: #7066f3;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.btn-table_danhmuc {
+    width: 200px;
+    height: 40px;
+    background-color: #007BFF;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1050px;
+    margin-top: 20px;
+}
+.href-add_danhmuc{
+    text-decoration: none;
+    
+}
+.href-add_danhmuc button{
+    color: white;
+    font-size: 17px;
+    border: none;
+}
+
+
+
+
+/*  */
+/* css register */
+
+.form-register {
+    width: 650px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.form-register h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.infor-title p {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.form-group-register {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group-register label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group-register input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+
+.form-register form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+
+
+
+
+

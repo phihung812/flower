@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__ . '/../model/product.php');
+include_once(__DIR__ . '/../model/danhmuc.php');
 
 class ProductController
 {
@@ -14,8 +15,7 @@ class ProductController
             $available_stock = $_POST['available_stock'];
             $sku = $_POST['sku'];
             $status = $_POST['status'];
-            $create_at = date('Y-m-d H:i:s');
-            $update_at = date('Y-m-d H:i:s');
+            $thongbao = "";
 
             $target_dir = "../images/";
             $target_img = $_FILES['image']['name'];
@@ -23,11 +23,13 @@ class ProductController
             move_uploaded_file($_FILES['image']['tmp_name'], $image);
 
             $mProduct = new Product();
-            $add = $mProduct->insert_product(null, $name, $description, null, $price, $available_stock, $sku, $status, $image, $create_at, $update_at);
+            $add = $mProduct->insert_product(null, $name, $description, null, $price, $available_stock, $sku, $status, $image);
             if (!$add) {
                 $thongbao = "Thêm sản phẩm thành công!";
             }
         }
+        $mDanhmuc = new danhmuc();
+        $listCategory = $mDanhmuc->all_danhmuc();
         require_once "../view/admin/sanpham/addProduct.php";
 
 
@@ -37,6 +39,8 @@ class ProductController
     {
         $mProduct = new Product();
         $listProduct = $mProduct->list_product();
+        $mDanhmuc = new danhmuc();
+        $listCategory = $mDanhmuc->all_danhmuc();
         require_once "../view/admin/sanpham/listProduct.php";
     }
 
@@ -50,6 +54,45 @@ class ProductController
                 header("location:index.php?act=listProduct");
             }
         }
+    }
+    public function updateProduct()
+    {
+        if (isset($_GET['idProduct'])) {
+            $id = $_GET['idProduct'];
+            $mProduct = new Product();
+            $productById = $mProduct->getProductById($id);
+            
+            if (isset($_POST['submit-updateProduct'])) {
+                $name = $_POST['productName'];
+                $description = $_POST['description'];
+                $category = $_POST['category'];
+                $base_price = $_POST['price'];
+                $available_stock = $_POST['available_stock'];
+                $sku = $_POST['sku'];
+                $status = $_POST['status'];
+
+
+                if ($_FILES['image']['name'] != null) {
+                    $target_dir = "../images/";
+                    $target_img = $_FILES['image']['name'];
+                    $main_image = $target_dir . $target_img;
+                    move_uploaded_file($_FILES['image']['tmp_name'], $main_image);
+                } else {
+                    $main_image = $productById->main_image;
+                }
+                
+                $mProduct = new Product();
+                $update = $mProduct->updateProduct($name, $description, $category, $base_price, $available_stock, $sku, $status, $main_image, $id);
+                if (!$update) {
+                    header("location:index.php?act=listProduct");
+                }
+
+            }
+        }
+        $mDanhmuc = new danhmuc();
+        $listCategory = $mDanhmuc->all_danhmuc();
+        require_once "../view/admin/sanpham/editProduct.php";
+
     }
 }
 
