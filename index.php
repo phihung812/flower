@@ -2,7 +2,7 @@
 require_once "controller/danhmuc.php";
 require_once "controller/productController.php";
 require_once "controller/taikhoanController.php";
-
+require_once "controller/CategoryController.php";
 require_once "view/client/header.php";
 
 if (isset($_GET['act'])) {

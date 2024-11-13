@@ -39,10 +39,12 @@
                 </a>
             </li>
             <li class="link-item">
-                <a href="index.php?act=Statistical" class="link">
-                    <span class="icon">&#128202;</span> Thống Kê
-                </a>
-            </li>
+    <a href="index.php?act=thongke" class="link">
+        <span class="icon">&#128202;</span> Thống Kê
+    </a>
+</li>
+
+
             <li class="link-item">
                 <a href="index.php?act=Order" class="link">
                     <span class="icon">&#128202;</span> Đơn Hàng

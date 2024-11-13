@@ -2,6 +2,7 @@
 require_once "../controller/productController.php";
 require_once "../controller/danhmuc.php";
 require_once "../controller/taikhoanController.php";
+require_once "../controller/CategoryController.php";
 
 
 require_once "admin/header.php";
@@ -55,6 +56,12 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->updateTaikhoan();
             break;
+        case 'thongke':       
+            $controller = new CategoryController();
+            $controller->showStatistics();
+            
+            break;
+
     }
 
 } else {
