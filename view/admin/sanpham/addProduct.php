@@ -33,7 +33,7 @@
                     <div class="form__input">
                         <select name="category">
                             <?php foreach ($listCategory as $category) { ?>
-                                <option value="<?php echo $category->id ?>"> <?php echo $category->name ?></option>
+                                <option value="<?php echo $category->id ?>"><?php echo $category->name ?></option>
                             <?php } ?>
                         </select>
                     </div>

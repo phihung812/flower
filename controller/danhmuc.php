@@ -8,7 +8,7 @@ class danhmucController
         if (isset($_POST['submit-add_danhmuc'])) {
             $name = $_POST['name'];
             $description = $_POST['description'];
-            $thongbao="";
+            $thongbao = "";
             $mDanhmuc = new danhmuc();
             $add = $mDanhmuc->insert_danhmuc(null, $name, $description);
             $thongbao = "Thêm thành công!";
@@ -25,6 +25,12 @@ class danhmucController
         $mDanhmuc = new danhmuc();
         $list = $mDanhmuc->all_danhmuc();
         require_once "../view/admin/danhmuc/list.php";
+    }
+    public function list_menu()
+    {
+        $mDanhmuc = new danhmuc();
+        $listMenu = $mDanhmuc->all_danhmuc();
+        require_once "./view/client/header.php";
     }
 
 
@@ -59,7 +65,7 @@ class danhmucController
             $thongbao = "";
             if ($count > 0) {
                 $thongbao = "Không thể xóa danh mục vì vẫn còn sản phẩm trong danh mục này. Vui lòng xóa hết sản phẩm trước.";
-                
+
             } else {
                 $delete = $mDanhmuc->delete_danhmuc($id);
                 if (!$delete) {
@@ -72,7 +78,7 @@ class danhmucController
         require_once "../view/admin/danhmuc/list.php";
     }
 
-    
+
 
 
 
