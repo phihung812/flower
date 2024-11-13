@@ -48,6 +48,16 @@ class danhmuc
     $this->connect->setQuery($sql);
     return $this->connect->loadData([$id]);
   }
+  public function getNameCategory($iddm)
+    {
+        if ($iddm > 0) {
+            $sql = "SELECT * FROM `category` WHERE id = ?";
+            $this->connect->setQuery($sql);
+            return $this->connect->loadData([$iddm], false);
+        } else {
+            return "";
+        }
+    }
   
 
 }

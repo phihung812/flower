@@ -23,7 +23,7 @@ class ProductController
             move_uploaded_file($_FILES['image']['tmp_name'], $image);
 
             $mProduct = new Product();
-            $add = $mProduct->insert_product(null, $name, $description, null, $price, $available_stock, $sku, $status, $image);
+            $add = $mProduct->insert_product(null, $name, $description, $category, $price, $available_stock, $sku, $status, $image);
             if (!$add) {
                 $thongbao = "Thêm sản phẩm thành công!";
             }
@@ -61,7 +61,7 @@ class ProductController
             $id = $_GET['idProduct'];
             $mProduct = new Product();
             $productById = $mProduct->getProductById($id);
-            
+
             if (isset($_POST['submit-updateProduct'])) {
                 $name = $_POST['productName'];
                 $description = $_POST['description'];
@@ -80,7 +80,7 @@ class ProductController
                 } else {
                     $main_image = $productById->main_image;
                 }
-                
+
                 $mProduct = new Product();
                 $update = $mProduct->updateProduct($name, $description, $category, $base_price, $available_stock, $sku, $status, $main_image, $id);
                 if (!$update) {
@@ -94,6 +94,61 @@ class ProductController
         require_once "../view/admin/sanpham/editProduct.php";
 
     }
+
+    public function product_New()
+    {
+        $product = new Product();
+        $listProductNew = $product->productNew();
+        $listProducBirth = $product->productBirthday();
+        require_once "./view/client/home.php";
+    }
+
+    public function sanPhamChiTiet()
+    {
+        $mProduct = new Product();
+        if (isset($_GET['idPro'])) {
+            $idPro = $_GET['idPro'];
+            $sanphamchitiet = $mProduct->getProductById($idPro);
+            $category_id = $sanphamchitiet->category_id;
+            $productRelate = $mProduct->productRelate($category_id, $idPro);
+        }
+
+        require_once "./view/client/sanphamchitiet.php";
+    }
+
+    public function list_Sanpham()
+    {
+        $mProduct = new Product();
+        $mDanhmuc = new danhmuc();
+        if (isset($_GET['iddm'])) {
+            $iddm = $_GET['iddm'];
+            $ProductBySelect = $mProduct->listProductByCategory($iddm);
+            $danhmuc = $mDanhmuc->Data_danhmuc($iddm);
+        }
+        require_once "./view/client/listsanpham.php";
+    }
+    public function serchProduct()
+    {
+        $mDanhmuc =new danhmuc();
+        $mProduct = new Product();
+        if(isset($_POST['submit-search'])){
+            $keyword = $_POST['search'];
+        }else{
+            $keyword = "";
+        }
+        if (isset($_GET['iddm'])) {
+            $iddm = $_GET['iddm'];
+        }else{
+            $iddm = "";
+        }
+
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : "";
+
+        $category = $mDanhmuc->getNameCategory($iddm);
+        $listProduct = $mProduct->listProductByKeyword($keyword, $iddm, $sort);
+        require_once "./view/client/listsanpham.php";
+    }
+
 }
 
 ?>

@@ -64,38 +64,31 @@
                 </a>
             </div>
             <div class="logo">
-                <img src="https://www.flowercorner.vn/image/catalog/common/shop-hoa-tuoi-flowercorner-logo.png.webp"
-                    alt="">
+                <a href="index.php">
+                    <img src="https://www.flowercorner.vn/image/catalog/common/shop-hoa-tuoi-flowercorner-logo.png.webp"
+                        alt="">
+                </a>
+
             </div>
             <div class="search-product">
-                <form class="search">
-                    <input type="text" placeholder="Tìm kiếm">
-                    <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                <form class="search" action="index.php?act=search-pro" method="POST">
+                    <input type="text"  placeholder="Tìm kiếm" name="search">
+                    <button type="submit" name="submit-search"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
         </header>
         <div class="menu">
             <nav>
                 <ul>
+                    <?php foreach ($listMenu as $list) { ?>
                     <li>
-                        <a href="">HOA SINH NHẬT</a>
+                        <a href="<?php echo 'index.php?act=search-pro&iddm='.$list->id ?>"><?php echo $list->name ?></a>
                     </li>
-                    <li>
-                        <a href="">HOA KHAI TRƯƠNG</a>
-                    </li>
-                    <li>
-                        <a href="">LAN HỒ ĐIỆP</a>
-                    </li>
-                    <li>
-                        <a href="">HOA TƯƠI</a>
-                    </li>
-                    <li>
-                        <a href="">HOA TIỀN</a>
-                    </li>
+                    <?php } ?>
+                    
                 </ul>
             </nav>
         </div>
         <div class="title">
             <p>ĐẶT HOA ONLINE - GIAO MIỄN PHÍ HÀ NỘI - GỌI NGAY 0359 058 116</p>
         </div>
-        
