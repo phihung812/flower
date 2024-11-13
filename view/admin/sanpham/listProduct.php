@@ -22,22 +22,24 @@
                 <td><?php echo $product->name ?></td>
                 <td><?php echo $product->description ?></td>
                 <td>
-                    <?php foreach ($listCategory as $category) {
+                    <?php
+                    foreach ($listCategory as $category) {
                         if ($category->id == $product->category_id) {
-                            $x = $category;
-                            echo $x->name;
+                            echo $category->name;
+                            break; 
                         }
+                    }
+                    ?>
 
-                    } ?>
                 </td>
                 <td><?php echo $product->base_price ?></td>
                 <td><?php echo $product->available_stock ?></td>
                 <td><?php echo $product->sku ?></td>
                 <td>
                     <?php
-                    if($product->status=='unavailable'){
+                    if ($product->status == 'unavailable') {
                         echo "Hết hàng";
-                    } else{
+                    } else {
                         echo "Còn hàng";
                     }
                     ?>
