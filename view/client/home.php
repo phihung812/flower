@@ -3,11 +3,6 @@
 </div>
 <main>
     <h2>SẢN PHẨM MỚI</h2>
-    <?php if(isset($_SESSION['cart_id'])){
-        echo $_SESSION['cart_id'];
-    }else{
-        echo "chưa lưu";
-    } ?>
     <div class="products">
         <?php foreach ($listProductNew as $productNew) {
             $linkPro = "index.php?act=sanphamchitiet&idPro=$productNew->id";
