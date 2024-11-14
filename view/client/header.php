@@ -37,7 +37,7 @@
                     </li>
 
                     <li>
-                        <a href="">
+                        <a href="index.php?act=cart">
                             <i class="fa-solid fa-cart-shopping"></i>
                             <span>Giỏ hàng</span>
                         </a>

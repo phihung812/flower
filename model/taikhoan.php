@@ -11,7 +11,8 @@ class Taikhoan
     public function insert_taikhoan($id ,$first_name,$last_name ,$email ,$password ,$phone ,$address, $city, $role ){
         $sql = "INSERT INTO `user` (id, first_name, last_name, email, password, phone, address, city, role) VALUES (?,?,?,?,?,?,?,?,?)";
         $this->connect->setQuery($sql);
-        return $this->connect->loadData([$id ,$first_name,$last_name , $email ,$password ,$phone ,$address ,$city, $role]);
+        $this->connect->loadData([$id ,$first_name,$last_name , $email ,$password ,$phone ,$address ,$city, $role]);
+        return $this->connect->lastInsertId();
     }
     public function getAllTaikhoan(){
         $sql = "SELECT * FROM `user` ORDER BY id desc";
@@ -34,6 +35,12 @@ class Taikhoan
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$first_name ,$last_name ,$email ,$password ,$phone ,$address ,$city ,$role, $id ],false);
     }
+    public function checkTaikhoan($email,$pass ){
+        $sql = "SELECT * FROM `user` WHERE `email`= ? and `password` = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$email,$pass],false);
+    }
+    
 }
 
 ?>

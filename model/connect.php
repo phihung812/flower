@@ -74,6 +74,9 @@
                 // throw $e; // Chuyển ngoại lệ để xử lý ở nơi khác nếu cần
             }
         }
+        public function lastInsertId() {
+            return $this->pdo->lastInsertId();
+        }
    
     }
 

@@ -14,6 +14,22 @@ if (isset($_GET['act'])) {
             $product = new ProductController();
             $product->addProduct();
             break;
+        case 'Variant':
+            $product = new ProductController();
+            $product->listVariant();
+            break;
+        case 'addVariant':
+            $product = new ProductController();
+            $product->addVariant();
+            break;
+        case 'deleteVariant':
+            $product = new ProductController();
+            $product->deleteVariant();
+            break;
+        case 'listVariant':
+            $product = new ProductController();
+            $product->listVariant();
+            break;
         case 'listProduct':
             $product = new ProductController();
             $product->listProduct();
