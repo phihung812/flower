@@ -109,8 +109,45 @@ class ProductController
         if (isset($_GET['idPro'])) {
             $idPro = $_GET['idPro'];
             $sanphamchitiet = $mProduct->getProductById($idPro);
+            $sizePro = $mProduct->getProductSize($idPro);
+            // 4 sản phẩm cùng loại
             $category_id = $sanphamchitiet->category_id;
             $productRelate = $mProduct->productRelate($category_id, $idPro);
+        }
+        if (isset($_POST['submit-addCart']) && isset($_GET['idPro'])) {
+            
+            // lấy thông tin sản phẩm
+            $mProduct = new Product();
+            $idPro = $_GET['idPro'];
+            $sanphamchitiet = $mProduct->getProductById($idPro);
+
+            $price = $sanphamchitiet->base_price;
+            $size = $_POST['variant'];         ///////
+            $quantity = $_POST['quantity'];
+            $cart_id = $_SESSION['cart_id'];
+            $total_price = $quantity*$price;
+            $mProduct = new Product();
+            $variant_id = $mProduct->getVariantId($idPro, $size);
+            
+            if ($variant_id) {
+                $variant_id = $variant_id->id;
+    
+                // Thêm sản phẩm vào giỏ hàng (cartItem)
+                $mCartItem = new Cart();
+                $addToCart = $mCartItem->addProductToCartItem(null, $cart_id, $variant_id, $quantity, $price, $total_price);
+    
+                if ($addToCart) {
+                    $thongbao = "Sản phẩm đã được thêm vào giỏ hàng!";
+                    header("location:index.php?act=cart");
+                } else {
+                    $thongbao = "Có lỗi khi thêm sản phẩm vào giỏ hàng!";
+                }
+            } else {
+                $thongbao = "Không tìm thấy biến thể sản phẩm phù hợp!";
+            }
+            
+            
+            
         }
 
         ////////// binhluan
@@ -141,16 +178,16 @@ class ProductController
     }
     public function serchProduct()
     {
-        $mDanhmuc =new danhmuc();
+        $mDanhmuc = new danhmuc();
         $mProduct = new Product();
-        if(isset($_POST['submit-search'])){
+        if (isset($_POST['submit-search'])) {
             $keyword = $_POST['search'];
-        }else{
+        } else {
             $keyword = "";
         }
         if (isset($_GET['iddm'])) {
             $iddm = $_GET['iddm'];
-        }else{
+        } else {
             $iddm = "";
         }
 
@@ -159,6 +196,49 @@ class ProductController
         $category = $mDanhmuc->getNameCategory($iddm);
         $listProduct = $mProduct->listProductByKeyword($keyword, $iddm, $sort);
         require_once "./view/client/listsanpham.php";
+    }
+
+    public function addVariant()
+    {
+        if (isset($_POST['submit-addVariant'])) {
+
+            $product_id = $_POST['product_id'];
+            $size = $_POST['size'];
+            $price = $_POST['price'];
+            $stock_quantity = $_POST['stock_quantity'];
+
+            $mProduct = new Product();
+            $variantExists = $mProduct->kiemTraTonTaiVariant($product_id, $size);
+            if ($variantExists) {
+                $thongbao = "Sản phẩm đã tồn tại biến thể này, không thể thêm!";
+            } else {
+                $addVariant = $mProduct->insertVariant(null, $product_id, $size, $price, $stock_quantity);
+                if (!$addVariant) {
+                    $thongbao = "Thêm biến thể thành công!";
+                } 
+            }
+        }
+
+        require_once "../view/admin/sanpham/addProductVariant.php";
+
+    }
+
+    public function listVariant()
+    {
+        $mProduct = new Product();
+        $listVariant = $mProduct->listVariant();
+        require_once "../view/admin/sanpham/listVariant.php";
+    }
+    public function deleteVariant()
+    {
+        if (isset($_GET['idVariant'])) {
+            $idVariant = $_GET['idVariant'];
+            $mProduct = new Product();
+            $delete = $mProduct->deleteVariant($idVariant);
+            if (!$delete) {
+                header("location:index.php?act=listVariant");
+            }
+        }
     }
 
 }

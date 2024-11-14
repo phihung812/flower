@@ -29,21 +29,23 @@
                     <h3>Vận chuyển:</h3>
                     <p>Miễn phí giao hoa khu vực nội thành TP.HCM & Hà Nội</p>
                 </div>
-                <form action="" class="qti-variant">
+                <form action="" method="POST" class="qti-variant">
                     <div class="quantyti">
                         <h3>SỐ LƯỢNG:</h3>
-                        <input type="number" name="" id="" value="1">
+                        <input type="number" name="quantity" id="" value="1">
                     </div>
+
                     <div class="variant">
                         <h3>SIZE:</h3>
                         <select name="variant">
-                            <option value="">Nhỏ</option>
-                            <option value="">Nhỏ</option>
-                            <option value="">Nhỏ</option>
+                            <?php foreach ($sizePro as $size) { ?>
+                                <option value="<?php echo $size->size; ?>"><?php echo $size->size; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
+
                     <div class="btn-cart">
-                        <button>Thêm vào giỏ hàng</button>
+                        <button name="submit-addCart">Thêm vào giỏ hàng</button>
                         <button>Đặt hàng</button>
                     </div>
                 </form>
@@ -82,7 +84,7 @@
             <?php foreach ($productRelate as $product) { ?>
                 <a href="index.php?act=sanphamchitiet&idPro=<?php echo $product->id ?>">
                     <div class="relate">
-                        <img src="<?php echo 'duann01/'.$product->main_image ?>" alt="">
+                        <img src="<?php echo 'duann01/' . $product->main_image ?>" alt="">
                         <h3><?php echo $product->name ?></h3>
                         <p><?php echo number_format($product->base_price, 0, ',', '.') ?> VND</p>
                     </div>
@@ -90,5 +92,6 @@
             <?php } ?>
 
         </div>
+        
     </div>
 </main>
