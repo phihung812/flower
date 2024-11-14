@@ -4,8 +4,12 @@ require_once "controller/productController.php";
 require_once "controller/taikhoanController.php";
 require_once "controller/cartController.php";
 
+
+
+
 $danhmuc = new danhmucController();
 $menuDanhmuc = $danhmuc->list_menu();
+
 
 if (isset($_GET['act'])) {
     $act = $_GET['act'];
