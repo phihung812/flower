@@ -34,6 +34,13 @@
                     <label for="password">Mật khẩu:</label>
                     <input type="password" name="password" id="password" placeholder="Nhập mật khẩu">
                 </div>
+                <p style="color:red;">
+                    <?php
+                    if (isset($thongbao) && $thongbao != "") {
+                        echo $thongbao;
+                    }                    ?>
+                </p>
+
                 <button type="submit" name="submit-register">Đăng ký</button>
             </form>
         </div>
@@ -42,10 +49,10 @@
 
         <div class="group-login">
             <div class="item-login">
-                <a href="">Đăng nhập</a>
+                <a href="index.php?act=login">Đăng nhập</a>
             </div>
             <div class="item-login">
-                <a href="">Đăng ký</a>
+                <a href="index.php?act=register">Đăng ký</a>
             </div>
             <div class="item-login">
                 <a href="">Đã quên mật khẩu</a>

@@ -2,6 +2,7 @@
 require_once "controller/danhmuc.php";
 require_once "controller/productController.php";
 require_once "controller/taikhoanController.php";
+require_once "controller/cartController.php";
 
 $danhmuc = new danhmucController();
 $menuDanhmuc = $danhmuc->list_menu();
@@ -16,10 +17,20 @@ if (isset($_GET['act'])) {
         case 'sanphamchitiet':
             $product = new ProductController();
             $product->sanPhamChiTiet();
+            // $cart = new CartController();
+            // $cart->addProductToCartItem();
             break;
         case 'search-pro':
             $product = new ProductController();
             $product->serchProduct();
+            break;
+        case 'login':
+            $taikhoan = new TaikhoanController();
+            $taikhoan->login();
+            break;
+        case 'cart':
+            $cart = new CartController();
+            $cart->listCart();
             break;
         
     }

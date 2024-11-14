@@ -62,7 +62,7 @@ class Product
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$category_id]);
     }
-    public function listProductByKeyword($kyw, $iddm,$sort)
+    public function listProductByKeyword($kyw, $iddm, $sort)
     {
         $sql = "SELECT * FROM `product` WHERE 1=1";
         if ($kyw != "") {
@@ -85,7 +85,49 @@ class Product
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
     }
-    
+    public function insertVariant($id, $product_id, $size, $price, $stock_quantity)
+    {
+        $sql = "INSERT INTO `productvariant` (id, product_id, size, price, stock_quantity) VALUES (?,?,?,?,?)";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$id, $product_id, $size, $price, $stock_quantity]);
+    }
+    public function listVariant()
+    {
+        $sql = "SELECT * FROM `productvariant`";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData();
+    }
+    public function deleteVariant($id)
+    {
+        $sql = "DELETE FROM `productvariant` WHERE id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$id], false);
+    }
+    public function kiemTraTonTaiVariant($product_id, $size)
+    {
+        $sql = "SELECT * FROM `productvariant` WHERE product_id = ? AND size = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$product_id, $size], false);
+    }
+    // lấy id biến thể
+    public function getVariantId($product_id, $size)
+    {
+        $sql = "SELECT id FROM productvariant WHERE product_id = ? AND size = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$product_id, $size], false); // Lấy một bản ghi
+    }
+    // lấy các size của sản  phẩm
+    public function getProductSize($product_id)
+    {
+        $sql = "SELECT size FROM productvariant WHERE product_id = ?";
+        $this->connect->setQuery($sql);
+        $sizes = $this->connect->loadData([$product_id]);
+        // Trả về danh sách các kích cỡ (mảng)
+        return $sizes;
+    }
+
+
+
 
 
 

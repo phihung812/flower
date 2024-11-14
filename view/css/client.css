@@ -562,11 +562,19 @@ p {
 
 /* Ẩn menu con theo mặc định */
 .submenu {
-    width: 100px;
-    height: 50px;
+    margin-top: 10px;
+    width: 270px;
+    height: 60px;
+    border: 0.5px solid rgb(217, 215, 215);
+    border-radius: 4px;
     display: none !important;
     list-style-type: none;
     padding: 0;
+    position: absolute;
+    top: 30px;
+    right: 243px;
+    z-index: 1;
+    background-color: white;
 }
 
 /* Hiển thị menu con khi phần tử cha (li) có focus bên trong */
@@ -575,13 +583,18 @@ li:focus-within .submenu {
 }
 
 .submenu li {
-    margin-left: 20px;
-    margin-top: 10px;
+    width: 100%;
+    height: 30px;
+    padding-top: 10px;
+}
+.submenu li:hover{
+    background-color: #eeecec;
 }
 
 .submenu li a {
     text-decoration: none;
     color: #000;
+    margin-left: 20px;
 }
 
 /* Đảm bảo liên kết có thể nhận focus để có thể sử dụng focus-within */
@@ -599,8 +612,8 @@ a {
 
 .form-login {
     width: 73%;
-    height: 350px;
-    border: 0.5px solid #d7d5d5;
+    height: 390px;
+    border: 0.5px solid #eeecec;
     margin-right: -10px;
     border-radius: 10px;
 }
@@ -608,7 +621,7 @@ a {
 .group-login {
     width: 20%;
     height: 300px;
-    border: 0.5px solid #dbdada;
+    border: 0.5px solid #eae8e8;
     margin-left: 30px;
     border-radius: 10px;
 }
@@ -620,7 +633,7 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 0.5px solid #d3d2d2;
+    border-top: 0.5px solid #f2f1f1;
 }
 
 .group-login .item-login:first-child {
@@ -664,9 +677,9 @@ a {
     width: 650px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #ece9e9;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: white;
 }
 
 .form-register h2 {
@@ -692,7 +705,7 @@ a {
 
 .form-group-register input {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #c5c3c3;
     border-radius: 4px;
     font-size: 16px;
 }
@@ -712,7 +725,7 @@ a {
 }
 
 button:hover {
-    background-color: #0056b3;
+    box-shadow: 0px 0px 5px 5px pink;
 }
 
 
@@ -759,3 +772,50 @@ button:hover {
     box-shadow: 0px 0px 10px 6px pink;
 
 }
+/* cart */
+.table-cart{
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    border: #edeaea;
+    margin-top: 50px;
+}
+.table-cart tr td img{
+    width: 50px;
+    height: 60px;
+    
+    
+}
+.table-cart tr th, td{
+    padding-left: 10px;
+    color: #424242;
+}
+.submit-cart{
+    width: 130px;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(249, 70, 130);
+    color: white;
+    font-size: 16px;
+    margin-top: 30px;
+    margin-left: 1070px;
+}
+.submit-cart:hover{
+    box-shadow: 0px 0px 5px 5px pink;
+}
+.img-cart{
+    margin-left: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 55px;
+    height: 65px;
+    border: 0.5px solid rgb(192, 188, 188);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
