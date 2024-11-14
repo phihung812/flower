@@ -4,8 +4,7 @@ require_once "controller/productController.php";
 require_once "controller/taikhoanController.php";
 require_once "controller/cartController.php";
 
-require_once "controller/CategoryController.php";
-require_once "view/client/header.php";
+
 
 
 $danhmuc = new danhmucController();

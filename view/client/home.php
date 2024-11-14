@@ -3,11 +3,7 @@
 </div>
 <main>
     <h2>SẢN PHẨM MỚI</h2>
-    <?php if(isset($_SESSION['cart_id'])){
-        echo $_SESSION['cart_id'];
-    }else{
-        echo "chưa lưu";
-    } ?>
+   
     <div class="products">
         <?php foreach ($listProductNew as $productNew) {
             $linkPro = "index.php?act=sanphamchitiet&idPro=$productNew->id";
@@ -15,7 +11,7 @@
 
             <a href=" <?php echo $linkPro ?>">
                 <div class="product">
-                    <img src="<?php echo '/duan01' . $productNew->main_image ?>" alt="">
+                    <img src="<?php echo 'duan01/' . $productNew->main_image ?>" alt="">
                     <h3><?php echo $productNew->name ?></h3>
                     <p>
                         <?php echo number_format($productNew->base_price, 0, ',', '.') ?> VND
@@ -33,7 +29,7 @@
         <?php foreach ($listProducBirth as $productBirth) { ?>
             <a href="">
                 <div class="product">
-                    <img src="<?php echo '/duan01' . $productBirth->main_image ?>" alt="">
+                    <img src="<?php echo 'duan01/' . $productBirth->main_image ?>" alt="">
                     <h3><?php echo $productBirth->name ?></h3>
                     <p>
                         <?php echo number_format($productBirth->base_price, 0, ',', '.') ?> VND
