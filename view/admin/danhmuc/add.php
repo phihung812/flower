@@ -28,9 +28,10 @@
       </div>
 
       <input class="form__submit" type="submit" value="Thêm" name="submit-add_danhmuc">
-      <a class="href-listPro" href="index.php?act=list_danhmuc">
-        <div class="btn-listPro">Danh sách</div>
-      </a>
+    </form>
+    <a class="href-listPro" href="index.php?act=list_danhmuc">
+      <div class="btn-listPro">Danh sách</div>
+    </a>
   </div>
 
 
