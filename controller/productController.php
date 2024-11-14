@@ -1,7 +1,7 @@
 <?php
 include_once(__DIR__ . '/../model/product.php');
 include_once(__DIR__ . '/../model/danhmuc.php');
-
+include_once(__DIR__ . '/../model/binhluan.php');
 class ProductController
 {
     public function addProduct()
@@ -113,6 +113,18 @@ class ProductController
             $productRelate = $mProduct->productRelate($category_id, $idPro);
         }
 
+        ////////// binhluan
+        // if (isset($_POST['submit-bl'])) {
+        //     $nameuser = $_SESSION['user']->user;
+        //     $noidung = $_POST['noidung'];
+        //     $ngaybl = date("y-m-d");
+        //     $binhluan = new binhluan();
+        //     $binhluan->Insert_binhluan(null,  $product_id, $user_id, $rating, $comment, $created_at, $updated_at);
+        // }
+        $binhluan = new binhluan();
+        $listbl = $binhluan->ID_binhluan_sanpham($_GET['idPro']) ;
+
+        
         require_once "./view/client/sanphamchitiet.php";
     }
 

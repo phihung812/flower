@@ -22,6 +22,7 @@ if (isset($_GET['act'])) {
             $product->serchProduct();
             break;
         
+        
     }
 } else {
     $sanpham = new ProductController();

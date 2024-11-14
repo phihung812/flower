@@ -2,7 +2,7 @@
 require_once "../controller/productController.php";
 require_once "../controller/danhmuc.php";
 require_once "../controller/taikhoanController.php";
-
+require_once "../controller/binhluan.php";
 
 require_once "admin/header.php";
 
@@ -55,6 +55,20 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->updateTaikhoan();
             break;
+///////////////////////////////////////////////////
+        case 'list_bl':
+            $binhluan = new binhluanController();
+            $binhluan->list_binhluan();
+            break;
+        case 'chitiet_bl':
+            $binhluan= new binhluanController();
+            $binhluan->chitiet_binhluan();
+             break;
+        case 'delete_bl':
+            $binhluan= new binhluanController();
+            $binhluan->delete_binhluan();
+            break;
+
     }
 
 } else {
