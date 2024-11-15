@@ -2,7 +2,12 @@
 require_once "../controller/productController.php";
 require_once "../controller/danhmuc.php";
 require_once "../controller/taikhoanController.php";
+<<<<<<< HEAD
 require_once "../controller/binhluan.php";
+=======
+require_once "../controller/CategoryController.php";
+
+>>>>>>> 1b50b5aa0c753f09a32e1b13d04fff278385ccf2
 
 require_once "admin/header.php";
 
@@ -71,6 +76,7 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->updateTaikhoan();
             break;
+<<<<<<< HEAD
 ///////////////////////////////////////////////////
         case 'list_bl':
             $binhluan = new binhluanController();
@@ -83,6 +89,12 @@ if (isset($_GET['act'])) {
         case 'delete_bl':
             $binhluan= new binhluanController();
             $binhluan->delete_binhluan();
+=======
+        case 'thongke':       
+            $controller = new CategoryController();
+            $controller->showStatistics();
+            
+>>>>>>> 1b50b5aa0c753f09a32e1b13d04fff278385ccf2
             break;
 
     }
