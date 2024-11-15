@@ -33,11 +33,7 @@
                     <span class="icon">&#128640;</span> Danh Mục
                 </a>
             </li>
-            <li class="link-item">
-                <a href="index.php?act=list_bl" class="link">
-                    <span class="icon">&#128172;</span> Bình Luận
-                </a>
-            </li>
+            
             <li class="link-item">
                 <a href="index.php?act=listTaikhoan" class="link">
                     <span class="icon">&#128100;</span> Người dùng
