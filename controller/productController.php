@@ -1,7 +1,7 @@
 <?php
 include_once(__DIR__ . '/../model/product.php');
 include_once(__DIR__ . '/../model/danhmuc.php');
-include_once(__DIR__ . '/../model/binhluan.php');
+
 class ProductController
 {
     public function addProduct()
