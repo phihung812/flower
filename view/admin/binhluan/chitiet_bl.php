@@ -1,11 +1,23 @@
 <style>
-    body{
-        margin-left:30%;
-    }
+    .table_bl{
+    margin-left:20%;
+    width: 100%;
+border-collapse: collapse;
+border: 0.5px solid #888;
+}
+.table_bl tr th{
+    padding: 20px;
+    background-color: #a3caf3;
+}
+.table_bl tr td{
+  padding: 20px;
+
+}
+
 </style>
-<div class="danhsachhh" style="height: auto;">
-    <h2 style=" color: #606063; padding-left: 20px;">CHI TIẾT BÌNH LUẬN</h2>
-    <table>
+<div>
+    <h2 style=" margin-left:55%;">CHI TIẾT BÌNH LUẬN</h2>
+    <table class="table_bl">
         <tr>
             
             <th>Mã bình luận </th>
@@ -29,14 +41,10 @@
                 <td><?php echo $chitiet_binhluan->updated_at ?></td>
 
             </tr>
-      
+          
     </table>
-    <br><br>
-    <a href="index.php?act=list_bl"><button>Danh sách bình luận</button></a>
-</div>
-<div>
+    <br>
+<a href="index.php?act=list_bl" style=" margin-left:20%;"><button>Danh sách bình luận</button></a>
 
-   
 
-</div> 
 </div>

@@ -20,6 +20,9 @@ if (isset($_GET['act'])) {
         case 'lienhe':
              require_once "view/client/lienhe.php";
             break;
+         case 'chinhsach':
+            require_once "view/client/chinhsach.php";
+            break;
         case 'register':
             $register = new TaikhoanController();
             $register->insert_taikhoan();
