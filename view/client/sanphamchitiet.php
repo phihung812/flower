@@ -66,12 +66,7 @@
         </div>
         <div class="binhluan">
              <h2>đánh giá sản phẩm</h2>
-            <?php foreach ($listbl as $binhluan){?>
-                    <div class="fom_bl">
-                    <p style="font-size:14px;"><?php echo $binhluan->created_at ?></p>
-                    <p style="font-size:17px;"><?php echo $binhluan->comment ?></p>
-                    </div>
-                <?php }?>
+
 
 
             

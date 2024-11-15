@@ -2,6 +2,7 @@
 include_once(__DIR__ . '/../model/product.php');
 include_once(__DIR__ . '/../model/danhmuc.php');
 
+
 class ProductController
 {
     public function addProduct()
@@ -158,8 +159,8 @@ class ProductController
         //     $binhluan = new binhluan();
         //     $binhluan->Insert_binhluan(null,  $product_id, $user_id, $rating, $comment, $created_at, $updated_at);
         // }
-        $binhluan = new binhluan();
-        $listbl = $binhluan->ID_binhluan_sanpham($_GET['idPro']) ;
+        // $binhluan = new binhluan();
+        // $listbl = $binhluan->ID_binhluan_sanpham($_GET['idPro']) ;
 
         
         require_once "./view/client/sanphamchitiet.php";
