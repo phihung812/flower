@@ -772,3 +772,18 @@ button:hover {
     box-shadow: 0px 0px 10px 6px pink;
 
 }
+
+.gioithieu{
+    width: 1200px;
+  
+    justify-content: flex-end; 
+}
+.anhgioithieu{
+    margin-left: 30%;
+    
+}
+.gioithieu p{
+    font-family:Montserrat, sans-serif; 
+    color: #5a5757;
+    text-align: justify;
+}
