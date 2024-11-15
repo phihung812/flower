@@ -3,7 +3,8 @@ require_once "../controller/productController.php";
 require_once "../controller/danhmuc.php";
 require_once "../controller/taikhoanController.php";
 require_once "../controller/CategoryController.php";
-
+require_once '../controller/ProductStatisticController.php';
+require_once '../controller/CategoryController.php';
 
 require_once "admin/header.php";
 
@@ -72,10 +73,13 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->updateTaikhoan();
             break;
-        case 'thongke':       
+        case 'categoryStatisticsView':       
             $controller = new CategoryController();
             $controller->showStatistics();
-            
+            break;
+            case 'ProductStatisticView':       
+            $controller=new ProductStatisticController();
+            $controller->getStatistics();
             break;
 
     }
