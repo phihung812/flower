@@ -17,7 +17,8 @@
                         <?php echo number_format($productNew->base_price, 0, ',', '.') ?> VND
                     </p>
                     <div class="button-buynow">
-                        <a href="">ĐẶT HÀNG</a>
+                    <a href="view/client/form.php">ĐẶT HÀNG</a>
+
                     </div>
                 </div>
             </a>
