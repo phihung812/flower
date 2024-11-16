@@ -125,6 +125,15 @@ class Product
         // Trả về danh sách các kích cỡ (mảng)
         return $sizes;
     }
+    // xử lí giá theo biến thế
+    public function getPriceBySize($product_id, $size)
+    {
+        // Truy vấn để lấy giá của sản phẩm theo size
+        $sql = "SELECT price FROM productvariant WHERE product_id = ? AND size = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$product_id, $size], true);
+    }
+
 
 
 

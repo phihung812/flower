@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once "controller/danhmuc.php";
 require_once "controller/productController.php";
 require_once "controller/taikhoanController.php";
@@ -45,8 +46,16 @@ if (isset($_GET['act'])) {
             $cart = new CartController();
             $cart->listCart();
             break;
+<<<<<<< HEAD
+        case 'logout':
+            session_unset();
+            header('location:index.php?act=login');
+            break;
+
+=======
         
         
+>>>>>>> 0b2f9139592c6279373e2d6da0f2d3868b9a328b
     }
 } else {
     $sanpham = new ProductController();
