@@ -1,3 +1,4 @@
+
 <main>
     <div class="cart">
         <div class="product-infor-cart">
@@ -63,6 +64,16 @@
             <em>** Vì các loại hoa lá phụ sẽ có tùy vào thời điểm trong năm, Flowercorner đảm bảo các loại hoa
                 chính, các loại hoa lá phụ sẽ thay đổi phù hợp giá cả và thiết kế sản phẩm.</em>
         </div>
+        <div class="binhluan">
+             <h2>đánh giá sản phẩm</h2>
+
+
+
+            
+    
+
+        </div>
+
         <h2>SẢN PHẨM LIÊN QUAN</h2>
         <div class="products-relate">
             <?php foreach ($productRelate as $product) { ?>

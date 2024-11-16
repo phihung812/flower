@@ -14,6 +14,15 @@ $menuDanhmuc = $danhmuc->list_menu();
 if (isset($_GET['act'])) {
     $act = $_GET['act'];
     switch ($act) {
+        case 'gioithieu':
+            require_once "view/client/gioithieu.php";
+            break;
+        case 'lienhe':
+             require_once "view/client/lienhe.php";
+            break;
+         case 'chinhsach':
+            require_once "view/client/chinhsach.php";
+            break;
         case 'register':
             $register = new TaikhoanController();
             $register->insert_taikhoan();
@@ -36,6 +45,7 @@ if (isset($_GET['act'])) {
             $cart = new CartController();
             $cart->listCart();
             break;
+        
         
     }
 } else {
