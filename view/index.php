@@ -2,7 +2,6 @@
 require_once "../controller/productController.php";
 require_once "../controller/danhmuc.php";
 require_once "../controller/taikhoanController.php";
-require_once "../controller/binhluan.php";
 require_once "../controller/CategoryController.php";
 
 require_once "admin/header.php";

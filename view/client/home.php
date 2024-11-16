@@ -26,7 +26,7 @@
     <h2>HOA SINH NHẬT</h2>
     <div class="products">
         <?php foreach ($listProducBirth as $productBirth) { ?>
-            <a href="">
+            <a href="index.php?act=sanphamchitiet&idPro=<?php echo $productBirth->id ?>">
                 <div class="product">
                     <img src="<?php echo 'duan01/' . $productBirth->main_image ?>" alt="">
                     <h3><?php echo $productBirth->name ?></h3>

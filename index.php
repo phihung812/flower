@@ -19,9 +19,9 @@ if (isset($_GET['act'])) {
             require_once "view/client/gioithieu.php";
             break;
         case 'lienhe':
-             require_once "view/client/lienhe.php";
+            require_once "view/client/lienhe.php";
             break;
-         case 'chinhsach':
+        case 'chinhsach':
             require_once "view/client/chinhsach.php";
             break;
         case 'register':
@@ -46,16 +46,17 @@ if (isset($_GET['act'])) {
             $cart = new CartController();
             $cart->listCart();
             break;
-<<<<<<< HEAD
+        case 'deleteCartItem':
+            $cart = new CartController();
+            $cart->deleteCartItem();
+            break;
+
+
         case 'logout':
             session_unset();
             header('location:index.php?act=login');
             break;
 
-=======
-        
-        
->>>>>>> 0b2f9139592c6279373e2d6da0f2d3868b9a328b
     }
 } else {
     $sanpham = new ProductController();
