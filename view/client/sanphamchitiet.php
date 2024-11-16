@@ -1,4 +1,3 @@
-
 <main>
 
     <div class="cart">
@@ -10,11 +9,16 @@
                 <div class="name-product-cart">
                     <h2><?php echo $sanphamchitiet->name ?></h2>
                 </div>
-                <div class="price-product-cart">
-                    <div id="price">
-                        <span>Price: </span><span id="price-value">20000</span>
+                
+                    <div class="price-product-cart">
+                        <?php if (isset($sizePro) && !empty($sizePro)) { ?>
+                            <h2 id="variant-price"><?php echo number_format($sizePro[0]->price, 0, ',', '.') ?> VND</h2>
+                        <?php } else { ?>
+                            <h2 id="variant-price"><?php echo number_format($sanphamchitiet->base_price, 0, ',', '.') ?> VND</h2>
+                        <?php } ?>
                     </div>
-                </div>
+                
+                    
                 <div class="phone-cart">
                     <h3>Gọi ngay: </h3>
                     <div class="box-phone">
@@ -41,10 +45,12 @@
                     <?php if (isset($sizePro) && (!empty($sizePro))) { ?>
                         <div class="variant">
                             <h3>SIZE:</h3>
-                            <select id="size" name="size">
+                            <select id="size" name="size" onchange="updatePrice()">
                                 <!-- Các option sẽ được lấy từ database -->
                                 <?php foreach ($sizePro as $size) { ?>
-                                    <option value="<?php echo $size->size; ?>"><?php echo $size->size; ?></option>
+                                    <option value="<?php echo $size->size; ?>" data-price="<?php echo $size->price; ?>">
+                                        <?php echo $size->size; ?>
+                                    </option>
                                 <?php } ?>
                             </select>
 
@@ -72,12 +78,12 @@
                 chính, các loại hoa lá phụ sẽ thay đổi phù hợp giá cả và thiết kế sản phẩm.</em>
         </div>
         <div class="binhluan">
-             <h2>đánh giá sản phẩm</h2>
+            <h2>đánh giá sản phẩm</h2>
 
 
 
-            
-    
+
+
 
         </div>
 
@@ -97,4 +103,19 @@
 
     </div>
 </main>
+<script>
+    function formatPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VND";
+    }
+    function updatePrice() {
+        const sizeSelect = document.getElementById('size');
+        const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
+        const price = selectedOption.getAttribute('data-price');
 
+        // Cập nhật giá hiển thị
+        document.getElementById('variant-price').textContent = formatPrice(price);
+    }
+
+    // Gọi updatePrice() khi trang được load để cập nhật giá ban đầu
+    document.addEventListener('DOMContentLoaded', updatePrice);
+</script>
