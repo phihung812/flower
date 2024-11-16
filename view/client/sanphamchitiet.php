@@ -1,4 +1,5 @@
 <main>
+
     <div class="cart">
         <div class="product-infor-cart">
             <div class="image-product-cart">
@@ -9,7 +10,9 @@
                     <h2><?php echo $sanphamchitiet->name ?></h2>
                 </div>
                 <div class="price-product-cart">
-                    <h2><?php echo number_format($sanphamchitiet->base_price, 0, ',', '.') ?> VND</h2>
+                    <div id="price">
+                        <span>Price: </span><span id="price-value">20000</span>
+                    </div>
                 </div>
                 <div class="phone-cart">
                     <h3>Gọi ngay: </h3>
@@ -29,19 +32,23 @@
                     <p>Miễn phí giao hoa khu vực nội thành TP.HCM & Hà Nội</p>
                 </div>
                 <form action="" method="POST" class="qti-variant">
+                    <input type="hidden" id="product-id" value="<?php echo $sanphamchitiet->id; ?>">
                     <div class="quantyti">
                         <h3>SỐ LƯỢNG:</h3>
                         <input type="number" name="quantity" id="" value="1">
                     </div>
+                    <?php if (isset($sizePro) && (!empty($sizePro))) { ?>
+                        <div class="variant">
+                            <h3>SIZE:</h3>
+                            <select id="size" name="size">
+                                <!-- Các option sẽ được lấy từ database -->
+                                <?php foreach ($sizePro as $size) { ?>
+                                    <option value="<?php echo $size->size; ?>"><?php echo $size->size; ?></option>
+                                <?php } ?>
+                            </select>
 
-                    <div class="variant">
-                        <h3>SIZE:</h3>
-                        <select name="variant">
-                            <?php foreach ($sizePro as $size) { ?>
-                                <option value="<?php echo $size->size; ?>"><?php echo $size->size; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
+                        </div>
+                    <?php } ?>
 
                     <div class="btn-cart">
                         <button name="submit-addCart">Thêm vào giỏ hàng</button>
@@ -76,6 +83,7 @@
             <?php } ?>
 
         </div>
-        
+
     </div>
 </main>
+

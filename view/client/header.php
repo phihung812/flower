@@ -30,10 +30,17 @@
                             <i class="fa-solid fa-user"></i>
                             <span>Tài khoản</span>
                         </a>
-                        <ul class="submenu">
-                            <li><a href="index.php?act=register">Đăng ký</a></li>
-                            <li><a href="index.php?act=login">Đăng nhập</a></li>
-                        </ul>
+                        <?php if (isset($_SESSION['user'])) { ?>
+                            <ul class="submenu">
+                                <li><a href="index.php?act=">Tài khoàn của tôi</a></li>
+                                <li><a href="index.php?act=logout">Đăng xuất</a></li>
+                            </ul>
+                        <?php } else { ?>
+                            <ul class="submenu">
+                                <li><a href="index.php?act=register">Đăng ký</a></li>
+                                <li><a href="index.php?act=login">Đăng nhập</a></li>
+                            </ul>
+                        <?php } ?>
                     </li>
 
                     <li>
@@ -72,7 +79,7 @@
             </div>
             <div class="search-product">
                 <form class="search" action="index.php?act=search-pro" method="POST">
-                    <input type="text"  placeholder="Tìm kiếm" name="search">
+                    <input type="text" placeholder="Tìm kiếm" name="search">
                     <button type="submit" name="submit-search"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
@@ -81,9 +88,10 @@
             <nav>
                 <ul>
                     <?php foreach ($listMenu as $list) { ?>
-                    <li>
-                        <a href="<?php echo 'index.php?act=search-pro&iddm='.$list->id ?>"><?php echo $list->name ?></a>
-                    </li>
+                        <li>
+                            <a
+                                href="<?php echo 'index.php?act=search-pro&iddm=' . $list->id ?>"><?php echo $list->name ?></a>
+                        </li>
                     <?php } ?>
                     
                 </ul>

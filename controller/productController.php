@@ -1,6 +1,7 @@
 <?php
 include_once(__DIR__ . '/../model/product.php');
 include_once(__DIR__ . '/../model/danhmuc.php');
+include_once(__DIR__ . '/../model/cart.php');
 
 class ProductController
 {
@@ -106,6 +107,7 @@ class ProductController
     public function sanPhamChiTiet()
     {
         $mProduct = new Product();
+
         if (isset($_GET['idPro'])) {
             $idPro = $_GET['idPro'];
             $sanphamchitiet = $mProduct->getProductById($idPro);
@@ -115,41 +117,39 @@ class ProductController
             $productRelate = $mProduct->productRelate($category_id, $idPro);
         }
         if (isset($_POST['submit-addCart']) && isset($_GET['idPro'])) {
-            
+
             // lấy thông tin sản phẩm
             $mProduct = new Product();
             $idPro = $_GET['idPro'];
             $sanphamchitiet = $mProduct->getProductById($idPro);
 
-            $price = $sanphamchitiet->base_price;
-            $size = $_POST['variant'];         ///////
+            $price = $sanphamchitiet->base_price;   //// LỖI Ở ĐÂY ---------------------và hiển thị tổng tiền giỏ hàng------------------------------------------------------------
+            $size = $_POST['size'];
             $quantity = $_POST['quantity'];
             $cart_id = $_SESSION['cart_id'];
-            $total_price = $quantity*$price;
+            $total_price = $quantity * $price;
             $mProduct = new Product();
             $variant_id = $mProduct->getVariantId($idPro, $size);
-            
+
             if ($variant_id) {
                 $variant_id = $variant_id->id;
-    
-                // Thêm sản phẩm vào giỏ hàng (cartItem)
-                $mCartItem = new Cart();
-                $addToCart = $mCartItem->addProductToCartItem(null, $cart_id, $variant_id, $quantity, $price, $total_price);
-    
-                if ($addToCart) {
-                    $thongbao = "Sản phẩm đã được thêm vào giỏ hàng!";
-                    header("location:index.php?act=cart");
+                // kiểm tra sản phẩm có trong giỏ hàng hay chưa
+                $mCart = new Cart();
+                $checkCartItem = $mCart->checkCartItem($cart_id, $variant_id);
+                // nêu có trong giỏ hàng
+                if ($checkCartItem) {
+                    $newQuantity = $checkCartItem->quantity + $quantity;
+                    $newTotalPrice = $checkCartItem->total_price + $total_price;
+                    $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id);
                 } else {
-                    $thongbao = "Có lỗi khi thêm sản phẩm vào giỏ hàng!";
+                    // thêm mới sản phẩm vào giỏ hàng
+                    $addToCart = $mCart->addProductToCartItem(null, $cart_id, $variant_id, $quantity, $price, $total_price);
                 }
-            } else {
-                $thongbao = "Không tìm thấy biến thể sản phẩm phù hợp!";
+                // cập nhật lại giỏ hàng
+                $mCart->updateCartTotals($cart_id);
             }
-            
-            
-            
-        }
 
+        }
         require_once "./view/client/sanphamchitiet.php";
     }
 
@@ -186,6 +186,7 @@ class ProductController
         require_once "./view/client/listsanpham.php";
     }
 
+
     public function addVariant()
     {
         if (isset($_POST['submit-addVariant'])) {
@@ -203,7 +204,7 @@ class ProductController
                 $addVariant = $mProduct->insertVariant(null, $product_id, $size, $price, $stock_quantity);
                 if (!$addVariant) {
                     $thongbao = "Thêm biến thể thành công!";
-                } 
+                }
             }
         }
 
