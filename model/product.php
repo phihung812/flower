@@ -25,6 +25,14 @@ class Product
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$id], false);
     }
+    public function checkProduct($productId)
+    {
+        $sql = "SELECT COUNT(*) FROM cartitem WHERE product_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$productId]);
+        
+    }
+
     public function getProductById($id)
     {
         $sql = "SELECT * FROM `product` WHERE id = ?";
@@ -74,7 +82,7 @@ class Product
         if ($sort == 'name_asc') {
             $sql .= " ORDER BY LEFT(name, 1) ASC";
         } elseif ($sort == 'name_desc') {
-            $sql .= " ORDER BY LEFT(name, 1) ASC";
+            $sql .= " ORDER BY LEFT(name, 1) DESC";
         } elseif ($sort == 'price_asc') {
             $sql .= " ORDER BY base_price ASC";
         } elseif ($sort == 'price_desc') {
@@ -112,19 +120,28 @@ class Product
     // lấy id biến thể
     public function getVariantId($product_id, $size)
     {
-        $sql = "SELECT id FROM productvariant WHERE product_id = ? AND size = ?";
+        $sql = "SELECT id, price FROM productvariant WHERE product_id = ? AND size = ?";
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$product_id, $size], false); // Lấy một bản ghi
     }
     // lấy các size của sản  phẩm
     public function getProductSize($product_id)
     {
-        $sql = "SELECT size FROM productvariant WHERE product_id = ?";
+        $sql = "SELECT size,price FROM productvariant WHERE product_id = ?";
         $this->connect->setQuery($sql);
         $sizes = $this->connect->loadData([$product_id]);
         // Trả về danh sách các kích cỡ (mảng)
         return $sizes;
     }
+    // xử lí giá theo biến thế
+    public function getPriceBySize($product_id, $size)
+    {
+        // Truy vấn để lấy giá của sản phẩm theo size
+        $sql = "SELECT price FROM productvariant WHERE product_id = ? AND size = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$product_id, $size], true);
+    }
+
 
 
 

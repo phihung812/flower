@@ -10,7 +10,7 @@
 
             <a href=" <?php echo $linkPro ?>">
                 <div class="product">
-                    <img src="<?php echo '/duan01' . $productNew->main_image ?>" alt="">
+                    <img src="<?php echo 'duann01/' . $productNew->main_image ?>" alt="">
                     <h3><?php echo $productNew->name ?></h3>
                     <p>
                         <?php echo number_format($productNew->base_price, 0, ',', '.') ?> VND
@@ -27,9 +27,9 @@
     <h2>HOA SINH NHẬT</h2>
     <div class="products">
         <?php foreach ($listProducBirth as $productBirth) { ?>
-            <a href="">
+            <a href="index.php?act=sanphamchitiet&idPro=<?php echo $productBirth->id ?>">
                 <div class="product">
-                    <img src="<?php echo '/duan01' . $productBirth->main_image ?>" alt="">
+                    <img src="<?php echo 'duan01/' . $productBirth->main_image ?>" alt="">
                     <h3><?php echo $productBirth->name ?></h3>
                     <p>
                         <?php echo number_format($productBirth->base_price, 0, ',', '.') ?> VND

@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once "controller/danhmuc.php";
 require_once "controller/productController.php";
 require_once "controller/taikhoanController.php";
@@ -14,6 +15,15 @@ $menuDanhmuc = $danhmuc->list_menu();
 if (isset($_GET['act'])) {
     $act = $_GET['act'];
     switch ($act) {
+        case 'gioithieu':
+            require_once "view/client/gioithieu.php";
+            break;
+        case 'lienhe':
+            require_once "view/client/lienhe.php";
+            break;
+        case 'chinhsach':
+            require_once "view/client/chinhsach.php";
+            break;
         case 'register':
             $register = new TaikhoanController();
             $register->insert_taikhoan();
@@ -36,7 +46,17 @@ if (isset($_GET['act'])) {
             $cart = new CartController();
             $cart->listCart();
             break;
-        
+        case 'deleteCartItem':
+            $cart = new CartController();
+            $cart->deleteCartItem();
+            break;
+
+
+        case 'logout':
+            session_unset();
+            header('location:index.php?act=login');
+            break;
+
     }
 } else {
     $sanpham = new ProductController();

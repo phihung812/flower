@@ -8,9 +8,9 @@
                 </div>
                 <div class="footer-2">
                     <h4>CHĂM SÓC KHÁCH HÀNG</h4>
-                    <p>Giới thiệu</p>
-                    <p>Liên hệ</p>
-                    <p>Chính sách vận chuyển</p>
+                    <p><a href="index.php?act=gioithieu">giới thiệu</a></p>
+                    <p><a href="index.php?act=lienhe">liên hệ</a></p>
+                    <p><a href="index.php?act=chinhsach">Chính sách vận chuyển</a></p>
                     <p>Câu hỏi thường gặp</p>
                     <p>Hình thức thanh toán</p>
                     <p>Bảo mật thông tin</p>

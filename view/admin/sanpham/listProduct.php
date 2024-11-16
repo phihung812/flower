@@ -1,6 +1,14 @@
 <div class="main-content">
     <div class="welcome_admin">Danh Sách Sản Phẩm</div>
+    <?php
+  // Kiểm tra và hiển thị thông báo nếu có
+  if (isset($thongbao) && ($thongbao != "")) {
+    echo "<h3 style='color:red;'>$thongbao</h3>";
+  }
+  
+  ?>
 
+    
     <table class="listPro">
         <tr class="thead">
             <th>Mã sản phẩm</th>

@@ -1,4 +1,5 @@
 <main>
+
     <div class="cart">
         <div class="product-infor-cart">
             <div class="image-product-cart">
@@ -8,9 +9,16 @@
                 <div class="name-product-cart">
                     <h2><?php echo $sanphamchitiet->name ?></h2>
                 </div>
-                <div class="price-product-cart">
-                    <h2><?php echo number_format($sanphamchitiet->base_price, 0, ',', '.') ?> VND</h2>
-                </div>
+                
+                    <div class="price-product-cart">
+                        <?php if (isset($sizePro) && !empty($sizePro)) { ?>
+                            <h2 id="variant-price"><?php echo number_format($sizePro[0]->price, 0, ',', '.') ?> VND</h2>
+                        <?php } else { ?>
+                            <h2 id="variant-price"><?php echo number_format($sanphamchitiet->base_price, 0, ',', '.') ?> VND</h2>
+                        <?php } ?>
+                    </div>
+                
+                    
                 <div class="phone-cart">
                     <h3>Gọi ngay: </h3>
                     <div class="box-phone">
@@ -29,19 +37,25 @@
                     <p>Miễn phí giao hoa khu vực nội thành TP.HCM & Hà Nội</p>
                 </div>
                 <form action="" method="POST" class="qti-variant">
+                    <input type="hidden" id="product-id" value="<?php echo $sanphamchitiet->id; ?>">
                     <div class="quantyti">
                         <h3>SỐ LƯỢNG:</h3>
                         <input type="number" name="quantity" id="" value="1">
                     </div>
+                    <?php if (isset($sizePro) && (!empty($sizePro))) { ?>
+                        <div class="variant">
+                            <h3>SIZE:</h3>
+                            <select id="size" name="size" onchange="updatePrice()">
+                                <!-- Các option sẽ được lấy từ database -->
+                                <?php foreach ($sizePro as $size) { ?>
+                                    <option value="<?php echo $size->size; ?>" data-price="<?php echo $size->price; ?>">
+                                        <?php echo $size->size; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
 
-                    <div class="variant">
-                        <h3>SIZE:</h3>
-                        <select name="variant">
-                            <?php foreach ($sizePro as $size) { ?>
-                                <option value="<?php echo $size->size; ?>"><?php echo $size->size; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
+                        </div>
+                    <?php } ?>
 
                     <div class="btn-cart">
                         <button name="submit-addCart">Thêm vào giỏ hàng</button>
@@ -63,6 +77,16 @@
             <em>** Vì các loại hoa lá phụ sẽ có tùy vào thời điểm trong năm, Flowercorner đảm bảo các loại hoa
                 chính, các loại hoa lá phụ sẽ thay đổi phù hợp giá cả và thiết kế sản phẩm.</em>
         </div>
+        <div class="binhluan">
+            <h2>đánh giá sản phẩm</h2>
+
+
+
+
+
+
+        </div>
+
         <h2>SẢN PHẨM LIÊN QUAN</h2>
         <div class="products-relate">
             <?php foreach ($productRelate as $product) { ?>
@@ -76,6 +100,22 @@
             <?php } ?>
 
         </div>
-        
+
     </div>
 </main>
+<script>
+    function formatPrice(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VND";
+    }
+    function updatePrice() {
+        const sizeSelect = document.getElementById('size');
+        const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
+        const price = selectedOption.getAttribute('data-price');
+
+        // Cập nhật giá hiển thị
+        document.getElementById('variant-price').textContent = formatPrice(price);
+    }
+
+    // Gọi updatePrice() khi trang được load để cập nhật giá ban đầu
+    document.addEventListener('DOMContentLoaded', updatePrice);
+</script>

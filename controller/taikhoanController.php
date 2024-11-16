@@ -20,6 +20,7 @@ class TaikhoanController
             $password = $_POST['password'];
             $role = "customer";
             // giỏ hàng
+            
             $total_items = 0;
             $total_price = 0;
             $mTaikhoan = new taikhoan();

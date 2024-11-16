@@ -7,49 +7,34 @@ class CartController
 {
     public function listCart()
     {
+
+        if (isset($_SESSION['cart_id'])) {
+            $cart_id = $_SESSION['cart_id'];
+            $mCart = new Cart();
+            $cartItem = $mCart->getCartItems($cart_id);
+            $cartAll = $mCart->getCart($cart_id);
+        }
+        // show thông tin ra giỏ hàng
+
         require_once "./view/client/cart.php";
     }
-    // cartItem
-    // public function addProductToCartItem()
-    // {
-        
-    //     if (isset($_POST['submit-addCart']) && isset($_GET['idPro'])) {
-            
-    //         // lấy thông tin sản phẩm
-    //         $mProduct = new Product();
-    //         $idPro = $_GET['idPro'];
-    //         $sanphamchitiet = $mProduct->getProductById($idPro);
 
-    //         $price = $sanphamchitiet->base_price;
-    //         $size = $_POST['variant'];
-    //         $quantity = $_POST['quantity'];
-    //         $cart_id = $_SESSION['cart_id'];
-    //         $total_price = $quantity*$price;
-    //         $mProduct = new Product();
-    //         $variant_id = $mProduct->getVariantId($idPro, $size);
+    public function deleteCartItem()
+    {
+        if (isset($_GET['cartItemId'])) {
+            $cartItemId = $_GET['cartItemId'];
             
-    //         if ($variant_id) {
-    //             $variant_id = $variant_id->id;
-    
-    //             // Thêm sản phẩm vào giỏ hàng (cartItem)
-    //             $mCartItem = new Cart();
-    //             $addToCart = $mCartItem->addProductToCartItem(null, $cart_id, $variant_id, $quantity, $price, $total_price);
-    
-    //             if (!$addToCart) {
-    //                 $thongbao = "Sản phẩm đã được thêm vào giỏ hàng!";
-    //                 header("location:index.php?act=cart");
-    //             } else {
-    //                 $thongbao = "Có lỗi khi thêm sản phẩm vào giỏ hàng!";
-    //             }
-    //         } else {
-    //             $thongbao = "Không tìm thấy biến thể sản phẩm phù hợp!";
-    //         }
-            
-            
-            
-    //     }
-    //     require_once "./view/client/sanphamchitiet.php";
-    // }
+            $mCart = new Cart();
+            $delete = $mCart->deleteCartItem($cartItemId);
+            if ($delete) {
+
+                header("location:index.php?act=cart");
+                exit;
+            }
+
+        }
+        
+    }
 
 }
 ?>
