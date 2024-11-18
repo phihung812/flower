@@ -23,11 +23,12 @@ class CartController
     {
         if (isset($_GET['cartItemId'])) {
             $cartItemId = $_GET['cartItemId'];
-            
+            $cart_id = $_SESSION['cart_id'];
             $mCart = new Cart();
             $delete = $mCart->deleteCartItem($cartItemId);
             if ($delete) {
 
+                $mCart->updateCartTotals($cart_id);
                 header("location:index.php?act=cart");
                 exit;
             }

@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="view/css/client.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </link>
     <title>Trang chủ</title>
 </head>
@@ -32,7 +37,7 @@
                         </a>
                         <?php if (isset($_SESSION['user'])) { ?>
                             <ul class="submenu">
-                                <li><a href="index.php?act=">Tài khoàn của tôi</a></li>
+                                <li><a href="index.php?act=myAccount">Tài khoàn của tôi</a></li>
                                 <li><a href="index.php?act=logout">Đăng xuất</a></li>
                             </ul>
                         <?php } else { ?>
@@ -93,7 +98,7 @@
                                 href="<?php echo 'index.php?act=search-pro&iddm=' . $list->id ?>"><?php echo $list->name ?></a>
                         </li>
                     <?php } ?>
-                    
+
                 </ul>
             </nav>
         </div>
