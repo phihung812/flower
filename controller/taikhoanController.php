@@ -9,6 +9,7 @@ class TaikhoanController
 
     public function insert_taikhoan()
     {
+        $mTaikhoan = new taikhoan();
         if (isset($_POST['submit-register'])) {
 
             $first_name = $_POST['first_name'];
@@ -19,24 +20,44 @@ class TaikhoanController
             $city = $_POST['city'];
             $password = $_POST['password'];
             $role = "customer";
-            // giỏ hàng
-            
             $total_items = 0;
             $total_price = 0;
-            $mTaikhoan = new taikhoan();
-            $idUser = $mTaikhoan->insert_taikhoan(null, $first_name, $last_name, $email, $password, $phone, $address, $city, $role);
-            if ($idUser > 0) {
-                $mCart = new Cart();
-                $create_cart = $mCart->createCart(null, $idUser, $total_items, $total_price);
-            }
-            if ($create_cart) {
-                $_SESSION['cart_id'] = $create_cart;
-                $thongbao = "Đăng ký thành công và giỏ hàng đã được tạo!";
+            $allEmailList = $mTaikhoan->getAllEmails(); // Trả về mảng đa chiều
+            $allEmail = array_column($allEmailList, 'email'); // Chuyển thành mảng đơn chứa email
+            if (!in_array($email, $allEmail)) {
+                $idUser = $mTaikhoan->insert_taikhoan(null, $first_name, $last_name, $email, $password, $phone, $address, $city, $role);
+                if ($idUser > 0) {
+                    $mCart = new Cart();
+                    $create_cart = $mCart->createCart(null, $idUser, $total_items, $total_price);
+                }
+                if ($create_cart) {
+                    $_SESSION['cart_id'] = $create_cart;
+
+                    echo "<script>
+                        Swal.fire({
+                            title: 'Thành công!',
+                            text: 'Đăng ký thành công và mời bạn đăng nhập!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'index.php?act=login';
+                            }
+                        });
+                      </script>";
+                } else {
+                    $thongbao = "Đăng ký thành công, nhưng có lỗi khi tạo giỏ hàng!";
+                }
             } else {
-                $thongbao = "Đăng ký thành công, nhưng có lỗi khi tạo giỏ hàng!";
+                echo '<script>
+        Swal.fire({
+            icon: "error", // Icon lỗi
+            title: "Lỗi!",
+            text: "Email đã tồn tại trong hệ thống",
+            confirmButtonText: "Thử lại"
+        });
+    </script>';
             }
-
-
         }
         require_once "./view/client/register.php";
     }
@@ -89,7 +110,7 @@ class TaikhoanController
     public function login()
     {
         if (isset($_POST['submit-login'])) {
-            
+
             $email = $_POST['email'];
             $password = $_POST['password'];
             $mTaikhoan = new taikhoan();
@@ -102,15 +123,98 @@ class TaikhoanController
                 if ($cart) {
                     // Lưu ID giỏ hàng vào session
                     $_SESSION['cart_id'] = $cart->id;
-                    header('location:index.php');
-                    
+                    echo "<script>
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: 'Đăng nhập thành công!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = 'index.php';
+                                }
+                            });
+                          </script>";
+                    exit(); // Dừng việc xử lý tiếp theo
                 }
-
             } else {
                 $thongbao = "Email hoặc tên đăng nhập không đúng!";
             }
         }
         require_once "./view/client/login.php";
+    }
+
+    public function myAccount()
+    {
+
+        require_once "./view/client/myAccount.php";
+    }
+    public function editAccount()
+    {
+        $idAccount = $_SESSION['user']->id;
+        $mTaikhoan = new Taikhoan();
+        $account = $mTaikhoan->getTaikhoanById($idAccount);
+        if (isset($_POST['submit-updateTaikhoan'])) {
+            $first_name = $_POST['first_name'];
+            $last_name = $_POST['last_name'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $address = $_POST['address'];
+            $city = $_POST['city'];
+
+            $mTaikhoan = new Taikhoan();
+            $edit = $mTaikhoan->edit_Taikhoan($first_name, $last_name, $email, $phone, $address, $city, $idAccount);
+            if (!$edit) {
+                echo '<script type="text/javascript">
+                    Swal.fire({
+                        icon: "success",
+                        title: "Thành công",
+                        text: "Cập nhật tài khoản thành công!",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "index.php?act=myAccount";
+                        }
+                    });
+                </script>';
+                exit();
+            }
+
+        }
+        require_once "./view/client/editAccount.php";
+    }
+    public function rePassAccount()
+    {
+        $idAccount = $_SESSION['user']->id;
+        $mTaikhoan = new Taikhoan();
+        $account = $mTaikhoan->getTaikhoanById($idAccount);
+        $passwordOld = $account->password;
+        if (isset($_POST['submit-rePass'])) {
+            $passOld = $_POST['passOld'];
+            $passNew = $_POST['passNew'];
+            if ($passOld === $passwordOld) {
+                $edit = $mTaikhoan->rePass($passNew, $idAccount);
+                if (!$edit) {
+                    echo '<script type="text/javascript">
+                    Swal.fire({
+                        icon: "success",
+                        title: "Thành công",
+                        text: "Đổi mật khẩu thành công!",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "index.php?act=myAccount";
+                        }
+                    });
+                </script>';
+                    exit();
+                }
+            } else {
+                $thongbao = "Mật khẩu cũ không đúng!";
+            }
+
+        }
+        require_once "./view/client/rePassAccount.php";
     }
 
 

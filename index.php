@@ -50,7 +50,10 @@ if (isset($_GET['act'])) {
             $cart = new CartController();
             $cart->deleteCartItem();
             break;
-
+        case 'myAccount':
+            $taikhoan= new TaikhoanController;
+            $taikhoan->myAccount();
+            break;
 
         case 'logout':
             session_unset();

@@ -162,11 +162,55 @@ class ProductController
                     $newQuantity = $checkCartItem->quantity + $quantity;
                     $newTotalPrice = $checkCartItem->total_price + $total_price;
                     $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id);
-                    header('location:index.php?act=cart');
+                    echo "<script>
+                            const Toast = Swal.mixin({
+                                toast: false,
+                                position: 'top-right',
+                                showConfirmButton: false,
+                                timer: 800,
+                                timerProgressBar: false,
+                                customClass: {
+                                popup: 'small-toast'  
+                            },
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            });
+
+                            Toast.fire({
+                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
+                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
+                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
+                                title: 'Đã cập nhật sản phẩm trong giỏ hàng'
+                            });
+                        </script>";
                 } else {
                     // thêm mới sản phẩm vào giỏ hàng
                     $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
-                    header('location:index.php?act=cart');
+                    echo "<script>
+                    const Toast = Swal.mixin({
+                        toast: false,
+                        position: 'top-right',
+                        showConfirmButton: false,
+                        timer: 800,
+                        timerProgressBar: false,
+                        customClass: {
+                        popup: 'small-toast'  
+                    },
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                         imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
+                        imageWidth: 50, // Điều chỉnh kích thước hình ảnh
+                        imageHeight: 50, // Điều chỉnh kích thước hình ảnh
+                        title: 'Đã thêm sản phẩm trong giỏ hàng'
+                    });
+                </script>";
 
                 }
                 // cập nhật lại giỏ hàng
@@ -178,11 +222,55 @@ class ProductController
                     $newQuantity = $checkCartItem->quantity + $quantity;
                     $newTotalPrice = $checkCartItem->total_price + $total_price;
                     $mCart->updateCartItem0($newQuantity, $newTotalPrice, $cart_id, $idPro);
-                    // header('location:index.php?act=cart');
+                    echo "<script>
+                            const Toast = Swal.mixin({
+                                toast: false,
+                                position: 'top-right',
+                                showConfirmButton: false,
+                                timer: 800,
+                                timerProgressBar: false,
+                                customClass: {
+                                popup: 'small-toast'  
+                            },
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            });
+
+                            Toast.fire({
+                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
+                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
+                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
+                                title: 'Đã cập nhật sản phẩm trong giỏ hàng'
+                            });
+                        </script>";
                 } else {
                     // thêm mới sản phẩm vào giỏ hàng
                     $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
-                    // header('location:index.php?act=cart');
+                    echo "<script>
+                            const Toast = Swal.mixin({
+                                toast: false,
+                                position: 'top-right',
+                                showConfirmButton: false,
+                                timer: 800,
+                                timerProgressBar: false,
+                                customClass: {
+                                popup: 'small-toast'  
+                            },
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            });
+
+                            Toast.fire({
+                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
+                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
+                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
+                                title: 'Đã thêm sản phẩm trong giỏ hàng'
+                            });
+                        </script>";
 
                 }
                 // cập nhật lại giỏ hàng
