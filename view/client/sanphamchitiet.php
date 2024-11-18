@@ -47,8 +47,8 @@
                             <h3>SIZE:</h3>
                             <select id="size" name="size" onchange="updatePrice()">
                                 <!-- Các option sẽ được lấy từ database -->
-                                <?php foreach ($sizePro as $size) { ?>
-                                    <option value="<?php echo $size->size; ?>" data-price="<?php echo $size->price; ?>">
+                                <?php foreach ($sizePro as $sizes) { ?>
+                                    <option value="<?php echo $sizes->size; ?>" data-price="<?php echo $sizes->price; ?>">
                                         <?php echo $size->size; ?>
                                     </option>
                                 <?php } ?>
