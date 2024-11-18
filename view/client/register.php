@@ -38,7 +38,7 @@
                     <?php
                     if (isset($thongbao) && $thongbao != "") {
                         echo $thongbao;
-                    }                    ?>
+                    } ?>
                 </p>
 
                 <button type="submit" name="submit-register">Đăng ký</button>

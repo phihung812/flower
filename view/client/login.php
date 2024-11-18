@@ -6,7 +6,7 @@
                 <p>Địa chỉ email</p>
                 <input type="text" name="email" id="" placeholder="Địa chỉ email">
                 <p>Mật khẩu</p>
-                <input type="text" name="password" id="" placeholder="Mật khẩu"><br>
+                <input type="password" name="password" id="" placeholder="Mật khẩu"><br>
                 <p style="color:red;">
                     <?php if (isset($thongbao) && $thongbao != "") {
                         echo $thongbao;

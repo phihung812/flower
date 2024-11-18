@@ -1,4 +1,5 @@
 <main>
+
     <h2>
         <?php
         if ($category != "") {
@@ -30,7 +31,7 @@
                     <h3><?php echo $product->name ?></h3>
                     <p><?php echo number_format($product->base_price, 0, ',', '.') ?> VND</p>
                     <div class="button-buynow">
-                        <a href="">ĐẶT HÀNG</a>
+                        <a href="">Xem chi tiết</a>
                     </div>
                 </div>
             </a>

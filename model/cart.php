@@ -7,12 +7,18 @@ class Cart
     {
         $this->connect = new Connect();
     }
-    public function createCart($id, $user_id, $total_items, $total_price)
+    public function createCart($id, $user_id, $session_token, $total_items, $total_price)
     {
-        $sql = "INSERT INTO `cart` (id, user_id, total_items,total_price) VALUES (?,?,?,?)";
+        $sql = "INSERT INTO `cart` (id, user_id, session_token, total_items,total_price) VALUES (?,?,?,?,?)";
         $this->connect->setQuery($sql);
-        $this->connect->execute([$id, $user_id, $total_items, $total_price]);
+        $this->connect->execute([$id, $user_id, $session_token, $total_items, $total_price]);
         return $this->connect->lastInsertId();
+    }
+    public function checkCart($cartToken, $userId)
+    {
+        $sql = "SELECT * FROM cart WHERE session_token = ? OR user_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$cartToken, $userId], false);
     }
     public function getCartIdByUserId($user_id)
     {
