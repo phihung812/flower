@@ -1,4 +1,5 @@
 <main>
+
     <h2>
         <?php
         if ($category != "") {

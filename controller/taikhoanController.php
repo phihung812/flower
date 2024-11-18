@@ -2,6 +2,8 @@
 session_start();
 require_once(__DIR__ . '/../model/taikhoan.php');
 require_once(__DIR__ . '/../model/cart.php');
+require_once(__DIR__ . '/../model/init.php');
+
 
 
 class TaikhoanController
@@ -9,6 +11,8 @@ class TaikhoanController
 
     public function insert_taikhoan()
     {
+        $mInit = new Init();
+        $token = $mInit->cartToken();
         $mTaikhoan = new taikhoan();
         if (isset($_POST['submit-register'])) {
 
@@ -28,7 +32,7 @@ class TaikhoanController
                 $idUser = $mTaikhoan->insert_taikhoan(null, $first_name, $last_name, $email, $password, $phone, $address, $city, $role);
                 if ($idUser > 0) {
                     $mCart = new Cart();
-                    $create_cart = $mCart->createCart(null, $idUser, $total_items, $total_price);
+                    $create_cart = $mCart->createCart(null, $idUser, $token, $total_items, $total_price);
                 }
                 if ($create_cart) {
                     $_SESSION['cart_id'] = $create_cart;
@@ -50,13 +54,13 @@ class TaikhoanController
                 }
             } else {
                 echo '<script>
-        Swal.fire({
-            icon: "error", // Icon lỗi
-            title: "Lỗi!",
-            text: "Email đã tồn tại trong hệ thống",
-            confirmButtonText: "Thử lại"
-        });
-    </script>';
+                            Swal.fire({
+                                icon: "error", // Icon lỗi
+                                title: "Lỗi!",
+                                text: "Email đã tồn tại trong hệ thống",
+                                confirmButtonText: "Thử lại"
+                            });
+                        </script>';
             }
         }
         require_once "./view/client/register.php";
@@ -166,17 +170,17 @@ class TaikhoanController
             $edit = $mTaikhoan->edit_Taikhoan($first_name, $last_name, $email, $phone, $address, $city, $idAccount);
             if (!$edit) {
                 echo '<script type="text/javascript">
-                    Swal.fire({
-                        icon: "success",
-                        title: "Thành công",
-                        text: "Cập nhật tài khoản thành công!",
-                        confirmButtonText: "OK"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "index.php?act=myAccount";
-                        }
-                    });
-                </script>';
+                        Swal.fire({
+                            icon: "success",
+                            title: "Thành công",
+                            text: "Cập nhật tài khoản thành công!",
+                            confirmButtonText: "OK"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "index.php?act=myAccount";
+                            }
+                        });
+                    </script>';
                 exit();
             }
 

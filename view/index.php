@@ -72,22 +72,7 @@ if (isset($_GET['act'])) {
             $taikhoan->updateTaikhoan();
             break;
 ////////////////////////////////////////
-            case 'list_bl':
-                $binhluan = new binhluanController();
-                $binhluan->list_binhluan();
-                break;
-            case 'chitiet_bl':
-                $binhluan= new binhluanController();
-                $binhluan->chitiet_binhluan();
-                 break;
-            case 'delete_bl':
-                $binhluan= new binhluanController();
-                $binhluan->delete_binhluan();
-
-                case 'thongke':       
-                    $controller = new CategoryController();
-                    $controller->showStatistics();
-                    break;
+            
 
 
     }
