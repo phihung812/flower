@@ -29,7 +29,10 @@
                         <?php echo number_format($productNew->base_price, 0, ',', '.') ?> VND
                     </p>
                     <div class="button-buynow">
+
+
                         <a href="">Xem chi tiết</a>
+
                     </div>
                 </div>
             </a>

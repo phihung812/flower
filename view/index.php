@@ -5,6 +5,7 @@ require_once "../controller/taikhoanController.php";
 require_once "../controller/CategoryController.php";
 require_once "../controller/bannerController.php";
 
+
 require_once "admin/header.php";
 
 if (isset($_GET['act'])) {
@@ -76,6 +77,7 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->updateTaikhoan();
             break;
+
         case 'addBanner':
             $banner = new BannerController();
             $banner->addBanner();
@@ -94,6 +96,15 @@ if (isset($_GET['act'])) {
             break;
 
         ////////////////////////////////////////
+
+
+        case 'thongke':       
+            $controller = new CategoryController();
+            $controller->showStatistics();
+            
+            break;
+////////////////////////////////////////
+            
 
 
 
