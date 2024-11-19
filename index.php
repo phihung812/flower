@@ -5,12 +5,10 @@ require_once "controller/productController.php";
 require_once "controller/taikhoanController.php";
 require_once "controller/cartController.php";
 
-
-
-
 $danhmuc = new danhmucController();
 $menuDanhmuc = $danhmuc->list_menu();
-
+$Cart = new CartController();
+$Cart->CreateCartNoAcc();
 
 if (isset($_GET['act'])) {
     $act = $_GET['act'];
@@ -31,8 +29,6 @@ if (isset($_GET['act'])) {
         case 'sanphamchitiet':
             $product = new ProductController();
             $product->sanPhamChiTiet();
-            // $cart = new CartController();
-            // $cart->addProductToCartItem();
             break;
         case 'search-pro':
             $product = new ProductController();
@@ -50,7 +46,10 @@ if (isset($_GET['act'])) {
             $cart = new CartController();
             $cart->deleteCartItem();
             break;
-
+        case 'myAccount':
+            $taikhoan= new TaikhoanController;
+            $taikhoan->myAccount();
+            break;
 
         case 'logout':
             session_unset();
