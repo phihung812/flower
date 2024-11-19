@@ -64,6 +64,11 @@
                 </a>
             </li>
             <li class="link-item">
+                <a href="index.php?act=listBanner " class="link">
+                    <span class="icon">&#128295;</span> Banner
+                </a>
+            </li>
+            <li class="link-item">
                 <a href="index.php?act=Variant" class="link">
                     <span class="icon">&#128295;</span> Biến thể sản phẩm
                 </a>
@@ -104,6 +109,3 @@
             </li>
         </ul>
     </div>
-</body>
-
-</html>

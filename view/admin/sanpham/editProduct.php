@@ -27,7 +27,7 @@
                     <div class="form__input">
                         <select name="category">
                             <?php foreach ($listCategory as $category) { ?>
-                                <option value="<?php echo $category->id ?>"> <?php echo $category->name ?></option>
+                                <option value="<?php echo $category->id ?>" <?php echo ($category->id === $productById->category_id) ? 'selected' : ''; ?>> <?php echo $category->name ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -66,8 +66,8 @@
                     <label>Trạng thái</label>
                     <div class="form__input">
                         <select name="status" value="<?php echo $productById->status ?>">
-                            <option value="available">Còn hàng</option>
-                            <option value="unavailable">Hết hàng</option>
+                            <option value="available" <?php echo ($productById->status === 'available') ? 'selected' : ''; ?>>Còn hàng</option>
+                            <option value="unavailable" <?php echo ($productById->status === 'unavailable') ? 'selected' : ''; ?>>Hết hàng</option>
                         </select>
                     </div>
                 </div>

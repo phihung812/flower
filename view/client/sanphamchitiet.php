@@ -49,7 +49,7 @@
                                 <!-- Các option sẽ được lấy từ database -->
                                 <?php foreach ($sizePro as $sizes) { ?>
                                     <option value="<?php echo $sizes->size; ?>" data-price="<?php echo $sizes->price; ?>">
-                                        <?php echo $size->size; ?>
+                                        <?php echo $sizes->size; ?>
                                     </option>
                                 <?php } ?>
                             </select>

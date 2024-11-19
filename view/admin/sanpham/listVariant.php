@@ -18,7 +18,7 @@
                     <td><?php echo $variant->price ?></td>
                     <td><?php echo $variant->stock_quantity ?></td>
                     <td style="width:110px;">
-                        <a href="index.php?act=editVariant&idVariant=<?php echo $variant->id ?>">
+                        <a href="index.php?act=updateVariant&idVariant=<?php echo $variant->id ?>">
                             <button>Sửa</button>
                         </a>
                         <a href="index.php?act=deleteVariant&idVariant=<?php echo $variant->id ?>">

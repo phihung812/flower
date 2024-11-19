@@ -30,7 +30,7 @@ class Product
         $sql = "SELECT COUNT(*) FROM cartitem WHERE product_id = ?";
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$productId]);
-        
+
     }
 
     public function getProductById($id)
@@ -124,13 +124,24 @@ class Product
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$product_id, $size], false); // Lấy một bản ghi
     }
+    public function getVariantById($id)
+    {
+        $sql = "SELECT * FROM `productvariant` WHERE id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$id], false);
+    }
+    public function updateVariant($product_id, $size, $price, $stock_quantity, $id)
+    {
+        $sql = "UPDATE `productvariant` SET `product_id`=?,`size`=?,`price`=?,`stock_quantity`=? WHERE `id`=?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$product_id, $size, $price, $stock_quantity, $id]);
+    }
     // lấy các size của sản  phẩm
     public function getProductSize($product_id)
     {
         $sql = "SELECT size,price FROM productvariant WHERE product_id = ?";
         $this->connect->setQuery($sql);
         $sizes = $this->connect->loadData([$product_id]);
-        // Trả về danh sách các kích cỡ (mảng)
         return $sizes;
     }
     // xử lí giá theo biến thế

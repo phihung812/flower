@@ -28,7 +28,7 @@ class CartController
     {
         if (isset($_GET['cartItemId'])) {
             $cartItemId = $_GET['cartItemId'];
-            $cart_id = $_SESSION['cart_id'];
+            $cart_id = isset($_SESSION['cart_id']) ? $_SESSION['cart_id']: $_COOKIE['cart_id'];
             $mCart = new Cart();
             $delete = $mCart->deleteCartItem($cartItemId);
             if ($delete) {

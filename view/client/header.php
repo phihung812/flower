@@ -33,8 +33,12 @@
                             <i class="fa-solid fa-user"></i>
                             <span>Tài khoản</span>
                         </a>
-                        <?php if (isset($_SESSION['user'])) { ?>
-                            <ul class="submenu">
+                        <?php if (isset($_SESSION['user'])) {
+                            $role = $_SESSION['user']->role;  ?>
+                            <ul class="submenu" style="height:auto;">
+                                <?php if ($role === 'admin') { ?>
+                                    <li><a href="view/index.php">Vào trang quản trị</a></li>
+                                <?php } ?>
                                 <li><a href="index.php?act=myAccount">Tài khoàn của tôi</a></li>
                                 <li><a href="index.php?act=logout">Đăng xuất</a></li>
                             </ul>

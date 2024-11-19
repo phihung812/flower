@@ -77,13 +77,16 @@ if (isset($_GET['act'])) {
             $controller->showStatistics();
             
             break;
+
             case 'ProductStatisticView':       
                 $controller = new ProductStatisticController();
                 $controller->getStatistics();
                 
                 break;
+
 ////////////////////////////////////////
             
+
 
 
     }

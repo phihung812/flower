@@ -1,5 +1,18 @@
 <div class="banner">
-    <img src="https://in.flowercorner.vn/uploads/P657fd247737038.75342862.webp" alt="">
+    <img src="" id="banner" alt="">
+    <script>
+        var arrIMG = <?php echo $banner ?>;
+        document.getElementById('banner').src = 'duan01/'+arrIMG[0].image; //cho ảnh đầu lên banner
+        var index = 0;
+        function next() {
+            index++;
+            if (index >= arrIMG.length) {
+                index = 0; // Quay lại ảnh đầu tiên nếu vượt quá số ảnh trong mảng
+            }
+            document.getElementById('banner').src = 'duan01/'+arrIMG[index].image;
+        }
+        setInterval(next, 2000);
+    </script>
 </div>
 <main>
     <h2>SẢN PHẨM MỚI</h2>
