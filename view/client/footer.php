@@ -8,8 +8,8 @@
                 </div>
                 <div class="footer-2">
                     <h4>CHĂM SÓC KHÁCH HÀNG</h4>
-                    <p><a href="index.php?act=gioithieu">giới thiệu</a></p>
-                    <p><a href="index.php?act=lienhe">liên hệ</a></p>
+                    <p><a href="index.php?act=gioithieu">Giới thiệu</a></p>
+                    <p><a href="index.php?act=lienhe">Liên hệ</a></p>
                     <p><a href="index.php?act=chinhsach">Chính sách vận chuyển</a></p>
                     <p>Câu hỏi thường gặp</p>
                     <p>Hình thức thanh toán</p>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="footer-4">
                     <h4>SHOP HOA FLOWERCORNER</h4>
-                    <p>Cửa hàng chính:: 142 Nguyễn Văn Cừ, Phường Nguyễn Cư Trinh, Quận 1, TP.HCM</p>
+                    <p>Cửa hàng chính: 142 Nguyễn Văn Cừ, Phường Nguyễn Cư Trinh, Quận 1, TP.HCM</p>
                     <p>Cửa Hàng TP.HCM: 225/3 Nguyễn Đình Chiểu, Phường 5, Quận 3, TP.HCM</p>
                     <p>Chi nhánh Hà Nội: 65 Trần Phú, Ba Đình, Hà Nội</p>
                     <p>CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ ZAS</p>

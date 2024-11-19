@@ -3,6 +3,7 @@ require_once "../controller/productController.php";
 require_once "../controller/danhmuc.php";
 require_once "../controller/taikhoanController.php";
 require_once "../controller/CategoryController.php";
+require_once "../controller/bannerController.php";
 
 require_once "admin/header.php";
 
@@ -24,6 +25,10 @@ if (isset($_GET['act'])) {
         case 'deleteVariant':
             $product = new ProductController();
             $product->deleteVariant();
+            break;
+        case 'updateVariant':
+            $product = new ProductController();
+            $product->updateVariant();
             break;
         case 'listVariant':
             $product = new ProductController();
@@ -71,8 +76,25 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->updateTaikhoan();
             break;
-////////////////////////////////////////
-            
+        case 'addBanner':
+            $banner = new BannerController();
+            $banner->addBanner();
+            break;
+        case 'listBanner':
+            $banner = new BannerController();
+            $banner->listBanner();
+            break;
+        case 'editBanner':
+            $banner = new BannerController();
+            $banner->updateBanner();
+            break;
+        case 'deleteBanner':
+            $banner = new BannerController();
+            $banner->deleteBanner();
+            break;
+
+        ////////////////////////////////////////
+
 
 
     }
