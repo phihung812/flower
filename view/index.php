@@ -83,8 +83,6 @@ if (isset($_GET['act'])) {
                 $controller->getStatistics();
                 
                 break;
-
-////////////////////////////////////////
             
 
 
