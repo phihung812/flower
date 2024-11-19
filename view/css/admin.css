@@ -271,6 +271,10 @@ td {
     flex-direction: column;
     margin-bottom: 15px;
 }
+.form-group-register select {
+    height: 40px;
+}
+    
 
 .form-group-register label {
     margin-bottom: 5px;

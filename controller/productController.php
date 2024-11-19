@@ -3,6 +3,8 @@ include_once(__DIR__ . '/../model/product.php');
 include_once(__DIR__ . '/../model/danhmuc.php');
 include_once(__DIR__ . '/../model/cart.php');
 include_once(__DIR__ . '/../model/init.php');
+include_once(__DIR__ . '/../model/banner.php');
+
 
 
 class ProductController
@@ -123,6 +125,10 @@ class ProductController
         $product = new Product();
         $listProductNew = $product->productNew();
         $listProducBirth = $product->productBirthday();
+        $mBanner = new Banner();
+        $bannerArray = $mBanner->imgBanner();
+        $banner = json_encode($bannerArray);
+
         require_once "./view/client/home.php";
     }
 
@@ -490,6 +496,28 @@ class ProductController
         $listVariant = $mProduct->listVariant();
         require_once "../view/admin/sanpham/listVariant.php";
     }
+    public function updateVariant()
+    {
+        if (isset($_GET['idVariant'])) {
+            $idVariant = $_GET['idVariant'];
+            $mProduct = new Product();
+            $variant = $mProduct->getVariantById($idVariant);
+            if (isset($_POST['submit-updateVariant'])) {
+                $product_id = $_POST['product_id'];
+                $size = $_POST['size'];
+                $price = $_POST['price'];
+                $stock_quantity = $_POST['stock_quantity'];
+
+                $updateVariant = $mProduct->updateVariant($product_id, $size, $price, $stock_quantity, $idVariant);
+                if (!$updateVariant) {
+                    $thongbao = "Cập nhật thành công!";
+                }
+            }
+        }
+        require_once "../view/admin/sanpham/editVariant.php";
+
+    }
+
     public function deleteVariant()
     {
         if (isset($_GET['idVariant'])) {

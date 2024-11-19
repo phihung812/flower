@@ -466,23 +466,28 @@ footer {
     border: 0.5px solid #c5c2c2;
     border-radius: 5px;
 }
-.quantyti h3{
+
+.quantyti h3 {
     font-size: 18px;
     color: #494747;
 }
+
 .variant {
     margin-left: 50px;
 }
-.variant select{
+
+.variant select {
     width: 180px;
     height: 35px;
     border: 0.5px solid rgb(211, 210, 210);
     border-radius: 4px;
 }
-.variant h3{
+
+.variant h3 {
     font-size: 18px;
-    color: #494747; 
+    color: #494747;
 }
+
 .btn-cart {
     display: flex;
     flex-wrap: wrap;
@@ -561,24 +566,28 @@ p {
 }
 
 /*  */
-.table-cart{
+.table-cart {
     border-collapse: collapse;
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
     border: #edeaea;
     margin-top: 50px;
 }
-.table-cart tr td img{
+
+.table-cart tr td img {
     width: 50px;
     height: 60px;
-    
-    
+
+
 }
-.table-cart tr th, td{
+
+.table-cart tr th,
+td {
     padding-left: 10px;
     color: #424242;
 }
-.submit-cart{
+
+.submit-cart {
     width: 130px;
     height: 45px;
     border: none;
@@ -589,10 +598,12 @@ p {
     margin-top: 30px;
     margin-left: 1070px;
 }
-.submit-cart:hover{
+
+.submit-cart:hover {
     box-shadow: 0px 0px 5px 5px pink;
 }
-.img-cart{
+
+.img-cart {
     margin-left: 50px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -610,7 +621,7 @@ p {
 .submenu {
     margin-top: 10px;
     width: 270px;
-    height: 60px;
+    height: auto;
     border: 0.5px solid rgb(217, 215, 215);
     border-radius: 4px;
     display: none !important;
@@ -633,7 +644,8 @@ li:focus-within .submenu {
     height: 30px;
     padding-top: 10px;
 }
-.submenu li:hover{
+
+.submenu li:hover {
     background-color: #eeecec;
 }
 
@@ -757,9 +769,10 @@ a {
     font-size: 16px;
 }
 
-.form-register{
+.form-register {
     background-color: white;
 }
+
 .form-register form button {
     width: 100%;
     padding: 10px;
@@ -822,130 +835,161 @@ button:hover {
 
 }
 
-.gioithieu{
+.gioithieu {
     width: 1200px;
-  
-    justify-content: flex-end; 
+
+    justify-content: flex-end;
 }
-.anhgioithieu{
+
+.anhgioithieu {
     margin-left: 30%;
-    
+
 }
-.gioithieu p{
-    font-family:Montserrat, sans-serif; 
+
+.gioithieu p {
+    font-family: Montserrat, sans-serif;
     color: #5a5757;
     text-align: justify;
 }
+
 /* Đảm bảo form nằm ngang */
 .frm-qtt {
     display: flex;
-    align-items: center; /* Căn giữa theo chiều dọc */
-    gap: 10px; /* Khoảng cách giữa các phần tử */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    gap: 10px;
+    /* Khoảng cách giữa các phần tử */
 }
 
 /* Định dạng input */
 .quantity-cartItem {
-    width: 25px; /* Chiều rộng của input */
+    width: 25px;
+    /* Chiều rộng của input */
     height: 25px;
-    padding: 5px; /* Khoảng cách bên trong */
-    font-size: 14px; /* Kích thước chữ */
+    padding: 5px;
+    /* Khoảng cách bên trong */
+    font-size: 14px;
+    /* Kích thước chữ */
 }
 
 /* Định dạng nút delete */
 .btn-deleteCartItem {
-    display: flex; /* Hiển thị flex để căn giữa icon */
-    justify-content: center; /* Căn giữa icon theo chiều ngang */
-    align-items: center; /* Căn giữa icon theo chiều dọc */
-    width: 37px; /* Chiều rộng nút */
-    height: 37px; /* Chiều cao nút */
-    background-color: red; /* Màu nền nút */
-    color: white; /* Màu biểu tượng */
-    border-radius: 5px; /* Bo góc */
-    text-decoration: none; /* Bỏ gạch chân */
+    display: flex;
+    /* Hiển thị flex để căn giữa icon */
+    justify-content: center;
+    /* Căn giữa icon theo chiều ngang */
+    align-items: center;
+    /* Căn giữa icon theo chiều dọc */
+    width: 37px;
+    /* Chiều rộng nút */
+    height: 37px;
+    /* Chiều cao nút */
+    background-color: red;
+    /* Màu nền nút */
+    color: white;
+    /* Màu biểu tượng */
+    border-radius: 5px;
+    /* Bo góc */
+    text-decoration: none;
+    /* Bỏ gạch chân */
 }
 
 .btn-deleteCartItem:hover {
-    background-color: darkred; /* Đổi màu khi hover */
+    background-color: darkred;
+    /* Đổi màu khi hover */
 }
 
 
 /* account */
-.account{
+.account {
     width: 100%;
     height: auto;
     display: flex;
     justify-content: space-between;
 }
-.myaccount{
+
+.myaccount {
     width: 75%;
-    font-family: Arial, Helvetica, sans-serif;  
+    font-family: Arial, Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
 }
-.myaccount h2{
+
+.myaccount h2 {
     text-align: left;
     font-weight: 500;
     font-size: 29px;
 }
-.myaccount a{
+
+.myaccount a {
     margin-top: 0;
     color: #ea0d0d;
     font-weight: 100;
     font-size: 15px;
 }
-.myaccount a:hover{
+
+.myaccount a:hover {
     color: blue;
 }
+
 /*  */
 /*  */
-.repass{
+.repass {
     width: 75%;
     margin-top: -20px;
     font-family: Arial, Helvetica, sans-serif;
 }
-.title-repass{
+
+.title-repass {
     width: 100%;
     height: 70px;
     border-bottom: 0.5px solid #d3d1d1;
 }
-.title-repass h1{
+
+.title-repass h1 {
     color: #333232;
     font-size: 30px;
     font-weight: 500;
     margin-top: 0;
 }
 
-.title-repass p{
+.title-repass p {
     color: #666565;
     font-size: 16px;
     font-weight: 500;
     margin-top: -10px;
 }
-.frm-repass{
+
+.frm-repass {
     width: 100%;
     height: 200px;
     margin-top: 30px;
 }
-.ipt-repass{
+
+.ipt-repass {
     text-align: right;
 }
-.ipt-repass label{
+
+.ipt-repass label {
     margin-right: 10px;
     font-weight: 500;
     color: #403e3e;
 }
-.ipt-repass span{
+
+.ipt-repass span {
     font-size: 20px;
     color: red;
 }
-.ipt-repass input{
+
+.ipt-repass input {
     width: 650px;
     height: 37px;
     margin-bottom: 20px;
     border: 0.5px solid #888;
     border-radius: 5px;
 }
-.frm-repass button{
+
+.frm-repass button {
     width: 110px;
     height: 40px;
     border-radius: 5px;
@@ -962,8 +1006,12 @@ button:hover {
 
 
 .small-toast {
-    font-size: 8px;  /* Giảm kích thước chữ */
-    padding: 2px 4px; /* Điều chỉnh padding để thông báo nhỏ hơn */
-    width: auto; /* Để thông báo tự động điều chỉnh kích thước */
-    min-width: 150px; /* Đảm bảo thông báo không quá nhỏ */
+    font-size: 8px;
+    /* Giảm kích thước chữ */
+    padding: 2px 4px;
+    /* Điều chỉnh padding để thông báo nhỏ hơn */
+    width: auto;
+    /* Để thông báo tự động điều chỉnh kích thước */
+    min-width: 150px;
+    /* Đảm bảo thông báo không quá nhỏ */
 }
