@@ -1002,6 +1002,233 @@ button:hover {
 }
 
 
+/* thanh toán css */
+/* Thanh toán */
+.payment {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.inforcustomer {
+    width: 55%;
+    height: auto;
+    margin-right: 60px;
+}
+
+.inforcustomer button {
+    width: 120px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    background-color: rgb(249, 112, 164);
+    margin-top: 30px;
+    margin-left: 530px;
+}
+
+.titleinforcustomer {
+    width: 100%;
+    height: 30px;
+    border-bottom: 0.5px solid #888;
+}
+
+.titleinforcustomer p {
+    font-size: 21px;
+    color: #4f4f4f;
+}
+
+.row1 {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.row1 span {
+    font-size: 20px;
+    color: red;
+    margin-right: 5px;
+}
+
+.row1 label {
+    color: #515151;
+    font-weight: 600;
+}
+
+.row1 input {
+    width: 310px;
+    height: 35px;
+    margin-top: 10px;
+    border: 0.5px solid rgb(207, 205, 205);
+    border-radius: 3px;
+}
+
+.row1 .ipt-phone {
+    margin-left: 20px;
+}
+
+.row2 {
+    margin-top: 20px;
+}
+
+.row2 textarea {
+    border: 0.5px solid rgb(222, 220, 220);
+    border-radius: 3px;
+}
+
+.row2 span {
+    font-size: 20px;
+    color: red;
+    margin-right: 5px;
+}
+
+.row2 label {
+    color: #515151;
+    font-weight: 600;
+}
+
+.row2 input {
+    width: 645px;
+    height: 35px;
+    margin-top: 10px;
+    border: 0.5px solid rgb(207, 205, 205);
+    border-radius: 3px;
+}
+.row2 select{
+    width: 650px;
+    height: 35px;
+    border: 0.5px solid rgb(204, 203, 203);
+    border-radius: 3px;
+    margin-top: 10px;
+}
+.row2 textarea{
+    border: 0.5px solid rgb(222, 220, 220);
+    border-radius: 3px;
+}
+/* Lịch sử đơn hàng */
+
+.infororder {
+    width: 40%;
+    height: 500px;
+}
+
+.titleinfororder {
+    width: 100%;
+    height: 30px;
+    border-bottom: 0.5px solid #888;
+}
+
+.titleinfororder p {
+    font-size: 21px;
+    color: #4f4f4f;
+}
+
+.infororder table {
+    width: 100%;
+    height: auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: rgb(209, 206, 206);
+}
+
+.infororder table tr th {
+    color: #474747;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.infororder table tr td {
+    color: #474747;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.border-img {
+    width: 60px;
+    height: 60px;
+    border: 0.5px solid rgb(215, 213, 213);
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.history-order{
+    width: 80%;
+    height: auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.title-history-order{
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid rgb(211, 210, 210);
+}
+.title-history-order p{
+    font-size: 28px;
+    color: #353434;
+    text-shadow: 1px 1px rgb(228, 228, 228);
+}
+.history-order table{
+    width: 100%;
+    border-collapse: collapse;
+    border: rgb(220, 217, 217);
+    margin-top: 30px;
+}
+.history-order table .thead td{
+    font-weight: 600;
+    color: #515050;
+    height: 35px;
+
+}
+.history-order table .tbody td{
+    color: #515050;
+    height: 50px;
+    
+}
+.history-order table .tbody .thaotac a .btn-ctdh{
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: rgb(250, 94, 167);
+    border-radius: 6px;
+}
+.history-order table .tbody .thaotac a .btn-ctdh:hover{
+    background-color: green;
+}
+.history-order table .tbody .thaotac button{
+    width: 70px;
+    height: 35px;
+    border: none;
+    background-color: rgb(199, 60, 60);
+    color: white;
+    border-radius: 6px;
+}
+/* chi tiết đơn hàng */
+
+.table-detail-order tr td span{
+    font-weight: 600;
+    color: #403e3e;
+
+}
+.table-detail-order tr td label{
+    color: #525151;
+
+}
+.khunganh{
+    width: 55px;
+    height: 55px;
+    border: 1px solid rgb(204, 200, 200);
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
 
 
 

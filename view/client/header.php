@@ -45,6 +45,7 @@
                         <?php } else { ?>
                             <ul class="submenu">
                                 <li><a href="index.php?act=register">Đăng ký</a></li>
+                                <li><a href="index.php?act=myAccount&check=historyOrder">Lịch sử đơn hàng</a></li>
                                 <li><a href="index.php?act=login">Đăng nhập</a></li>
                             </ul>
                         <?php } ?>

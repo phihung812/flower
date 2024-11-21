@@ -8,7 +8,44 @@
     <link rel="stylesheet" href="./css/admin.css">
 </head>
 <style>
-    
+    .link-item {
+        position: relative;
+    }
+
+    /* Định dạng cho menu con, ban đầu ẩn đi */
+    .submenu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #333;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    /* Hiển thị menu con khi di chuột vào mục có submenu */
+    .link-item:hover .submenu {
+        display: block;
+    }
+
+    /* Định dạng cho các mục con */
+    .submenu li {
+        padding: 10px 20px;
+    }
+
+    .submenu li a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+    }
+
+    .submenu li a:hover {
+        background-color: #555;
+    }
 </style>
 <body>
     <div class="container">
@@ -50,12 +87,16 @@
                 </a>
             </li>
             <li class="link-item">
-                <a href="index.php?act=Statistical" class="link">
+                <a href="#" class="link">
                     <span class="icon">&#128202;</span> Thống Kê
                 </a>
+                <ul class="submenu">
+                    <li><a href="index.php?act=categoryStatisticsView">Danh Mục</a></li>
+                    <li><a href="index.php?act=ProductStatisticView">Sản Phẩm</a></li>
+                </ul>
             </li>
             <li class="link-item">
-                <a href="index.php?act=Order" class="link">
+                <a href="index.php?act=order" class="link">
                     <span class="icon">&#128202;</span> Đơn Hàng
                 </a>
             </li>

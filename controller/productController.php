@@ -146,7 +146,7 @@ class ProductController
             $category_id = $sanphamchitiet->category_id;
             $productRelate = $mProduct->productRelate($category_id, $idPro);
         }
-        // TH thêm giỏ hàng khi đã đăng nhập
+        // TH thêm giỏ hàng khi đã đăng nhập và chưa đăng nhập
         if (isset($_SESSION['user']) && $_SESSION['user']) {
             if (isset($_POST['submit-addCart']) && isset($_GET['idPro'])) {
                 // lấy thông tin sản phẩm

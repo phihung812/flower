@@ -4,6 +4,8 @@ require_once "controller/danhmuc.php";
 require_once "controller/productController.php";
 require_once "controller/taikhoanController.php";
 require_once "controller/cartController.php";
+require_once "controller/orderController.php";
+
 
 $danhmuc = new danhmucController();
 $menuDanhmuc = $danhmuc->list_menu();
@@ -47,8 +49,12 @@ if (isset($_GET['act'])) {
             $cart->deleteCartItem();
             break;
         case 'myAccount':
-            $taikhoan= new TaikhoanController;
+            $taikhoan = new TaikhoanController;
             $taikhoan->myAccount();
+            break;
+        case 'payment':
+            $thanhtoan = new OrderController();
+            $thanhtoan->createOrder();
             break;
 
         case 'logout':

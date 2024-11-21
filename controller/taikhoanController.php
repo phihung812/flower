@@ -220,6 +220,7 @@ class TaikhoanController
         }
         require_once "./view/client/rePassAccount.php";
     }
+    
 
 
 }
