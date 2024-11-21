@@ -1,4 +1,25 @@
-<main>
+
+<style>
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.star-rating span {
+  font-size: 2rem;
+  color: #ccc; /* Màu mặc định (xám) */
+  transition: color 0.2s;
+}
+.star-rating span.active {
+  color: #ffc107; /* Màu vàng khi chọn */
+}
+#rating-input {
+  border: none; /* Bỏ khung viền */
+  outline: none; /* Bỏ viền xanh khi nhấp vào */
+}
+    </style><main>
 
     <div class="cart">
         <div class="product-infor-cart">
@@ -80,7 +101,85 @@
         <div class="binhluan">
             <h2>đánh giá sản phẩm</h2>
 
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+<?php 
+    $userMap = [];
+      foreach ($taikhoan as $tk) {
+        $userMap[$tk->id] = $tk;
+          }
 
+foreach ($listbl as $bl) {
+ 
+    if (isset($userMap[$bl->user_id])) {
+        $tk = $userMap[$bl->user_id];
+        echo " <p>{$tk->last_name} : {$bl->comment}  {$bl->created_at} </p><p>đánh giá :{$bl->rating}sao</p><br>";     
+    } else {
+        echo "<p>Người ẩn danh : {$bl->comment}  {$bl->created_at}</p></p><p>đánh giá :{$bl->rating}sao</p><br>";
+    }
+}
+?>
+
+
+
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+    
+<!-- đánh giá and bình luận -->
+<?php if(isset($_SESSION['user'])) {?>
+     <?php
+     $user=$_SESSION['user'];  
+     ?> 
+<?php 
+$hasDisplayed = false; // Biến cờ để kiểm tra form đã hiển thị hay chưa
+
+foreach ($thanhtien as $t) {
+    if ($sanphamchitiet->id == $t->product_id && !$hasDisplayed) {
+        $hasDisplayed = true; // Đánh dấu là đã hiển thị form
+?>
+<form class="fombl" action="" method="post"> 
+  <div class="star-rating">
+    <span data-value="5">☆</span>
+    <span data-value="4">☆</span>
+    <span data-value="3">☆</span>
+    <span data-value="2">☆</span>
+    <span data-value="1">☆</span>
+  </div>
+      đánh giá  <input type="text" id="rating-input" name="sao" value="0"> 
+        <input type="hidden" value="<?php echo $user->id ?>" name="user_id">      
+        <input type="hidden" value="<?php echo $sanphamchitiet->id?>" name="idsp">    
+        <input type="text" name="noidungbl">
+        <button name="submit-binhluan">Gửi</button>
+</form>
+<?php 
+    }
+}?>
+
+<?php }else{?>
+    <?php 
+$hasDisplayed = false; 
+foreach ($thanhtien as $t) {
+    if ($sanphamchitiet->id == $t->product_id && !$hasDisplayed) {
+        $hasDisplayed = true; ?>
+    <form class="fombl" action="" method="post"> 
+        <div class="star-rating">
+            <span data-value="5">☆</span>
+            <span data-value="4">☆</span>
+            <span data-value="3">☆</span>
+            <span data-value="2">☆</span>
+           <span data-value="1">☆</span>
+        </div>
+       đánh giá     <input type="text" id="rating-input" name="sao" value="0">      
+            <input type="hidden" value="<?php echo $sanphamchitiet->id?>" name="idsp">    
+            <input type="text" name="noidungbl">
+            <button name="submit-binhluan">Gửi</button>
+    </form>
+<?php 
+    }
+}?>
+
+    <?php }?>
+
+<!-- //////////////////////////////////////////////////////////////////////////// -->
+              
 
 
 
@@ -118,4 +217,31 @@
 
     // Gọi updatePrice() khi trang được load để cập nhật giá ban đầu
     document.addEventListener('DOMContentLoaded', updatePrice);
+
+
+      // Lấy tất cả các ngôi sao
+const stars = document.querySelectorAll('.star-rating span');
+const ratingInput = document.getElementById('rating-input');
+let selectedRating = 0; // Giá trị sao đã chọn
+
+stars.forEach(star => {
+  // Xử lý sự kiện click
+  star.addEventListener('click', () => {
+    selectedRating = parseInt(star.getAttribute('data-value')); // Lấy giá trị sao
+    updateStars(); // Cập nhật giao diện ngôi sao
+    ratingInput.value = selectedRating; // Gán giá trị vào input
+    console.log(`Đánh giá: ${ratingInput.value} sao`); // Log giá trị để kiểm tra
+  });
+});
+
+// Cập nhật trạng thái của các ngôi sao
+function updateStars() {
+  stars.forEach(star => {
+    if (parseInt(star.getAttribute('data-value')) <= selectedRating) {
+      star.classList.add('active'); // Làm sáng các sao được chọn
+    } else {
+      star.classList.remove('active'); // Bỏ sáng các sao không được chọn
+    }
+  });
+}
 </script>

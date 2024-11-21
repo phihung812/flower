@@ -23,20 +23,25 @@ class binhluan
     $this->connect->setQuery($sql);
     return $this->connect->loadData([$product_id]);
   }
-  public function Insert_binhluan($id, $product_id, $user_id, $rating, $comment, $created_at, $updated_at){
-    $sql="INSERT INTO `productreview` VALUES (?,?,?,?,?,?,?)";
+  public function Insert_binhluan1($id, $product_id, $user_id, $rating, $comment){
+    $sql="INSERT INTO `productreview` (id,product_id,user_id,rating,comment) VALUES (?,?,?,?,?)";
     $this->connect->setQuery($sql);
-    return $this->connect->execute([$id, $product_id, $user_id, $rating, $comment, $created_at, $updated_at]);
+    return $this->connect->execute([$id, $product_id, $user_id, $rating, $comment]);
+  }
+
+  public function Insert_binhluan2($id, $product_id, $rating, $comment){
+    $sql="INSERT INTO `productreview` (id,product_id,rating,comment) VALUES (?,?,?,?)";
+    $this->connect->setQuery($sql);
+    return $this->connect->execute([$id, $product_id,  $rating, $comment]);
   }
   public function delete_binhluan($id){
     $sql = "DELETE FROM `productreview` WHERE id = ?";
     $this->connect->setQuery($sql);
     return $this->connect->loadData([$id], false);
   }
-
-  
-
 }
+
+
 
 
 

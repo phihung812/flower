@@ -6,6 +6,7 @@ require_once "../controller/CategoryController.php";
 require_once "../controller/bannerController.php";
 require_once "../controller/orderController.php";
 require_once "../controller/ProductStatisticController.php";
+require_once "../controller/binhluan.php";
 
 require_once "admin/header.php";
 
@@ -117,6 +118,16 @@ if (isset($_GET['act'])) {
 
             break;
         ////////////////////////////////////////
+        ////////////////////////////////////////
+
+        case 'binhluan':
+            $controller = new binhluancontronler();
+            $controller->binhluan();
+            break;
+        case 'delete_bl':
+            $controller = new binhluancontronler();
+            $controller->delete();
+             break;
 
 
 
