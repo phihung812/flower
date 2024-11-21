@@ -1,7 +1,7 @@
 <div class="main-content">
     <div class="welcome_admin">Danh Sách Biến Thể</div>
 
-        <table class="listPro">
+        <table border="1" class="listPro">
             <tr class="thead">
                 <th>Mã biến thể</th>
                 <th>ID sản phẩm</th>

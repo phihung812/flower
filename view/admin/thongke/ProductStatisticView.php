@@ -9,7 +9,7 @@
 <body>
 <div class="main-content">
     <h1>Thống Kê Sản Phẩm</h1>
-    <table class="table_danhmuc">
+    <table border="1" class="table_danhmuc">
         <thead class="thead">
             <tr>
                 <th>Mã sản phẩm</th>

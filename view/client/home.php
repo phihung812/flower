@@ -31,7 +31,7 @@
                     <div class="button-buynow">
 
 
-                        <a href="">Xem chi tiết</a>
+                        <a href="<?php echo $linkPro ?>">Xem chi tiết</a>
 
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                         <?php echo number_format($productBirth->base_price, 0, ',', '.') ?> VND
                     </p>
                     <div class="button-buynow">
-                        <a href="">Xem chi tiết</a>
+                        <a href="index.php?act=sanphamchitiet&idPro=<?php echo $productBirth->id ?>">Xem chi tiết</a>
                     </div>
                 </div>
             </a>

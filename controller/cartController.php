@@ -49,13 +49,11 @@ class CartController
         $total_items = 0;
         $total_price = 0;
         // Kiểm tra xem giỏ hàng có tồn tại không
-        
         $cartToken = $mInit->cartToken(); 
         $cart = $mCart->checkCart($cartToken, $idUser);
         if (!$cart) {
             // Nếu giỏ hàng chưa tồn tại, tạo mới
             $createCart =  $mCart->createCart(null, $idUser, $cartToken, $total_items, $total_price);  
-            // $_SESSION['cart_id'] = $createCart;
             setcookie('cart_id', $createCart, time() + (30 * 24 * 60 * 60), '/');
         }     
     }

@@ -53,7 +53,7 @@
             </tr>
         </table>
 
-        <a href="">
+        <a href="index.php?act=payment">
             <button class="submit-cart">Thanh toán</button>
         </a>
     <?php } else { ?>

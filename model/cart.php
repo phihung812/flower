@@ -128,6 +128,21 @@ class Cart
         $this->connect->setQuery($sql);
         return $this->connect->execute([$cartItemId]);
     }
+    public function deleteCartItembyCartId($cart_id)
+    {
+        $sql = "DELETE FROM cartitem WHERE cart_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->execute([$cart_id]);
+    }
+    public function getCartItemsByCartId($cart_id)
+    {
+        $sql = "SELECT * FROM `cartitem` WHERE cart_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$cart_id], true); // Lấy danh sách sản phẩm trong giỏ hàng
+    }
+
+
+
 
 
 
