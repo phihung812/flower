@@ -78,6 +78,7 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->updateTaikhoan();
             break;
+
         case 'addBanner':
             $banner = new BannerController();
             $banner->addBanner();
