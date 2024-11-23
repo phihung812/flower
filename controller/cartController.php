@@ -48,8 +48,8 @@ class CartController
         $idUser =  isset($_SESSION['user']->id)?$_SESSION['user']->id:null;
         $total_items = 0;
         $total_price = 0;
-        // Kiểm tra xem giỏ hàng có tồn tại không
         $cartToken = $mInit->cartToken(); 
+        // Kiểm tra xem giỏ hàng có tồn tại không
         $cart = $mCart->checkCart($cartToken, $idUser);
         if (!$cart) {
             // Nếu giỏ hàng chưa tồn tại, tạo mới

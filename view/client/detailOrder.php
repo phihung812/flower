@@ -89,5 +89,8 @@
             <?php } ?>
         </tr>
     </table>
+    <a class="btn-cart" href="index.php?act=myAccount&check=historyOrder">
+        <button style="margin-left: 810px; margin-right: 0;">Lịch sử đặt hàng</button>
+    </a>
 
 </div>
