@@ -57,7 +57,12 @@ if (isset($_GET['act'])) {
             $thanhtoan = new OrderController();
             $thanhtoan->createOrder();
             break;
-
+        case 'thanhcong':
+            if (isset($_GET['method']) && $_GET['method'] === 'handlePaymentCallback') {
+                $mOrder = new OrderController();
+                $mOrder->handlePaymentCallback();
+            } 
+            break;
         case 'logout':
             session_unset();
             header('location:index.php?act=login');

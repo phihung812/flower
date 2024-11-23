@@ -54,7 +54,7 @@ class Product
     }
     public function productBirthday()
     {
-        $sql = "SELECT * FROM `product` WHERE category_id =19  LIMIT 19";
+        $sql = "SELECT * FROM `product` WHERE category_id =19  LIMIT 9";
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
     }

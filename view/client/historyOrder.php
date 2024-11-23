@@ -21,10 +21,13 @@
                     <td><?php echo $order->total_price ?></td>
                     <td><?php echo $order->status ?></td>
                     <td><?php echo $order->created_at ?></td>
-                    <td class="thaotac">
-                        <a href="index.php?act=myAccount&check=cancleOrder&order_id=<?php echo $order->id ?>">
-                            <button>Hủy đơn</button>
-                        </a>
+                    <td class="thaotac" style="text-align:center;">
+                        <?php if ($order->status != 'delivered' && $order->status != 'canceled') { ?>
+                            <a href="index.php?act=myAccount&check=cancleOrder&order_id=<?php echo $order->id ?>">
+                                <button>Hủy đơn</button>
+                            </a>
+                        <?php } else ?>
+
                         <a href="index.php?act=myAccount&check=detailOrder&order_id=<?php echo $order->id ?>">
                             <button class="btn-ctdh"><i class="fa-regular fa-eye"></i></button>
                         </a>

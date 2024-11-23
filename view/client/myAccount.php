@@ -38,28 +38,27 @@ require_once "./controller/orderController.php";
                     của bạn</a>
                 <a href="index.php?act=myAccount&check=rePassAccount" style="margin-top: 4px;">Thay đổi mật khẩu của bạn</a>
                 <h2 style="margin-top: 20px;">Đơn đặt hàng của tôi</h2>
-                <a href="index.php?act=myAccount&check=historyOrder" style="margin-top: -10px;">Xem lịch sử đặt hàng của
-                    bạn</a>
+                <a href="index.php?act=myAccount&check=historyOrder" style="margin-top: -10px;">Xem lịch sử đặt hàng của bạn</a>
             </div>
         <?php } ?>
-
-        <div class="group-login">
-            <div class="item-login">
-                <a href="index.php?act=myAccount">Tài khoản của tôi</a>
+        <?php if (isset($_SESSION['user']) && $_SESSION['user']) { ?>
+            <div class="group-login">
+                <div class="item-login">
+                    <a href="index.php?act=myAccount">Tài khoản của tôi</a>
+                </div>
+                <div class="item-login">
+                    <a href="index.php?act=myAccount&check=editAccount">Chỉnh sửa tài khoản</a>
+                </div>
+                <div class="item-login">
+                    <a href="index.php?act=myAccount&check=rePassAccount">Mật khẩu</a>
+                </div>
+                <div class="item-login">
+                    <a href="index.php?act=myAccount&check=historyOrder">Lịch sử đơn hàng</a>
+                </div>
+                <div class="item-login">
+                    <a href="index.php?act=logout">Đăng xuất</a>
+                </div>
             </div>
-            <div class="item-login">
-                <a href="index.php?act=myAccount&check=editAccount">Chỉnh sửa tài khoản</a>
-            </div>
-            <div class="item-login">
-                <a href="index.php?act=myAccount&check=rePassAccount">Mật khẩu</a>
-            </div>
-            <div class="item-login">
-                <a href="index.php?act=myAccount&check=historyOrder">Lịch sử đơn hàng</a>
-            </div>
-            <div class="item-login">
-                <a href="index.php?act=logout">Đăng xuất</a>
-            </div>
-
-        </div>
+        <?php } ?>
     </div>
 </main>

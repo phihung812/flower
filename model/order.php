@@ -77,7 +77,7 @@ class Order
     {
         $sql = "SELECT * FROM `orders` WHERE id = ?";
         $this->connect->setQuery($sql);
-        return $this->connect->loadData([$id],false);
+        return $this->connect->loadData([$id], false);
     }
     public function getAllOrder()
     {
@@ -94,6 +94,25 @@ class Order
             ";
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
+    }
+
+    public function updateOrderStatus($status, $id)
+    {
+        $sql = "UPDATE `orders` SET `status`=? WHERE id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$status, $id]);
+    }
+    public function updatePaymentStatus($payment_status, $id)
+    {
+        $sql = "UPDATE `payment` SET `payment_status`=? WHERE id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$payment_status, $id]);
+    }
+    public function getPaymentByOrderId( $id)
+    {
+        $sql = "SELECT * FROM `payment` WHERE order_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$id],false);
     }
     
 }
