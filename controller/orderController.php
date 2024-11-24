@@ -32,21 +32,21 @@ class OrderController
 
 
 
-    public function inforOrder()
-    {
-        $mTaikhoan = new Taikhoan();
-        $mOrder = new Order();
-        $mCart = new Cart();
-        $user_id = isset($_SESSION['user']) ? $_SESSION['user']->id : null;
-        $user = $mTaikhoan->getTaikhoanById($user_id);
+    // public function inforOrder()
+    // {
+    //     $mTaikhoan = new Taikhoan();
+    //     $mOrder = new Order();
+    //     $mCart = new Cart();
+    //     $user_id = isset($_SESSION['user']) ? $_SESSION['user']->id : null;
+    //     $user = $mTaikhoan->getTaikhoanById($user_id);
 
-        $cart = $mCart->getCartIdByUserId($user_id);
-        $cart_id = $cart->id;
-        $cartItem = $mCart->getCartItems($cart_id);
-        $cartAll = $mCart->getCart($cart_id);
+    //     $cart = $mCart->getCartIdByUserId($user_id);
+    //     $cart_id = $cart->id;
+    //     $cartItem = $mCart->getCartItems($cart_id);
+    //     $cartAll = $mCart->getCart($cart_id);
 
-        require_once "./view/client/payment.php";
-    }
+    //     require_once "./view/client/payment.php";
+    // }
     public function handlePaymentCallback()
     {
         $mOrder = new Order();
@@ -158,7 +158,7 @@ class OrderController
                 $payment_status = 'pending';
                 $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
 
-                header('location: ' . $jsonResult['payUrl']);
+                header('Location: ' . $jsonResult['payUrl']);
 
             } else { //TH thanh toán COD
                 $status = 'pending';
@@ -225,9 +225,12 @@ class OrderController
             $order = $mOrder->getOrderById($order_id);
             $status_order = $order->status;
             $payment = $mOrder->getPaymentByOrderId($order_id);
+            $payment_id = $payment->id;
             $payment_status = $payment->payment_status;
             if ($status_order == 'pending' && $payment_status !== 'completed') {
                 $cancle = $mOrder->cancleOrder($status, $order_id);
+                $status_payment = 'failed';
+                $mOrder->canclePayment($status_payment, $payment_id);
                 if (!$cancle) {
                     echo '<script type="text/javascript">
                                 Swal.fire({

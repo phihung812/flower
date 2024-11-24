@@ -41,6 +41,14 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->login();
             break;
+        case 'forgotPassword':
+            $taikhoan = new TaikhoanController();
+            $taikhoan->forgotPassword();
+            break;
+        case 'confirmPassword':
+            $taikhoan = new TaikhoanController();
+            $taikhoan->confirmPassword();
+            break;
         case 'cart':
             $cart = new CartController();
             $cart->listCart();
@@ -49,6 +57,11 @@ if (isset($_GET['act'])) {
             $cart = new CartController();
             $cart->deleteCartItem();
             break;
+        case 'updateCartItem':
+            $cart = new CartController();
+            $cart->updateCartItemClick();
+            break;
+
         case 'myAccount':
             $taikhoan = new TaikhoanController;
             $taikhoan->myAccount();
@@ -61,7 +74,7 @@ if (isset($_GET['act'])) {
             if (isset($_GET['method']) && $_GET['method'] === 'handlePaymentCallback') {
                 $mOrder = new OrderController();
                 $mOrder->handlePaymentCallback();
-            } 
+            }
             break;
         case 'logout':
             session_unset();

@@ -14,11 +14,11 @@ class Cart
         $this->connect->execute([$id, $user_id, $session_token, $total_items, $total_price]);
         return $this->connect->lastInsertId();
     }
-    public function checkCart($cartToken, $userId)
+    public function checkCart($cartToken)
     {
-        $sql = "SELECT * FROM cart WHERE session_token = ? OR user_id = ?";
+        $sql = "SELECT * FROM cart WHERE session_token = ? ";
         $this->connect->setQuery($sql);
-        return $this->connect->loadData([$cartToken, $userId], false);
+        return $this->connect->loadData([$cartToken], false);
     }
     public function getCartIdByUserId($user_id)
     {
@@ -38,6 +38,7 @@ class Cart
         $sql = "SELECT 
                 p.main_image, 
                 p.name, 
+                p.id AS product_id,
                 p.sku, 
                 ci.quantity, 
                 ci.total_price,
@@ -66,18 +67,18 @@ class Cart
     }
 
     // kiểm tra sản phẩm có trong giỏ hàng chưa
-    public function checkCartItem($cart_id, $variant_id)
+    public function checkCartItem($cart_id, $variant_id , $product_id )
     {
-        $sqlCheck = "SELECT * FROM cartitem WHERE cart_id = ? AND variant_id = ?";
+        $sqlCheck = "SELECT * FROM cartitem WHERE cart_id = ? AND (variant_id = ? OR (variant_id IS NULL AND product_id = ?))";
         $this->connect->setQuery($sqlCheck);
-        return $this->connect->loadData([$cart_id, $variant_id], false);
+        return $this->connect->loadData([$cart_id, $variant_id, $product_id ], false);
     }
     // cập nhật item trong giỏ hàng
-    public function updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id)
+    public function updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id, $product_id)
     {
-        $sqlUpdate = "UPDATE cartitem SET quantity = ?, total_price = ? WHERE cart_id = ? AND variant_id = ?";
+        $sqlUpdate = "UPDATE cartitem SET quantity = ?, total_price = ? WHERE cart_id = ? AND (variant_id = ? OR (variant_id IS NULL AND product_id = ?))";
         $this->connect->setQuery($sqlUpdate);
-        return $this->connect->loadData([$newQuantity, $newTotalPrice, $cart_id, $variant_id]);
+        return $this->connect->loadData([$newQuantity, $newTotalPrice, $cart_id, $variant_id , $product_id]);
     }
 
     // cập nhât giỏ hàng
@@ -97,18 +98,21 @@ class Cart
     }
 
     // -------------------------------đối với sản phẩm không có biến thể--------------------------------
-    public function checkCartItem0($cart_id, $product_id)
-    {
-        $sqlCheck = "SELECT * FROM cartitem WHERE cart_id = ? AND product_id = ?";
-        $this->connect->setQuery($sqlCheck);
-        return $this->connect->loadData([$cart_id, $product_id], false);
-    }
-    public function updateCartItem0($newQuantity, $newTotalPrice, $cart_id, $product_id)
-    {
-        $sqlUpdate = "UPDATE cartitem SET quantity = ?, total_price = ? WHERE cart_id = ? AND product_id = ?";
-        $this->connect->setQuery($sqlUpdate);
-        return $this->connect->loadData([$newQuantity, $newTotalPrice, $cart_id, $product_id]);
-    }
+    // public function checkCartItem0($cart_id, $product_id)
+    // {
+    //     $sqlCheck = "SELECT * FROM cartitem WHERE cart_id = ? AND product_id = ?";
+    //     $this->connect->setQuery($sqlCheck);
+    //     return $this->connect->loadData([$cart_id, $product_id], false);
+    // }
+    // public function updateCartItem0($newQuantity, $newTotalPrice, $cart_id, $product_id)
+    // {
+    //     $sqlUpdate = "UPDATE cartitem SET quantity = ?, total_price = ? WHERE cart_id = ? AND product_id = ?";
+    //     $this->connect->setQuery($sqlUpdate);
+    //     return $this->connect->loadData([$newQuantity, $newTotalPrice, $cart_id, $product_id]);
+    // }
+
+
+    
 
 
     // ---------------------------------------------------------------------------------------------------------------------
@@ -140,7 +144,12 @@ class Cart
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$cart_id], true); // Lấy danh sách sản phẩm trong giỏ hàng
     }
-
+    public function getCartItemId($cartItem_id)
+    {
+        $sql = "SELECT * FROM `cartitem` WHERE id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$cartItem_id], false); 
+    }
 
 
     public function all_chitietgiohang(){

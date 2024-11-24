@@ -38,7 +38,8 @@ require_once "./controller/orderController.php";
                     của bạn</a>
                 <a href="index.php?act=myAccount&check=rePassAccount" style="margin-top: 4px;">Thay đổi mật khẩu của bạn</a>
                 <h2 style="margin-top: 20px;">Đơn đặt hàng của tôi</h2>
-                <a href="index.php?act=myAccount&check=historyOrder" style="margin-top: -10px;">Xem lịch sử đặt hàng của bạn</a>
+                <a href="index.php?act=myAccount&check=historyOrder" style="margin-top: -10px;">Xem lịch sử đặt hàng của
+                    bạn</a>
             </div>
         <?php } ?>
         <?php if (isset($_SESSION['user']) && $_SESSION['user']) { ?>
@@ -58,6 +59,25 @@ require_once "./controller/orderController.php";
                 <div class="item-login">
                     <a href="index.php?act=logout">Đăng xuất</a>
                 </div>
+            </div>
+        <?php } else { ?>
+            <div class="group-login">
+                <div class="item-login">
+                    <a href="index.php?act=login">Đăng nhập</a>
+                </div>
+                <div class="item-login">
+                    <a href="index.php?act=register">Đăng ký</a>
+                </div>
+                <div class="item-login">
+                    <a href="">Đã quên mật khẩu</a>
+                </div>
+                <div class="item-login">
+                    <a href="index.php?act=myAccount&check=historyOrder">Lịch sử đơn hàng</a>
+                </div>
+                <div class="item-login">
+                    <a href="index.php">Quay lại trang chủ</a>
+                </div>
+
             </div>
         <?php } ?>
     </div>

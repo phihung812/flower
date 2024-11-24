@@ -156,17 +156,16 @@ class ProductController
             $variant_id = ($variant && is_object($variant)) ? $variant->id : null;
             $price = $variant_id ? $variant->price : $sanphamchitiet->base_price;
             $total_price = $quantity * $price;
-            // TH có biến thể và không có biến thể
-            if ($variant_id) {
-                // kiểm tra sản phẩm có trong giỏ hàng hay chưa
-                $mCart = new Cart();
-                $checkCartItem = $mCart->checkCartItem($cart_id, $variant_id);
-                // nêu có trong giỏ hàng
-                if ($checkCartItem) {
-                    $newQuantity = $checkCartItem->quantity + $quantity;
-                    $newTotalPrice = $checkCartItem->total_price + $total_price;
-                    $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id);
-                    echo "<script>
+
+            // kiểm tra sản phẩm có trong giỏ hàng hay chưa
+            $mCart = new Cart();
+            $checkCartItem = $mCart->checkCartItem($cart_id, $variant_id, $idPro);
+            // nêu có trong giỏ hàng
+            if ($checkCartItem) {
+                $newQuantity = $checkCartItem->quantity + $quantity;
+                $newTotalPrice = $checkCartItem->total_price + $total_price;
+                $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id, $idPro);
+                echo "<script>
                             const Toast = Swal.mixin({
                                 toast: false,
                                 position: 'top-right',
@@ -189,10 +188,10 @@ class ProductController
                                 title: 'Đã cập nhật sản phẩm trong giỏ hàng'
                             });
                         </script>";
-                } else {
-                    // thêm mới sản phẩm vào giỏ hàng
-                    $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
-                    echo "<script>
+            } else {
+                // thêm mới sản phẩm vào giỏ hàng
+                $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
+                echo "<script>
                     const Toast = Swal.mixin({
                         toast: false,
                         position: 'top-right',
@@ -216,70 +215,10 @@ class ProductController
                     });
                 </script>";
 
-                }
-                // cập nhật lại giỏ hàng
-                $mCart->updateCartTotals($cart_id);
-            } else {
-                $mCart = new Cart();
-                $checkCartItem = $mCart->checkCartItem0($cart_id, $idPro);
-                if ($checkCartItem) {
-                    $newQuantity = $checkCartItem->quantity + $quantity;
-                    $newTotalPrice = $checkCartItem->total_price + $total_price;
-                    $mCart->updateCartItem0($newQuantity, $newTotalPrice, $cart_id, $idPro);
-                    echo "<script>
-                            const Toast = Swal.mixin({
-                                toast: false,
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                timer: 800,
-                                timerProgressBar: false,
-                                customClass: {
-                                popup: 'small-toast'  
-                            },
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                                }
-                            });
-
-                            Toast.fire({
-                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                                title: 'Đã cập nhật sản phẩm trong giỏ hàng'
-                            });
-                        </script>";
-                } else {
-                    // thêm mới sản phẩm vào giỏ hàng
-                    $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
-                    echo "<script>
-                            const Toast = Swal.mixin({
-                                toast: false,
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                timer: 800,
-                                timerProgressBar: false,
-                                customClass: {
-                                popup: 'small-toast'  
-                            },
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                                }
-                            });
-
-                            Toast.fire({
-                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                                title: 'Đã thêm sản phẩm trong giỏ hàng'
-                            });
-                        </script>";
-
-                }
-                // cập nhật lại giỏ hàng
-                $mCart->updateCartTotals($cart_id);
             }
+            // cập nhật lại giỏ hàng
+            $mCart->updateCartTotals($cart_id);
+
 
         }
 

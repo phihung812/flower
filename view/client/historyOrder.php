@@ -19,15 +19,24 @@
                     <td><?php echo $order->name ?></td>
                     <td><?php echo $order->total_items ?></td>
                     <td><?php echo $order->total_price ?></td>
-                    <td><?php echo $order->status ?></td>
+
+                    <?php if ($order->status == 'pending') { ?>
+                        <td style="color:blue">Chờ giao hàng</td>
+                    <?php } elseif ($order->status == 'shipped') { ?>
+                        <td style="color:#ed05f0">Đang giao hàng</t>
+                        <?php } elseif ($order->status == 'delivered') { ?>
+                        <td style="color:green">Đã giao</td>
+                    <?php } else { ?>
+                        <td style="color:red">Đã hủy</td>
+                    <?php } ?>
+
                     <td><?php echo $order->created_at ?></td>
                     <td class="thaotac" style="text-align:center;">
                         <?php if ($order->status != 'delivered' && $order->status != 'canceled') { ?>
                             <a href="index.php?act=myAccount&check=cancleOrder&order_id=<?php echo $order->id ?>">
                                 <button>Hủy đơn</button>
                             </a>
-                        <?php } else ?>
-
+                        <?php } ?>
                         <a href="index.php?act=myAccount&check=detailOrder&order_id=<?php echo $order->id ?>">
                             <button class="btn-ctdh"><i class="fa-regular fa-eye"></i></button>
                         </a>

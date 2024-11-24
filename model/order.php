@@ -49,6 +49,7 @@ class Order
                 pv.size AS product_variant_size,
                 pr.name AS product_name,
                 pr.main_image AS product_main_image,
+                pr.id AS product_id,
                 oi.quantity AS order_item_quantity,
                 oi.price AS order_item_price,
                 oi.total_price AS order_item_total_price
@@ -72,6 +73,12 @@ class Order
         $sql = "UPDATE `orders` SET `status`= ? WHERE id = ?";
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$status, $id]);
+    }
+    public function canclePayment($payment_status, $id)
+    {
+        $sql = "UPDATE `payment` SET `payment_status`= ? WHERE id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$payment_status, $id]);
     }
     public function getOrderById($id)
     {
