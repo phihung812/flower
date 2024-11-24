@@ -11,8 +11,6 @@ class TaikhoanController
 
     public function insert_taikhoan()
     {
-        // $mInit = new Init();
-        // $token = $mInit->cartToken();
         $mTaikhoan = new taikhoan();
         if (isset($_POST['submit-register'])) {
 
@@ -35,7 +33,6 @@ class TaikhoanController
                     $create_cart = $mCart->createCart(null, $idUser, null, $total_items, $total_price);
                 }
                 if ($create_cart) {
-                    $_SESSION['cart_id'] = $create_cart;
 
                     echo "<script>
                         Swal.fire({
@@ -220,7 +217,96 @@ class TaikhoanController
         }
         require_once "./view/client/rePassAccount.php";
     }
-    
+
+
+    public function forgotPassword()
+    {
+        if (isset($_POST['submit-forgotPassword'])) {
+            $first_name = $_POST['first_name'];
+            $last_name = $_POST['last_name'];
+            $email = $_POST['email'];
+            $phone = $_POST['phone'];
+            $mTaikhoan = new Taikhoan();
+            $check = $mTaikhoan->checkForgotPassword($first_name, $last_name, $email, $phone);
+            $_SESSION['confirmPassword'] = $check->id;
+            if ($check) {
+                echo '<script type="text/javascript">
+                            Swal.fire({
+                                icon: "success",
+                                title: "Thành công",
+                                text: "Thông tin chính xác mời đặt mật khẩu mới",
+                                confirmButtonText: "OK"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "index.php?act=confirmPassword";
+                                }
+                            });
+                        </script>';
+                exit();
+            } else {
+                echo '<script type="text/javascript">
+                            Swal.fire({
+                                icon: "error",
+                                title: "Thất bại",
+                                text: "Thông tin không chính xác",
+                                confirmButtonText: "OK"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "index.php?act=forgotPassword";
+                                }
+                            });
+                        </script>';
+                exit();
+            }
+        }
+        require_once "./view/client/forgotPassword.php";
+    }
+
+    public function confirmPassword()
+    {
+        if(isset($_POST['submit-confirmPassword'])){
+            $passwordNew = $_POST['passwordNew'];
+            $passwordConfirm = $_POST['passwordConfirm'];
+            $user_id = $_SESSION['confirmPassword'];
+            unset($_SESSION['confirmPassword']);
+            $mTaikhoan = new Taikhoan();
+            if($passwordNew == $passwordConfirm){
+                $confirmPass = $mTaikhoan->rePass($passwordConfirm, $user_id);
+                if(!$confirmPass){
+                    echo '<script type="text/javascript">
+                            Swal.fire({
+                                icon: "success",
+                                title: "Thành công",
+                                text: "Thông tin chính xác mời đặt mật khẩu mới",
+                                confirmButtonText: "OK"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "index.php?act=login";
+                                }
+                            });
+                        </script>';
+                        exit();
+                }
+            }else{
+                echo '<script type="text/javascript">
+                    Swal.fire({
+                        icon: "error",
+                        title: "Thất bại",
+                        text: "Xác nhận mật khẩu không khớp",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "index.php?act=forgotPassword";
+                                }
+                            });
+                    </script>';
+                    exit();
+            }
+            
+        }
+        require_once "./view/client/confirmPassword.php";
+    }
+
 
 
 }

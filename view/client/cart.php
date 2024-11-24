@@ -13,17 +13,21 @@
             <?php foreach ($cartItem as $cart) { ?>
                 <tr>
                     <td style="text-align: center;">
-                        <div class="img-cart">
+                        <a href="index.php?act=sanphamchitiet&idPro=<?php echo $cart->product_id ?>" class="img-cart">
                             <img src="<?php echo 'duan01/' . $cart->main_image ?>" alt="">
-                        </div>
+                        </a>
                     </td>
                     <td><?php echo $cart->name ?></td>
                     <td><?php echo $cart->sku ?></td>
                     <td><?php echo $cart->size ?></td>
                     <td>
-                        <form class="frm-qtt" action="" method="POST" style="display: flex; align-items: center; gap: 10px;">
-                            <input class="quantity-cartItem" type="number" name="" id="" value="<?php echo $cart->quantity ?>">
-
+                        <form class="frm-qtt" action="index.php?act=updateCartItem" method="POST" style="display: flex; align-items: center; gap: 10px;">
+                            <input class="quantity-cartItem" type="number" required min="1" name="quantity" value="<?php echo $cart->quantity ?>">
+                            <input type="hidden" name="cartItemId" value="<?php echo $cart->id ?>"
+    >
+                                <button class="btn-updateCartItem" type="submit" name="submit-updateCartItemClick">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                </button>
                             <a href="index.php?act=deleteCartItem&cartItemId=<?php echo $cart->id ?>"
                                 class="btn-deleteCartItem">
                                 <i class="fa-solid fa-trash-can"></i>

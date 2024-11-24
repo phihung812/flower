@@ -24,13 +24,13 @@
                 <a href="index.php?act=register">Đăng ký</a>
             </div>
             <div class="item-login">
-                <a href="">Đã quên mật khẩu</a>
+                <a href="index.php?act=forgotPassword">Đã quên mật khẩu</a>
             </div>
             <div class="item-login">
-                <a href="">Tài khoản của tôi</a>
+                <a href="index.php?act=myAccount&check=historyOrder">Lịch sử đơn hàng</a>
             </div>
             <div class="item-login">
-                <a href="">Lịch sử đơn hàng</a>
+                <a href="index.php">Quay lại trang chủ</a>
             </div>
 
         </div>

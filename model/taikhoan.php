@@ -64,6 +64,12 @@ class Taikhoan
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$email, $pass], false);
     }
+    public function checkForgotPassword($first_name, $last_name ,$email, $phone)
+    {
+        $sql = "SELECT * FROM `user` WHERE `first_name`= ? and `last_name`= ? and `email`= ? and `phone` = ? ";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$first_name, $last_name ,$email, $phone], false);
+    }
 
 }
 

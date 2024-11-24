@@ -45,8 +45,6 @@
             </form>
         </div>
 
-
-
         <div class="group-login">
             <div class="item-login">
                 <a href="index.php?act=login">Đăng nhập</a>
@@ -58,10 +56,10 @@
                 <a href="">Đã quên mật khẩu</a>
             </div>
             <div class="item-login">
-                <a href="">Tài khoản của tôi</a>
+                <a href="">Lịch sử đơn hàng</a>
             </div>
             <div class="item-login">
-                <a href="">Lịch sử đơn hàng</a>
+                <a href="index.php">Quay lại trang chủ</a>
             </div>
 
         </div>
