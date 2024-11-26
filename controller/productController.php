@@ -249,29 +249,30 @@ class ProductController
 
 
         ////////////////////////////////////////////////////////////////////
-        $m = new cart();
-        $thanhtoan = $m->all_thanhtoan();
-        $thanhtien = $m->all_thanhtien();
-        $tk = new Taikhoan();
-        $taikhoan = $tk->getAllTaikhoan();
-        if (isset($_POST['submit-binhluan']) && isset($_SESSION['user'])) {
-            $comment = $_POST['noidungbl'];
-            $rating = $_POST['sao'];
-            $user_id = $_POST['user_id'];
-            $product_id = $_POST['idsp'];
-            $mbinhluan = new binhluan();
-            $binhluan = $mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
-
-        } else {
-            if (isset($_POST['submit-binhluan'])) {
-                $comment = $_POST['noidungbl'];
-                $rating = $_POST['sao'];
-                $product_id = $_POST['idsp'];
-                $mbinhluan = new binhluan();
-                $binhluan = $mbinhluan->Insert_binhluan2(null, $product_id, $rating, $comment);
-            }
+        $m=new cart();      
+        $thanhtoan=$m->all_thanhtoan();
+        $thanhtien=$m->all_thanhtien();
+    
+        $tk=new Taikhoan();
+        $taikhoan=$tk-> getAllTaikhoan();
+        if(isset($_POST['submit-binhluan'])&& isset($_SESSION['user'])){
+            $comment=$_POST['noidungbl']; 
+            $rating=$_POST['sao'];
+            $user_id=$_POST['user_id'];
+            $product_id=$_POST['idsp'];
+            $mbinhluan=new binhluan();
+           $binhluan=$mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
+           
+        }else{
+            if(isset($_POST['submit-binhluan'])){
+            $comment=$_POST['noidungbl']; 
+            $rating=$_POST['sao'];
+            $product_id=$_POST['idsp'];
+            $mbinhluan=new binhluan();
+           $binhluan=$mbinhluan->Insert_binhluan2(null, $product_id,$rating, $comment);
         }
-        $mbinhluan = new binhluan();
+    }
+        $mbinhluan=new binhluan();
         $listbl = $mbinhluan->ID_binhluan_sanpham($_GET['idPro']);
         ////////////////////////////////////////////////////////////////////
 

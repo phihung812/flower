@@ -282,5 +282,43 @@ class OrderController
         $listOrder = $mOrder->getAllOrder();
         require_once "../view/admin/donhang/listOrder.php";
     }
+
+    public function edit_donhang(){
+        if(isset($_GET['id'])&&isset($_GET['status'])){
+            $id=$_GET['id'];
+            $payment_status=$_GET['status'];
+            $msua=new Order();
+            $sua=$msua->getOrderById($id);
+           $thanhtoan=$msua->trangthaipamy($payment_status);
+            if(isset($_POST['capnhat'])){
+             $status=$_POST['trangthai_don'];
+             $payment_status=$_POST['trangthai_tien'];
+             $update=$msua->updateoder($payment_status,$id);
+             $updet=$msua->updatepamy($status,$id);
+                     if(!$update&& !$updet){
+                header("location:index.php?act=order");
+            }  
+            }
+
+        }
+        require_once "../view/admin/donhang/edit_donhang.php";  
+    }
+    
+    public function chitiet_oder()
+    {
+        if(isset($_GET['id'])){
+            $id=$_GET['id'];
+            $chitietm=new Order();
+            $chitiet=$chitietm-> getOrderById($id);
+            $payment=$chitietm->getpaytem();
+          $anh=$chitietm->anh();
+          $bienthem=$chitietm->bienthe();
+        }
+       
+
+        require_once "../view/admin/donhang/chitiet.php";  
+    }
+
+    
 }
 ?>
