@@ -80,6 +80,7 @@ class OrderController
         $cartItem = $mCart->getCartItems($cart_id);
         $cartAll = $mCart->getCart($cart_id);
 
+
         if (isset($_POST['submit-payment'])) {
             $inforCart = $mCart->getCart($cart_id);
             $total_price_order = $inforCart->total_price;
@@ -91,105 +92,151 @@ class OrderController
             $email = $_POST['email'];
             $payment_method = $_POST['payment_method'];
 
-            if ($payment_method === 'online') {
-                $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-                $partnerCode = 'MOMOBKUN20180529';
-                $accessKey = 'klm05TvNBzhg7h7j';
-                $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+            $cartItems = $mCart->getCartItemsByCartId($cart_id);
+            // kiểm tra tồn kho
+            $checkCreateOrder = true;
+            foreach ($cartItems as $item) {
+                $product_id = $item->product_id;
+                $variant_id = $item->variant_id;
+                $quantity = $item->quantity;
 
-                $orderInfo = "Thanh toán qua MoMo";
-                $amount = $total_price_order;
-                $orderId = time() . "";
-                $redirectUrl = "http://localhost/Duan01/index.php?act=thanhcong&method=handlePaymentCallback";
-                $ipnUrl = "http://localhost/Duan01/index.php?act=thanhcong&method=handlePaymentCallback";
-                $extraData = "";
+                $product = $mProduct->getProductById($product_id);
+                $variant = $mProduct->getVariantById($variant_id);
 
-                $requestId = time() . "";
-                $requestType = "payWithATM";
-                $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
-                $signature = hash_hmac("sha256", $rawHash, $secretKey);
-                $data = array(
-                    'partnerCode' => $partnerCode,
-                    'partnerName' => "Test",
-                    "storeId" => "MomoTestStore",
-                    'requestId' => $requestId,
-                    'amount' => $amount,
-                    'orderId' => $orderId,
-                    'orderInfo' => $orderInfo,
-                    'redirectUrl' => $redirectUrl,
-                    'ipnUrl' => $ipnUrl,
-                    'lang' => 'vi',
-                    'extraData' => $extraData,
-                    'requestType' => $requestType,
-                    'signature' => $signature
-                );
-                $result = $this->execPostRequest($endpoint, json_encode($data));
-                $jsonResult = json_decode($result, true);
+                $available_stockProduct = $product->available_stock;
+                $stock_quantityVariant = $variant ? $variant->stock_quantity : null;
 
-                $status = 'pending';
-                $order_id = $mOrder->createOrder(null, $user_id, $session_token, $name, $email, $phone, $cart_id, $total_items, $total_price_order, $shipping_address, $shipping_city, $status);
-                $_SESSION['order_id'] = $order_id;
-                if ($order_id > 1) {
-                    $cartItems = $mCart->getCartItemsByCartId($cart_id); //danh sách sản phẩm trong giỏ
-                    foreach ($cartItems as $item) {
-                        $product_id = $item->product_id;
-                        $variant_id = $item->variant_id;
-                        $quantity = $item->quantity;
-                        $price = $item->price;
-                        $total_price = $item->total_price;
-                        $addProductToOrderitem = $mOrder->InsertOrderitem(null, $order_id, $product_id, $variant_id, $quantity, $price, $total_price);
-                        $mProduct->updateAvailableStock($quantity, $product_id);
-                        $mProduct->updateVariantAvailableStock($quantity, $variant_id);
-                    }
-                    $deleteCartItems = $mCart->deleteCartItembyCartId($cart_id);
-                    $mCart->updateCartToDelete($cart_id);
-                    $payment_status = 'pending';
-                    $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
-                }
-
-
-                header('Location: ' . $jsonResult['payUrl']);
-
-            } else { //TH thanh toán COD
-                $status = 'pending';
-                $order_id = $mOrder->createOrder(null, $user_id, $session_token, $name, $email, $phone, $cart_id, $total_items, $total_price_order, $shipping_address, $shipping_city, $status);
-
-                if ($order_id > 1) {
-                    $cartItems = $mCart->getCartItemsByCartId($cart_id); //danh sách sản phẩm trong giỏ
-                    foreach ($cartItems as $item) {
-                        $product_id = $item->product_id;
-                        $variant_id = $item->variant_id;
-                        $quantity = $item->quantity;
-                        $price = $item->price;
-                        $total_price = $item->total_price;
-                        $addProductToOrderitem = $mOrder->InsertOrderitem(null, $order_id, $product_id, $variant_id, $quantity, $price, $total_price);
-                        $mProduct->updateAvailableStock($quantity, $product_id);
-                        $mProduct->updateVariantAvailableStock($quantity, $variant_id);
-                    }
-                    $deleteCartItems = $mCart->deleteCartItembyCartId($cart_id);
-                    $mCart->updateCartToDelete($cart_id);
-                    $payment_status = 'pending';
-                    $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
-                }
-
-                if ($deleteCartItems) {
-                    echo '<script type="text/javascript">
-                                const orderId = ' . json_encode($order_id) . ';
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Thành công",
-                                    text: "Đặt hàng thành công!",
-                                    confirmButtonText: "OK"
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.href = "index.php?act=myAccount&check=detailOrder&order_id=" + orderId;
-                                    }
-                                });
-                            </script>';
-                    exit();
-
+                if ($quantity > $available_stockProduct || ($variant && $quantity > $stock_quantityVariant)) {
+                    $checkCreateOrder = false; 
+                    break; 
                 }
             }
+
+            if ($checkCreateOrder) {
+                if ($payment_method === 'online') {
+                    $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+                    $partnerCode = 'MOMOBKUN20180529';
+                    $accessKey = 'klm05TvNBzhg7h7j';
+                    $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+
+                    $orderInfo = "Thanh toán qua MoMo";
+                    $amount = $total_price_order;
+                    $orderId = time() . "";
+                    $redirectUrl = "http://localhost/Duan01/index.php?act=thanhcong&method=handlePaymentCallback";
+                    $ipnUrl = "http://localhost/Duan01/index.php?act=thanhcong&method=handlePaymentCallback";
+                    $extraData = "";
+
+                    $requestId = time() . "";
+                    $requestType = "payWithATM";
+                    $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
+                    $signature = hash_hmac("sha256", $rawHash, $secretKey);
+                    $data = array(
+                        'partnerCode' => $partnerCode,
+                        'partnerName' => "Test",
+                        "storeId" => "MomoTestStore",
+                        'requestId' => $requestId,
+                        'amount' => $amount,
+                        'orderId' => $orderId,
+                        'orderInfo' => $orderInfo,
+                        'redirectUrl' => $redirectUrl,
+                        'ipnUrl' => $ipnUrl,
+                        'lang' => 'vi',
+                        'extraData' => $extraData,
+                        'requestType' => $requestType,
+                        'signature' => $signature
+                    );
+                    $result = $this->execPostRequest($endpoint, json_encode($data));
+                    $jsonResult = json_decode($result, true);
+
+                    $status = 'pending';
+                    $order_id = $mOrder->createOrder(null, $user_id, $session_token, $name, $email, $phone, $cart_id, $total_items, $total_price_order, $shipping_address, $shipping_city, $status);
+                    $_SESSION['order_id'] = $order_id;
+                    if ($order_id > 1) {
+                        $cartItems = $mCart->getCartItemsByCartId($cart_id); //danh sách sản phẩm trong giỏ
+                        foreach ($cartItems as $item) {
+                            $product_id = $item->product_id;
+                            $variant_id = $item->variant_id;
+                            $quantity = $item->quantity;
+                            $price = $item->price;
+                            $total_price = $item->total_price;
+                            $addProductToOrderitem = $mOrder->InsertOrderitem(null, $order_id, $product_id, $variant_id, $quantity, $price, $total_price);
+                            $mProduct->updateAvailableStock($quantity, $product_id);
+                            $mProduct->updateVariantAvailableStock($quantity, $variant_id);
+                        }
+                        $deleteCartItems = $mCart->deleteCartItembyCartId($cart_id);
+                        $mCart->updateCartToDelete($cart_id);
+                        $payment_status = 'pending';
+                        $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
+                    }
+
+
+                    header('location: ' . $jsonResult['payUrl']);
+
+                } else { //TH thanh toán COD
+                    $status = 'pending';
+                    $order_id = $mOrder->createOrder(null, $user_id, $session_token, $name, $email, $phone, $cart_id, $total_items, $total_price_order, $shipping_address, $shipping_city, $status);
+
+                    if ($order_id > 1) {
+                        $cartItems = $mCart->getCartItemsByCartId($cart_id); //danh sách sản phẩm trong giỏ
+                        foreach ($cartItems as $item) {
+                            $product_id = $item->product_id;
+                            $variant_id = $item->variant_id;
+                            $quantity = $item->quantity;
+                            $price = $item->price;
+                            $total_price = $item->total_price;
+                            $addProductToOrderitem = $mOrder->InsertOrderitem(null, $order_id, $product_id, $variant_id, $quantity, $price, $total_price);
+                            $mProduct->updateAvailableStock($quantity, $product_id);
+                            $mProduct->updateVariantAvailableStock($quantity, $variant_id);
+                        }
+                        $deleteCartItems = $mCart->deleteCartItembyCartId($cart_id);
+                        $mCart->updateCartToDelete($cart_id);
+                        $payment_status = 'pending';
+                        $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
+                    }
+
+                    if ($deleteCartItems) {
+                        echo '<script type="text/javascript">
+                                    const orderId = ' . json_encode($order_id) . ';
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "Thành công",
+                                        text: "Đặt hàng thành công!",
+                                        confirmButtonText: "OK"
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.href = "index.php?act=myAccount&check=detailOrder&order_id=" + orderId;
+                                        }
+                                    });
+                                </script>';
+                        exit();
+
+                    }
+                }
+            } else {
+                echo "<script>
+                            const Toast = Swal.mixin({
+                                toast: false,
+                                position: 'top-right',
+                                showConfirmButton: false,
+                                timer: 2300,
+                                timerProgressBar: true,
+                                customClass: {
+                                popup: 'small-toast'  
+                            },
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            });
+                            Toast.fire({
+                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', 
+                                imageWidth: 80, 
+                                imageHeight: 80, 
+                                title: 'Số lượng sản phẩm trong kho không đủ'
+                            });
+                        </script>";
+            }
+
         }
         require_once "./view/client/payment.php";
     }
@@ -282,5 +329,43 @@ class OrderController
         $listOrder = $mOrder->getAllOrder();
         require_once "../view/admin/donhang/listOrder.php";
     }
+
+    public function edit_donhang(){
+        if(isset($_GET['id'])&&isset($_GET['status'])){
+            $id=$_GET['id'];
+            $payment_status=$_GET['status'];
+            $msua=new Order();
+            $sua=$msua->getOrderById($id);
+           $thanhtoan=$msua->trangthaipamy($payment_status);
+            if(isset($_POST['capnhat'])){
+             $status=$_POST['trangthai_don'];
+             $payment_status=$_POST['trangthai_tien'];
+             $update=$msua->updateoder($payment_status,$id);
+             $updet=$msua->updatepamy($status,$id);
+                     if(!$update&& !$updet){
+                header("location:index.php?act=order");
+            }  
+            }
+
+        }
+        require_once "../view/admin/donhang/edit_donhang.php";  
+    }
+    
+    public function chitiet_oder()
+    {
+        if(isset($_GET['id'])){
+            $id=$_GET['id'];
+            $chitietm=new Order();
+            $chitiet=$chitietm-> getOrderById($id);
+            $payment=$chitietm->getpaytem();
+          $anh=$chitietm->anh();
+          $bienthem=$chitietm->bienthe();
+        }
+       
+
+        require_once "../view/admin/donhang/chitiet.php";  
+    }
+
+    
 }
 ?>

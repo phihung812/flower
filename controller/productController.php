@@ -155,7 +155,7 @@ class ProductController
             $price = $variant_id ? $variant->price : $sanphamchitiet->base_price;
             $total_price = $quantity * $price;
 
-            if ($quantity < $sanphamchitiet->available_stock || (isset($variant) && is_object($variant) && $quantity < $variant->stock_quantity)) {
+            if ($quantity <= $sanphamchitiet->available_stock || (isset($variant) && is_object($variant) && $quantity <= $variant->stock_quantity)) {
                 // kiểm tra sản phẩm có trong giỏ hàng hay chưa
                 $mCart = new Cart();
                 $checkCartItem = $mCart->checkCartItem($cart_id, $variant_id, $idPro);
@@ -163,30 +163,57 @@ class ProductController
                 if ($checkCartItem) {
                     $newQuantity = $checkCartItem->quantity + $quantity;
                     $newTotalPrice = $checkCartItem->total_price + $total_price;
-                    $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id, $idPro);
-                    echo "<script>
-                            const Toast = Swal.mixin({
-                                toast: false,
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                timer: 800,
-                                timerProgressBar: false,
-                                customClass: {
-                                popup: 'small-toast'  
-                            },
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                                }
-                            });
+                    // kiểm tra tồn kho
+                    if ($newQuantity <= $sanphamchitiet->available_stock || (isset($variant) && is_object($variant) && $newQuantity <= $variant->stock_quantity)) {
+                        $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id, $idPro);
+                        echo "<script>
+                                const Toast = Swal.mixin({
+                                    toast: false,
+                                    position: 'top-right',
+                                    showConfirmButton: false,
+                                    timer: 800,
+                                    timerProgressBar: false,
+                                    customClass: {
+                                    popup: 'small-toast'  
+                                },
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                    }
+                                });
+    
+                                Toast.fire({
+                                     imageUrl: 'https://png.pngtree.com/element_our/20190522/ourlarge/pngtree-shopping-cart-icon-design-image_1071385.jpg', 
+                                    imageWidth: 60, 
+                                    imageHeight: 60, 
+                                    title: 'Đã cập nhật sản phẩm trong giỏ hàng'
+                                });
+                            </script>";
+                    } else {
+                        echo "<script>
+                                const Toast = Swal.mixin({
+                                    toast: false,
+                                    position: 'top-right',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    customClass: {
+                                    popup: 'small-toast'  
+                                },
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                    }
+                                });
+                                Toast.fire({
+                                    imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', 
+                                    imageWidth: 80, 
+                                    imageHeight: 80, 
+                                    title: 'Số lượng sản phẩm trong kho không đủ'
+                                });
+                            </script>";
+                    }
 
-                            Toast.fire({
-                                 imageUrl: 'https://png.pngtree.com/element_our/20190522/ourlarge/pngtree-shopping-cart-icon-design-image_1071385.jpg', 
-                                imageWidth: 60, 
-                                imageHeight: 60, 
-                                title: 'Đã cập nhật sản phẩm trong giỏ hàng'
-                            });
-                        </script>";
                 } else {
                     // thêm mới sản phẩm vào giỏ hàng
                     $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
@@ -249,29 +276,30 @@ class ProductController
 
 
         ////////////////////////////////////////////////////////////////////
-        $m = new cart();
-        $thanhtoan = $m->all_thanhtoan();
-        $thanhtien = $m->all_thanhtien();
-        $tk = new Taikhoan();
-        $taikhoan = $tk->getAllTaikhoan();
-        if (isset($_POST['submit-binhluan']) && isset($_SESSION['user'])) {
-            $comment = $_POST['noidungbl'];
-            $rating = $_POST['sao'];
-            $user_id = $_POST['user_id'];
-            $product_id = $_POST['idsp'];
-            $mbinhluan = new binhluan();
-            $binhluan = $mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
-
-        } else {
-            if (isset($_POST['submit-binhluan'])) {
-                $comment = $_POST['noidungbl'];
-                $rating = $_POST['sao'];
-                $product_id = $_POST['idsp'];
-                $mbinhluan = new binhluan();
-                $binhluan = $mbinhluan->Insert_binhluan2(null, $product_id, $rating, $comment);
-            }
+        $m=new cart();      
+        $thanhtoan=$m->all_thanhtoan();
+        $thanhtien=$m->all_thanhtien();
+    
+        $tk=new Taikhoan();
+        $taikhoan=$tk-> getAllTaikhoan();
+        if(isset($_POST['submit-binhluan'])&& isset($_SESSION['user'])){
+            $comment=$_POST['noidungbl']; 
+            $rating=$_POST['sao'];
+            $user_id=$_POST['user_id'];
+            $product_id=$_POST['idsp'];
+            $mbinhluan=new binhluan();
+           $binhluan=$mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
+           
+        }else{
+            if(isset($_POST['submit-binhluan'])){
+            $comment=$_POST['noidungbl']; 
+            $rating=$_POST['sao'];
+            $product_id=$_POST['idsp'];
+            $mbinhluan=new binhluan();
+           $binhluan=$mbinhluan->Insert_binhluan2(null, $product_id,$rating, $comment);
         }
-        $mbinhluan = new binhluan();
+    }
+        $mbinhluan=new binhluan();
         $listbl = $mbinhluan->ID_binhluan_sanpham($_GET['idPro']);
         ////////////////////////////////////////////////////////////////////
 

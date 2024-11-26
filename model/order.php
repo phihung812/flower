@@ -103,6 +103,74 @@ class Order
         return $this->connect->loadData();
     }
 
+    //////////////////
+
+    public function chitiet_oder() {
+        $sql = "SELECT 
+                    orders.*, 
+                    payment.payment_method, 
+                    payment.payment_status, 
+                    
+                FROM 
+                    orders
+                LEFT JOIN 
+                    payment
+                ON 
+                    orders.id = payment.order_id
+                LEFT JOIN 
+                   orderitem
+                ON 
+                    orders.id = shipping.order_id";
+    
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData();
+    }
+
+
+
+
+
+
+    public function getpaytem()
+    {
+        $sql = "SELECT * FROM `orderitem`";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData();
+    }
+    
+    public function anh()
+    {
+        $sql = "SELECT * FROM `product`";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData();
+    }
+
+    public function bienthe()
+    {
+        $sql = "SELECT * FROM `productvariant`";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData();
+    }
+
+    public function trangthaipamy($payment_status)
+    {
+        $sql = "SELECT * FROM `payment` WHERE payment_status = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$payment_status],false);
+    }
+    public function updatepamy($status,$id){
+        $sql = "UPDATE `orders` SET `status`= ? WHERE `id`= ?";
+        $this->connect->setQuery($sql);    
+        return $this->connect->loadData([$status, $id],false);
+    }
+    public function updateoder($payment_status,$order_id){
+        $sql = "UPDATE `payment` SET `payment_status`= ? WHERE `order_id`= ?";
+        $this->connect->setQuery($sql);    
+        return $this->connect->loadData([$payment_status,$order_id],false);
+    }
+    
+    /////////////////
+
     public function updateOrderStatus($status, $id)
     {
         $sql = "UPDATE `orders` SET `status`=? WHERE id = ?";
