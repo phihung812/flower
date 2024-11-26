@@ -33,27 +33,23 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </form>
-
-
-
                     </td>
                     <td><?php echo $cart->price ?></td>
                     <td style="text-align: right; padding-right: 10px;"><?php echo $cart->total_price ?></td>
 
                 </tr>
             <?php } ?>
+            
             <tr style="height: 40px;">
-
                 <th style="text-align: right; padding-right: 10px;color: black;" colspan="6">Số lượng</th>
                 <td style="text-align: right; padding-right: 10px;"><?php echo $cartAll->total_items ?></td>
             </tr>
+
             <tr style="height: 40px;">
                 <th style="text-align: right;padding-right: 10px;color: black;" colspan="6">Tổng cộng</th>
                 <td style="text-align: right; padding-right: 10px; color: red;">
                     <h3><?php echo number_format($cartAll->total_price, 0, ',', '.') ?> VND</h3>
-
                 </td>
-
             </tr>
         </table>
 

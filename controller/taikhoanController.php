@@ -24,6 +24,8 @@ class TaikhoanController
             $role = "customer";
             $total_items = 0;
             $total_price = 0;
+
+
             $allEmailList = $mTaikhoan->getAllEmails(); // Trả về mảng đa chiều
             $allEmail = array_column($allEmailList, 'email'); // Chuyển thành mảng đơn chứa email
             if (!in_array($email, $allEmail)) {
@@ -59,6 +61,7 @@ class TaikhoanController
                             });
                         </script>';
             }
+
         }
         require_once "./view/client/register.php";
     }
@@ -163,6 +166,7 @@ class TaikhoanController
             $address = $_POST['address'];
             $city = $_POST['city'];
 
+
             $mTaikhoan = new Taikhoan();
             $edit = $mTaikhoan->edit_Taikhoan($first_name, $last_name, $email, $phone, $address, $city, $idAccount);
             if (!$edit) {
@@ -181,6 +185,7 @@ class TaikhoanController
                 exit();
             }
 
+
         }
         require_once "./view/client/editAccount.php";
     }
@@ -193,21 +198,22 @@ class TaikhoanController
         if (isset($_POST['submit-rePass'])) {
             $passOld = $_POST['passOld'];
             $passNew = $_POST['passNew'];
+
             if ($passOld === $passwordOld) {
                 $edit = $mTaikhoan->rePass($passNew, $idAccount);
                 if (!$edit) {
                     echo '<script type="text/javascript">
-                    Swal.fire({
-                        icon: "success",
-                        title: "Thành công",
-                        text: "Đổi mật khẩu thành công!",
-                        confirmButtonText: "OK"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "index.php?act=myAccount";
-                        }
-                    });
-                </script>';
+                            Swal.fire({
+                                icon: "success",
+                                title: "Thành công",
+                                text: "Đổi mật khẩu thành công!",
+                                confirmButtonText: "OK"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "index.php?act=myAccount";
+                                }
+                            });
+                        </script>';
                     exit();
                 }
             } else {
@@ -227,10 +233,33 @@ class TaikhoanController
             $email = $_POST['email'];
             $phone = $_POST['phone'];
             $mTaikhoan = new Taikhoan();
-            $check = $mTaikhoan->checkForgotPassword($first_name, $last_name, $email, $phone);
-            $_SESSION['confirmPassword'] = $check->id;
-            if ($check) {
-                echo '<script type="text/javascript">
+
+            $errors = [];
+            if (empty($first_name)) {
+                $errors[] = "Họ không được để trống.";
+            } elseif (strlen($first_name) < 2) {
+                $errors[] = "Họ phải có ít nhất 2 ký tự.";
+            }
+            if (empty($last_name)) {
+                $errors[] = "Tên không được để trống.";
+            } elseif (strlen($last_name) < 2) {
+                $errors[] = "Tên phải có ít nhất 2 ký tự.";
+            }
+            if (empty($email)) {
+                $errors[] = "Email không được để trống.";
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "Email không hợp lệ.";
+            }
+            if (empty($phone)) {
+                $errors[] = "Số điện thoại không được để trống.";
+            } elseif (!preg_match('/^[0-9]{10,11}$/', $phone)) {
+                $errors[] = "Số điện thoại phải gồm 10-11 chữ số.";
+            }
+            if (empty($errors)) {
+                $check = $mTaikhoan->checkForgotPassword($first_name, $last_name, $email, $phone);
+                if ($check) {
+                    $_SESSION['confirmPassword'] = $check->id;
+                    echo '<script type="text/javascript">
                             Swal.fire({
                                 icon: "success",
                                 title: "Thành công",
@@ -242,9 +271,9 @@ class TaikhoanController
                                 }
                             });
                         </script>';
-                exit();
-            } else {
-                echo '<script type="text/javascript">
+                    exit();
+                } else {
+                    echo '<script type="text/javascript">
                             Swal.fire({
                                 icon: "error",
                                 title: "Thất bại",
@@ -256,7 +285,10 @@ class TaikhoanController
                                 }
                             });
                         </script>';
-                exit();
+                    exit();
+                }
+            } else {
+                $thongbao = implode('<br>', $errors);
             }
         }
         require_once "./view/client/forgotPassword.php";
@@ -264,15 +296,15 @@ class TaikhoanController
 
     public function confirmPassword()
     {
-        if(isset($_POST['submit-confirmPassword'])){
+        if (isset($_POST['submit-confirmPassword'])) {
             $passwordNew = $_POST['passwordNew'];
             $passwordConfirm = $_POST['passwordConfirm'];
             $user_id = $_SESSION['confirmPassword'];
             unset($_SESSION['confirmPassword']);
             $mTaikhoan = new Taikhoan();
-            if($passwordNew == $passwordConfirm){
+            if ($passwordNew == $passwordConfirm) {
                 $confirmPass = $mTaikhoan->rePass($passwordConfirm, $user_id);
-                if(!$confirmPass){
+                if (!$confirmPass) {
                     echo '<script type="text/javascript">
                             Swal.fire({
                                 icon: "success",
@@ -285,9 +317,9 @@ class TaikhoanController
                                 }
                             });
                         </script>';
-                        exit();
+                    exit();
                 }
-            }else{
+            } else {
                 echo '<script type="text/javascript">
                     Swal.fire({
                         icon: "error",
@@ -300,9 +332,9 @@ class TaikhoanController
                                 }
                             });
                     </script>';
-                    exit();
+                exit();
             }
-            
+
         }
         require_once "./view/client/confirmPassword.php";
     }

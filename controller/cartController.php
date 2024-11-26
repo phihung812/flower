@@ -9,18 +9,12 @@ class CartController
 {
     public function listCart()
     {
-        // TH đã đăng nhập và chưa đăng nhập
-        if (isset($_SESSION['cart_id'])) {
-            $cart_id = $_SESSION['cart_id'];
-            $mCart = new Cart();
-            $cartItem = $mCart->getCartItems($cart_id);
-            $cartAll = $mCart->getCart($cart_id);
-        } else {
-            $cart_id = $_COOKIE['cart_id'];
-            $mCart = new Cart();
-            $cartItem = $mCart->getCartItems($cart_id);
-            $cartAll = $mCart->getCart($cart_id);
-        }
+        $cart_id = isset($_SESSION['cart_id']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'] ;
+        $mCart = new Cart();
+        $cartItem = $mCart->getCartItems($cart_id);
+        $cartAll = $mCart->getCart($cart_id);
+
+        
         require_once "./view/client/cart.php";
     }
 
@@ -54,38 +48,53 @@ class CartController
             $product = $mProduct->getProductById($idProduct);
             $variant_id = isset($cartItem->variant_id) ? $cartItem->variant_id : null;
             $variant = $mProduct->getVariantById($variant_id);
+
             $price = isset($variant_id) ? $variant->price : $product->base_price;
             $total_price = $quantity * $price;
 
-            $cart_id = isset($_SESSION['user']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'];
+            if ($quantity < $product->available_stock || (isset($variant) && is_object($variant) && $quantity < $variant->stock_quantity)) {
+                $cart_id = isset($_SESSION['user']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'];
+                $update = $mCart->updateCartItem($quantity, $total_price, $cart_id, $variant_id, $idProduct);
+                if (!$update) {
 
-            $update = $mCart->updateCartItem($quantity, $total_price, $cart_id, $variant_id, $idProduct);
-            if (!$update) {
+                    $mCart->updateCartTotals($cart_id);
+                    header("location:index.php?act=cart");
+                    exit;
+                }
+            } else {
+                echo "<script>
+                            const Toast = Swal.mixin({
+                                toast: false,
+                                position: 'top-right',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                                customClass: {
+                                    popup: 'small-toast'  
+                                },
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            });
 
-                $mCart->updateCartTotals($cart_id);
-                header("location:index.php?act=cart");
-                exit;
+                            Toast.fire({
+                                imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', 
+                                imageWidth: 80, 
+                                imageHeight: 80, 
+                                title: 'Số lượng sản phẩm trong kho không đủ'
+                            });
+
+                            setTimeout(function() {
+                                window.location.href = 'index.php?act=cart'; 
+                            }, 2000); 
+                        </script>";
+
             }
 
         }
     }
-    // public function updateCartItem()
-    // {
-    //     if (isset($_GET['cartItemId'])) {
-    //         $cartItemId = $_GET['cartItemId'];
-    //         $cart_id = isset($_SESSION['cart_id']) ? $_SESSION['cart_id']: $_COOKIE['cart_id'];
-    //         $mCart = new Cart();
-    //         $delete = $mCart->deleteCartItem($cartItemId);
-    //         if ($delete) {
 
-    //             $mCart->updateCartTotals($cart_id);
-    //             header("location:index.php?act=cart");
-    //             exit;
-    //         }
-
-    //     }
-
-    // }
     public function CreateCartNoAcc()
     {
         $mInit = new Init();

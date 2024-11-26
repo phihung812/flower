@@ -34,7 +34,7 @@
                             <span>Tài khoản</span>
                         </a>
                         <?php if (isset($_SESSION['user'])) {
-                            $role = $_SESSION['user']->role;  ?>
+                            $role = $_SESSION['user']->role; ?>
                             <ul class="submenu" style="height:auto;">
                                 <?php if ($role === 'admin') { ?>
                                     <li><a href="view/index.php">Vào trang quản trị</a></li>
@@ -58,9 +58,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="index.php?act=myAccount&check=historyOrder">
                             <i class="fa-solid fa-file-invoice-dollar"></i>
-                            <span>Thanh toán</span>
+                            <span>Đơn hàng</span>
                         </a>
                     </li>
                 </ul>

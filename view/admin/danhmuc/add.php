@@ -13,7 +13,7 @@
         <div class="form__label">
           <label>Tên danh mục</label>
           <div class="form__input">
-            <input type="text" name="name">
+            <input type="text" required name="name">
           </div>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <div class="form__label">
           <label>Mô tả</label>
           <div class="form__input">
-            <input type="text" name="description">
+            <input type="text" required name="description">
           </div>
         </div>
       </div>

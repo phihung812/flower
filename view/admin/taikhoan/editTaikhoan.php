@@ -2,7 +2,7 @@
 
     <div class="form-register" style=margin-left:600px;margin-top:30px;>
         <h2>Cập nhật tài khoản</h2>
-        <form action="" method="POST">
+        <form action="" method="POST" onsubmit="return validateSubmit()">
             <div class="form-group-register">
                 <label for="first_name">Họ:</label>
                 <input type="text" name="first_name" id="first_name" value="<?php echo $taikhoanById->first_name ?>"
@@ -53,3 +53,44 @@
     </div>
 
 </main>
+<script>
+    function validateSubmit() {
+        var first_name = document.getElementById('first_name');
+        var last_name = document.getElementById('last_name');
+        var email = document.getElementById('email');
+        var phone = document.getElementById('phone');
+        var address = document.getElementById('address');
+        var city = document.getElementById('city');
+        var password = document.getElementById('password');
+
+        if (first_name.value == '') {
+            alert('Họ không được để trống');
+            return false;
+        }
+        if (last_name.value == '') {
+            alert('Tên không được để trống');
+            return false;
+        }
+        if (email.value == '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+            alert('Email không hợp lệ. Vui lòng nhập đúng định dạng.');
+            return false;
+        }
+        if (phone.value == '' || !/^\d{10}$/.test(phone.value)) {
+            alert('Số điện thoại phải gồm 10 chữ số.');
+            return false;
+        }
+        if (address.value == '') {
+            alert('Địa chỉ không được để trống');
+            return false;
+        }
+        if (city.value == '') {
+            alert('Tỉnh thành phố không được để trống');
+            return false;
+        }
+        if (password.value.length < 6) {
+            alert('Mật khẩu phải từ 6 kí tự trở lên');
+            return false;
+        }
+
+    }
+</script>

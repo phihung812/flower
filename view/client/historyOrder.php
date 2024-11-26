@@ -34,7 +34,7 @@
                     <td class="thaotac" style="text-align:center;">
                         <?php if ($order->status != 'delivered' && $order->status != 'canceled') { ?>
                             <a href="index.php?act=myAccount&check=cancleOrder&order_id=<?php echo $order->id ?>">
-                                <button>Hủy đơn</button>
+                                <button onclick="return confirmSubmit()">Hủy đơn</button>
                             </a>
                         <?php } ?>
                         <a href="index.php?act=myAccount&check=detailOrder&order_id=<?php echo $order->id ?>">
@@ -49,3 +49,8 @@
         <h2>Bạn chưa có đơn hàng nào</h2>
     <?php } ?>
 </div>
+<script>
+    function confirmSubmit() {
+        return confirm("Xác nhận hủy đơn?");
+    }
+</script>

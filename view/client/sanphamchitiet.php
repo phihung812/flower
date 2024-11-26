@@ -206,8 +206,8 @@ foreach ($thanhtien as $t) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VND";
     }
     function updatePrice() {
-        const sizeSelect = document.getElementById('size');   //truy xuất select
-        const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];   //lấy tùy chọn đc chọn
+        const sizeSelect = document.getElementById('size');   //truy xuất đến ô kích cỡ
+        const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];   //lấy kích cỡ đc chọn
         const price = selectedOption.getAttribute('data-price');   //lấy giá của size đc chọn
 
         // Cập nhật giá hiển thị
