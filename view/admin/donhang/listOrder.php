@@ -23,10 +23,10 @@
                 <td><?php echo $order->payment_status ?></td>
                 <td><?php echo $order->created_at ?></td>
                 <td>
-                    <a href="">
+                    <a href="index.php?act=chitiet&id=<?php echo $order->id ?>">
                         <button>Xem chi tiết</button>
                     </a>
-                    <a href="">
+                    <a href="index.php?act=sua&id=<?php echo $order->id?>&status=<?php echo $order->payment_status ?>">
                         <button>Cập nhật</button>
                     </a>
                 </td>
