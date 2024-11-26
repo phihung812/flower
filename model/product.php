@@ -15,7 +15,7 @@ class Product
     }
     public function list_product()
     {
-        $sql = "SELECT * FROM `product`";
+        $sql = "SELECT * FROM `product` ORDER BY `id` desc";
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
     }
@@ -45,6 +45,18 @@ class Product
         $sql = "UPDATE `product` SET `name`=?, `description`=?, `category_id`=?, `base_price`=?, `available_stock`=?, `sku`=?, `status`=?, `main_image`=? WHERE `id`=?";
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$name, $description, $category_id, $base_price, $available_stock, $sku, $status, $main_image, $id]);
+    }
+    public function updateAvailableStock($quantity, $idProduct)
+    {
+        $sql = "UPDATE `product` SET `available_stock`= available_stock - ?  WHERE `id` = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$quantity, $idProduct]);
+    }
+    public function updateVariantAvailableStock($quantity, $idVariant)
+    {
+        $sql = "UPDATE `productvariant` SET `stock_quantity`= stock_quantity - ?  WHERE `id` = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$quantity, $idVariant]);
     }
     public function productNew()
     {
@@ -101,7 +113,7 @@ class Product
     }
     public function listVariant()
     {
-        $sql = "SELECT * FROM `productvariant`";
+        $sql = "SELECT * FROM `productvariant` ORDER BY `id` DESC";
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
     }
@@ -120,7 +132,7 @@ class Product
     // lấy id biến thể
     public function getVariantId($product_id, $size)
     {
-        $sql = "SELECT id, price FROM productvariant WHERE product_id = ? AND size = ?";
+        $sql = "SELECT id, price, stock_quantity FROM productvariant WHERE product_id = ? AND size = ?";
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$product_id, $size], false); // Lấy một bản ghi
     }

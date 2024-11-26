@@ -7,7 +7,7 @@
                 <div class="form__label">
                     <label>Tên sản phẩm</label>
                     <div class="form__input">
-                        <input type="text" name="productName" value="<?php echo $productById->name ?>">
+                        <input type="text" required name="productName" value="<?php echo $productById->name ?>">
                     </div>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 <div class="form__label">
                     <label>Mô tả</label>
                     <div class="form__input">
-                        <input type="text" name="description" value="<?php echo $productById->description ?>">
+                        <input type="text" required name="description" value="<?php echo $productById->description ?>">
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <div class="form__label">
                     <label>Giá</label>
                     <div class="form__input">
-                        <input type="number" name="price" value="<?php echo $productById->base_price ?>">
+                        <input type="number" required name="price" value="<?php echo $productById->base_price ?>">
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <div class="form__label">
                     <label>Số lượng</label>
                     <div class="form__input">
-                        <input type="number" name="available_stock" value="<?php echo $productById->available_stock ?>">
+                        <input type="number" required name="available_stock" value="<?php echo $productById->available_stock ?>">
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                 <div class="form__label">
                     <label>Mã số</label>
                     <div class="form__input">
-                        <input type="text" name="sku" value="<?php echo $productById->sku ?>">
+                        <input type="text" required name="sku" value="<?php echo $productById->sku ?>">
                     </div>
                 </div>
             </div>

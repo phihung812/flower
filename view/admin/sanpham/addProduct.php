@@ -13,7 +13,7 @@
                 <div class="form__label">
                     <label>Tên sản phẩm</label>
                     <div class="form__input">
-                        <input type="text" name="productName">
+                        <input type="text" required name="productName">
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                 <div class="form__label">
                     <label>Mô tả</label>
                     <div class="form__input">
-                        <input type="text" name="description">
+                        <input type="text" required  name="description">
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 <div class="form__label">
                     <label>Giá</label>
                     <div class="form__input">
-                        <input type="number" name="price">
+                        <input type="number" required name="price">
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 <div class="form__label">
                     <label>Số lượng</label>
                     <div class="form__input">
-                        <input type="number" name="available_stock">
+                        <input type="number" required name="available_stock">
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <div class="form__label">
                     <label>Mã số</label>
                     <div class="form__input">
-                        <input style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase();" type="text" name="sku">
+                        <input style="text-transform: uppercase;" oninput="this.value = this.value.toUpperCase();" required type="text" name="sku">
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                 <div class="form__label">
                     <label>Ảnh</label>
                     <div class="form__input">
-                        <input type="file" name="image">
+                        <input required type="file" name="image">
                     </div>
                 </div>
             </div>

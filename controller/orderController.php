@@ -2,6 +2,8 @@
 include_once(__DIR__ . '/../model/order.php');
 include_once(__DIR__ . '/../model/taikhoan.php');
 include_once(__DIR__ . '/../model/cart.php');
+include_once(__DIR__ . '/../model/product.php');
+
 
 
 class OrderController
@@ -30,23 +32,6 @@ class OrderController
         return $result;
     }
 
-
-
-    // public function inforOrder()
-    // {
-    //     $mTaikhoan = new Taikhoan();
-    //     $mOrder = new Order();
-    //     $mCart = new Cart();
-    //     $user_id = isset($_SESSION['user']) ? $_SESSION['user']->id : null;
-    //     $user = $mTaikhoan->getTaikhoanById($user_id);
-
-    //     $cart = $mCart->getCartIdByUserId($user_id);
-    //     $cart_id = $cart->id;
-    //     $cartItem = $mCart->getCartItems($cart_id);
-    //     $cartAll = $mCart->getCart($cart_id);
-
-    //     require_once "./view/client/payment.php";
-    // }
     public function handlePaymentCallback()
     {
         $mOrder = new Order();
@@ -85,12 +70,13 @@ class OrderController
         $mTaikhoan = new Taikhoan();
         $mOrder = new Order();
         $mCart = new Cart();
+        $mProduct = new Product();
+
         $user_id = isset($_SESSION['user']) ? $_SESSION['user']->id : null;
         $session_token = $_COOKIE['cart_token'];
         $user = $mTaikhoan->getTaikhoanById($user_id);      //lây thông tin người dùng đổ ra thanh toán
-        // $cart = $mCart->getCartIdByUserId($user_id);
 
-        $cart_id = isset($_SESSION['user']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'];         
+        $cart_id = isset($_SESSION['user']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'];
         $cartItem = $mCart->getCartItems($cart_id);
         $cartAll = $mCart->getCart($cart_id);
 
@@ -152,11 +138,15 @@ class OrderController
                         $price = $item->price;
                         $total_price = $item->total_price;
                         $addProductToOrderitem = $mOrder->InsertOrderitem(null, $order_id, $product_id, $variant_id, $quantity, $price, $total_price);
+                        $mProduct->updateAvailableStock($quantity, $product_id);
+                        $mProduct->updateVariantAvailableStock($quantity, $variant_id);
                     }
                     $deleteCartItems = $mCart->deleteCartItembyCartId($cart_id);
+                    $mCart->updateCartToDelete($cart_id);
+                    $payment_status = 'pending';
+                    $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
                 }
-                $payment_status = 'pending';
-                $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
+
 
                 header('Location: ' . $jsonResult['payUrl']);
 
@@ -173,11 +163,15 @@ class OrderController
                         $price = $item->price;
                         $total_price = $item->total_price;
                         $addProductToOrderitem = $mOrder->InsertOrderitem(null, $order_id, $product_id, $variant_id, $quantity, $price, $total_price);
+                        $mProduct->updateAvailableStock($quantity, $product_id);
+                        $mProduct->updateVariantAvailableStock($quantity, $variant_id);
                     }
                     $deleteCartItems = $mCart->deleteCartItembyCartId($cart_id);
+                    $mCart->updateCartToDelete($cart_id);
+                    $payment_status = 'pending';
+                    $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
                 }
-                $payment_status = 'pending';
-                $create_payment = $mOrder->createPayment(null, $order_id, $payment_method, $payment_status, $total_price_order);
+
                 if ($deleteCartItems) {
                     echo '<script type="text/javascript">
                                 const orderId = ' . json_encode($order_id) . ';

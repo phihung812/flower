@@ -5,6 +5,12 @@
                 <h1>Quên mật khẩu</h1>
                 <p>Thông tin của bạn</p>
             </div>
+            <p style="color:red; font-size:14px">
+                <?php
+                if (isset($thongbao) && $thongbao != "") {
+                    echo $thongbao;
+                } ?>
+            </p>
             <form action="" method="POST" class="frm-repass">
                 <div class="ipt-repass">
                     <span>* </span><label for="">Họ</label>

@@ -214,7 +214,11 @@ main h2 {
 .product img {
     width: 270px;
     height: 330px;
+    transition: filter 0.3s ease;
 }
+.product img:hover {
+    filter: brightness(0.6); 
+  }
 
 .product h3 {
     font-size: 20px;
@@ -237,6 +241,9 @@ main h2 {
     justify-content: center;
     align-items: center;
     margin-left: 93px;
+}
+.product .button-buynow:hover{
+    box-shadow: 0px 0px 5px 5px rgb(203, 106, 140);
 }
 
 .product .button-buynow a {

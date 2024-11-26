@@ -7,7 +7,7 @@
         <div class="form__label">
           <label>Tên danh mục</label>
           <div class="form__input">
-            <input type="text" name="name" value="<?php echo $danhmuc->name ?>">
+            <input type="text" required name="name" value="<?php echo $danhmuc->name ?>">
           </div>
         </div>
       </div>
@@ -16,7 +16,7 @@
         <div class="form__label">
           <label>Mô tả</label>
           <div class="form__input">
-            <input type="text" name="description" value="<?php echo $danhmuc->description ?>">
+            <input type="text" name="description" required value="<?php echo $danhmuc->description ?>">
           </div>
         </div>
       </div>
