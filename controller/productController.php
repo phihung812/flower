@@ -4,7 +4,7 @@ include_once(__DIR__ . '/../model/danhmuc.php');
 include_once(__DIR__ . '/../model/cart.php');
 include_once(__DIR__ . '/../model/init.php');
 include_once(__DIR__ . '/../model/banner.php');
-
+include_once(__DIR__ . '/../model/binhluan.php');
 
 
 class ProductController
@@ -146,7 +146,7 @@ class ProductController
             $category_id = $sanphamchitiet->category_id;
             $productRelate = $mProduct->productRelate($category_id, $idPro);
         }
-        // TH thêm giỏ hàng khi đã đăng nhập
+        // TH thêm giỏ hàng khi đã đăng nhập và chưa đăng nhập
         if (isset($_SESSION['user']) && $_SESSION['user']) {
             if (isset($_POST['submit-addCart']) && isset($_GET['idPro'])) {
                 // lấy thông tin sản phẩm
@@ -438,6 +438,33 @@ class ProductController
 
             }
         }
+
+         ////////////////////////////////////////////////////////////////////
+         $m=new cart();      
+         $thanhtoan=$m->all_thanhtoan();
+         $thanhtien=$m->all_thanhtien();
+         $tk=new Taikhoan();
+         $taikhoan=$tk-> getAllTaikhoan();
+         if(isset($_POST['submit-binhluan'])&& isset($_SESSION['user'])){
+             $comment=$_POST['noidungbl']; 
+             $rating=$_POST['sao'];
+             $user_id=$_POST['user_id'];
+             $product_id=$_POST['idsp'];
+             $mbinhluan=new binhluan();
+            $binhluan=$mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
+            
+         }else{
+             if(isset($_POST['submit-binhluan'])){
+             $comment=$_POST['noidungbl']; 
+             $rating=$_POST['sao'];
+             $product_id=$_POST['idsp'];
+             $mbinhluan=new binhluan();
+            $binhluan=$mbinhluan->Insert_binhluan2(null, $product_id,$rating, $comment);
+         }
+     }
+         $mbinhluan=new binhluan();
+         $listbl = $mbinhluan->ID_binhluan_sanpham($_GET['idPro']);
+ ////////////////////////////////////////////////////////////////////
 
         require_once "./view/client/sanphamchitiet.php";
     }

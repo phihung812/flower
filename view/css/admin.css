@@ -2,13 +2,13 @@ body {
     display: flex;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: white;
 }
 
 .container {
     width: 200px;
     background-color: #000;
-    color: #fff;
+    color: white;
     height: 100vh;
     padding-top: 20px;
     position: fixed;
@@ -108,21 +108,22 @@ body {
 }
 
 /* css danh sách sản phẩm */
-.listPro {
+.listPro { 
     width: 100%;
     border-collapse: collapse;
-    border: 0.5px solid #888;
+    border: #d4d2d2;
 }
 
 .listPro .thead {
-    background-color: #a3caf3;
+    background-color: #fc548c;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 th,
 td {
     padding: 8px;
     text-align: left;
-    border: 0.5px solid #888;
 }
 
 .listPro tr td img {
@@ -137,7 +138,7 @@ td {
 .listPro tr td a button {
     width: 50px;
     height: 30px;
-    background-color: #7066f3;
+    background-color: #f95d9c;
     border: none;
     border-radius: 5px;
     color: white;
@@ -192,18 +193,19 @@ td {
 .table_danhmuc {
     width: 100%;
     border-collapse: collapse;
-    border: 0.5px solid #888;
+    border:  #e0dcdc;
 }
 
 .table_danhmuc .thead {
-    background-color: #a3caf3;
+    background-color: #fb3b7b;
+    color: white;
+    height: 45px;
 }
 
 th,
 td {
     padding: 8px;
     text-align: left;
-    border: 0.5px solid #888;
 }
 
 
@@ -212,9 +214,9 @@ td {
 }
 
 .table_danhmuc tr td a button {
-    width: 50px;
+    width: 65px;
     height: 30px;
-    background-color: #7066f3;
+    background-color: #f366ad;
     border: none;
     border-radius: 5px;
     color: white;
@@ -222,8 +224,8 @@ td {
 
 .btn-table_danhmuc {
     width: 200px;
-    height: 40px;
-    background-color: #007BFF;
+    height: 50px;
+    background-color: #e452a0;
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -301,7 +303,7 @@ td {
 }
 
 button:hover {
-    background-color: #0056b3;
+    box-shadow: 0 0 10px 5px pink;
 }
 
 

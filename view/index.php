@@ -3,7 +3,11 @@ require_once "../controller/productController.php";
 require_once "../controller/danhmuc.php";
 require_once "../controller/taikhoanController.php";
 require_once "../controller/CategoryController.php";
+require_once "../controller/productController.php";
+require_once "../controller/bannerController.php";
+require_once "../controller/orderController.php";
 require_once "../controller/ProductStatisticController.php";
+require_once "../controller/binhluan.php";
 
 require_once "admin/header.php";
 
@@ -72,18 +76,52 @@ if (isset($_GET['act'])) {
             $taikhoan = new TaikhoanController();
             $taikhoan->updateTaikhoan();
             break;
-        case 'categoryStatisticsView':       
-            $controller = new CategoryController();
-            $controller->showStatistics();
-            
+
+        case 'addBanner':
+            $banner = new BannerController();
+            $banner->addBanner();
+            break;
+        case 'listBanner':
+            $banner = new BannerController();
+            $banner->listBanner();
+            break;
+        case 'editBanner':
+            $banner = new BannerController();
+            $banner->updateBanner();
+            break;
+        case 'deleteBanner':
+            $banner = new BannerController();
+            $banner->deleteBanner();
+            break;
+        case 'order':
+            $order = new OrderController();
+            $order->listOrder();
             break;
 
-            case 'ProductStatisticView':       
-                $controller = new ProductStatisticController();
-                $controller->getStatistics();
-                
-                break;
-            
+        ////////////////////////////////////////
+
+    
+        case 'categoryStatisticsView':
+            $controller = new CategoryController();
+            $controller->showStatistics();
+
+            break;
+        case 'ProductStatisticView':
+            $controller = new ProductStatisticController();
+            $controller->getStatistics();
+
+            break;
+        ////////////////////////////////////////
+        ////////////////////////////////////////
+
+        case 'binhluan':
+            $controller = new binhluancontronler();
+            $controller->binhluan();
+            break;
+        case 'delete_bl':
+            $controller = new binhluancontronler();
+            $controller->delete();
+             break;
 
 
 

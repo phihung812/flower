@@ -9,7 +9,6 @@
 </head>
 
 <style>
-    /* CSS cho menu con của Thống Kê */
     .link-item {
         position: relative;
     }
@@ -98,7 +97,7 @@
                 </ul>
             </li>
             <li class="link-item">
-                <a href="index.php?act=Order" class="link">
+                <a href="index.php?act=order" class="link">
                     <span class="icon">&#128202;</span> Đơn Hàng
                 </a>
             </li>

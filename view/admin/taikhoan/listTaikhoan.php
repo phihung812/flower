@@ -1,7 +1,7 @@
 <div class="main-content">
     <div class="welcome_admin">Danh Sách Người Dùng</div>
 
-    <table class="table_danhmuc">
+    <table border="1" class="table_danhmuc">
 
         <tr class="thead">
             <th>ID</th>

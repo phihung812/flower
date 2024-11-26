@@ -9,7 +9,7 @@
   ?>
 
     
-    <table class="listPro">
+    <table border="1" class="listPro">
         <tr class="thead">
             <th>Mã sản phẩm</th>
             <th>Tên sản phẩm</th>
