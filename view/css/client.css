@@ -214,7 +214,11 @@ main h2 {
 .product img {
     width: 270px;
     height: 330px;
+    transition: filter 0.3s ease;
 }
+.product img:hover {
+    filter: brightness(0.6); 
+  }
 
 .product h3 {
     font-size: 20px;
@@ -237,6 +241,9 @@ main h2 {
     justify-content: center;
     align-items: center;
     margin-left: 93px;
+}
+.product .button-buynow:hover{
+    box-shadow: 0px 0px 5px 5px rgb(203, 106, 140);
 }
 
 .product .button-buynow a {
@@ -875,25 +882,27 @@ button:hover {
 /* Định dạng nút delete */
 .btn-deleteCartItem {
     display: flex;
-    /* Hiển thị flex để căn giữa icon */
     justify-content: center;
-    /* Căn giữa icon theo chiều ngang */
     align-items: center;
-    /* Căn giữa icon theo chiều dọc */
     width: 37px;
-    /* Chiều rộng nút */
     height: 37px;
-    /* Chiều cao nút */
     background-color: red;
-    /* Màu nền nút */
     color: white;
-    /* Màu biểu tượng */
     border-radius: 5px;
-    /* Bo góc */
     text-decoration: none;
-    /* Bỏ gạch chân */
 }
-
+.btn-updateCartItem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 37px;
+    height: 37px;
+    background-color: rgb(43, 126, 50);
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+}
 .btn-deleteCartItem:hover {
     background-color: darkred;
     /* Đổi màu khi hover */
@@ -962,7 +971,8 @@ button:hover {
 
 .frm-repass {
     width: 100%;
-    height: 200px;
+    min-height: 200px;
+    height: auto;
     margin-top: 30px;
 }
 

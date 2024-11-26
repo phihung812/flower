@@ -120,8 +120,6 @@ class ProductController
 
     public function product_New()
     {
-        $mToken = new Init();
-        $cartToken = $mToken->cartToken();
         $product = new Product();
         $listProductNew = $product->productNew();
         $listProducBirth = $product->productBirthday();
@@ -134,8 +132,6 @@ class ProductController
 
     public function sanPhamChiTiet()
     {
-        $mToken = new Init();
-        $cartToken = $mToken->cartToken();
         $mProduct = new Product();
 
         if (isset($_GET['idPro'])) {
@@ -146,37 +142,29 @@ class ProductController
             $category_id = $sanphamchitiet->category_id;
             $productRelate = $mProduct->productRelate($category_id, $idPro);
         }
-        // TH thêm giỏ hàng khi đã đăng nhập và chưa đăng nhập
-        if (isset($_SESSION['user']) && $_SESSION['user']) {
-            if (isset($_POST['submit-addCart']) && isset($_GET['idPro'])) {
-                // lấy thông tin sản phẩm
-                $mProduct = new Product();
-                $idPro = $_GET['idPro'];
-                $sanphamchitiet = $mProduct->getProductById($idPro);
+        if (isset($_POST['submit-addCart']) && isset($_GET['idPro'])) {
+            // lấy thông tin sản phẩm
+            $idPro = $_GET['idPro'];
+            $sanphamchitiet = $mProduct->getProductById($idPro);
+            $size = isset($_POST['size']) ? $_POST['size'] : null;
+            $quantity = $_POST['quantity'];
 
-                $size = isset($_POST['size']) ? $_POST['size'] : null;
-                $quantity = $_POST['quantity'];
-                $cart_id = $_SESSION['cart_id'];
-                $mProduct = new Product();
-                $variant = $mProduct->getVariantId($idPro, $size);
-                $variant_id = ($variant && is_object($variant)) ? $variant->id : null;
-                if ($variant_id) {
-                    $price = $variant->price;
-                } else {
-                    $price = $sanphamchitiet->base_price;
-                }
-                $total_price = $quantity * $price;
-                // TH có biến thể và không có biến thể
-                if ($variant_id) {
-                    // kiểm tra sản phẩm có trong giỏ hàng hay chưa
-                    $mCart = new Cart();
-                    $checkCartItem = $mCart->checkCartItem($cart_id, $variant_id);
-                    // nêu có trong giỏ hàng
-                    if ($checkCartItem) {
-                        $newQuantity = $checkCartItem->quantity + $quantity;
-                        $newTotalPrice = $checkCartItem->total_price + $total_price;
-                        $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id);
-                        echo "<script>
+            $cart_id = isset($_SESSION['user']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'];
+            $variant = $mProduct->getVariantId($idPro, $size);
+            $variant_id = ($variant && is_object($variant)) ? $variant->id : null;
+            $price = $variant_id ? $variant->price : $sanphamchitiet->base_price;
+            $total_price = $quantity * $price;
+
+            if ($quantity < $sanphamchitiet->available_stock || (isset($variant) && is_object($variant) && $quantity < $variant->stock_quantity)) {
+                // kiểm tra sản phẩm có trong giỏ hàng hay chưa
+                $mCart = new Cart();
+                $checkCartItem = $mCart->checkCartItem($cart_id, $variant_id, $idPro);
+                // nêu có trong giỏ hàng
+                if ($checkCartItem) {
+                    $newQuantity = $checkCartItem->quantity + $quantity;
+                    $newTotalPrice = $checkCartItem->total_price + $total_price;
+                    $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id, $idPro);
+                    echo "<script>
                             const Toast = Swal.mixin({
                                 toast: false,
                                 position: 'top-right',
@@ -193,278 +181,99 @@ class ProductController
                             });
 
                             Toast.fire({
-                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
+                                 imageUrl: 'https://png.pngtree.com/element_our/20190522/ourlarge/pngtree-shopping-cart-icon-design-image_1071385.jpg', 
+                                imageWidth: 60, 
+                                imageHeight: 60, 
                                 title: 'Đã cập nhật sản phẩm trong giỏ hàng'
                             });
                         </script>";
-                    } else {
-                        // thêm mới sản phẩm vào giỏ hàng
-                        $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
-                        echo "<script>
-                    const Toast = Swal.mixin({
-                        toast: false,
-                        position: 'top-right',
-                        showConfirmButton: false,
-                        timer: 800,
-                        timerProgressBar: false,
-                        customClass: {
-                        popup: 'small-toast'  
-                    },
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
-                        }
-                    });
-
-                    Toast.fire({
-                         imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                        imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                        imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                        title: 'Đã thêm sản phẩm trong giỏ hàng'
-                    });
-                </script>";
-
-                    }
-                    // cập nhật lại giỏ hàng
-                    $mCart->updateCartTotals($cart_id);
                 } else {
-                    $mCart = new Cart();
-                    $checkCartItem = $mCart->checkCartItem0($cart_id, $idPro);
-                    if ($checkCartItem) {
-                        $newQuantity = $checkCartItem->quantity + $quantity;
-                        $newTotalPrice = $checkCartItem->total_price + $total_price;
-                        $mCart->updateCartItem0($newQuantity, $newTotalPrice, $cart_id, $idPro);
-                        echo "<script>
-                            const Toast = Swal.mixin({
-                                toast: false,
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                timer: 800,
-                                timerProgressBar: false,
-                                customClass: {
-                                popup: 'small-toast'  
-                            },
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                                }
-                            });
+                    // thêm mới sản phẩm vào giỏ hàng
+                    $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
+                    echo "<script>
+                                const Toast = Swal.mixin({
+                                    toast: false,
+                                    position: 'top-right',
+                                    showConfirmButton: false,
+                                    timer: 800,
+                                    timerProgressBar: false,
+                                    customClass: {
+                                    popup: 'small-toast'  
+                                },
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                    }
+                                });
 
-                            Toast.fire({
-                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                                title: 'Đã cập nhật sản phẩm trong giỏ hàng'
-                            });
-                        </script>";
-                    } else {
-                        // thêm mới sản phẩm vào giỏ hàng
-                        $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
-                        echo "<script>
-                            const Toast = Swal.mixin({
-                                toast: false,
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                timer: 800,
-                                timerProgressBar: false,
-                                customClass: {
-                                popup: 'small-toast'  
-                            },
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                                }
-                            });
+                                Toast.fire({
+                                    imageUrl: 'https://png.pngtree.com/element_our/20190522/ourlarge/pngtree-shopping-cart-icon-design-image_1071385.jpg', 
+                                    imageWidth: 60, 
+                                    imageHeight: 60, 
+                                    title: 'Đã thêm sản phẩm trong giỏ hàng'
+                                });
+                            </script>";
 
-                            Toast.fire({
-                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                                title: 'Đã thêm sản phẩm trong giỏ hàng'
-                            });
-                        </script>";
-
-                    }
-                    // cập nhật lại giỏ hàng
-                    $mCart->updateCartTotals($cart_id);
                 }
+                // cập nhật lại giỏ hàng
+                $mCart->updateCartTotals($cart_id);
+            } else {
+                echo "<script>
+                            const Toast = Swal.mixin({
+                                toast: false,
+                                position: 'top-right',
+                                showConfirmButton: false,
+                                timer: 2000,
+                                timerProgressBar: true,
+                                customClass: {
+                                popup: 'small-toast'  
+                            },
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            });
+                            Toast.fire({
+                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', 
+                                imageWidth: 80, 
+                                imageHeight: 80, 
+                                title: 'Số lượng sản phẩm trong kho không đủ'
+                            });
+                        </script>";
 
             }
-        } else {
-            if (isset($_POST['submit-addCart']) && isset($_GET['idPro'])) {
-                $mProduct = new Product();
-                $idPro = $_GET['idPro'];
-                $sanphamchitiet = $mProduct->getProductById($idPro);
 
-                $size = isset($_POST['size']) ? $_POST['size'] : null;
-                $quantity = $_POST['quantity'];
-                $cart_id = $_COOKIE['cart_id'];
-                $mProduct = new Product();
-                $variant = $mProduct->getVariantId($idPro, $size);
-                $variant_id = ($variant && is_object($variant)) ? $variant->id : null;
-                if ($variant_id) {
-                    $price = $variant->price;
-                } else {
-                    $price = $sanphamchitiet->base_price;
-                }
-                $total_price = $quantity * $price;
-                // TH có biến thể và không có biến thể
-                if ($variant_id) {
-                    // $variant_id = $variant_id->id;
-                    // kiểm tra sản phẩm có trong giỏ hàng hay chưa
-                    $mCart = new Cart();
-                    $checkCartItem = $mCart->checkCartItem($cart_id, $variant_id);
-                    // nêu có trong giỏ hàng
-                    if ($checkCartItem) {
-                        $newQuantity = $checkCartItem->quantity + $quantity;
-                        $newTotalPrice = $checkCartItem->total_price + $total_price;
-                        $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id);
-                        echo "<script>
-                            const Toast = Swal.mixin({
-                                toast: false,
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                timer: 800,
-                                timerProgressBar: false,
-                                customClass: {
-                                popup: 'small-toast'  
-                            },
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                                }
-                            });
 
-                            Toast.fire({
-                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                                title: 'Đã cập nhật sản phẩm trong giỏ hàng'
-                            });
-                        </script>";
-                    } else {
-                        // thêm mới sản phẩm vào giỏ hàng
-                        $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
-                        echo "<script>
-                    const Toast = Swal.mixin({
-                        toast: false,
-                        position: 'top-right',
-                        showConfirmButton: false,
-                        timer: 800,
-                        timerProgressBar: false,
-                        customClass: {
-                        popup: 'small-toast'  
-                    },
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer);
-                            toast.addEventListener('mouseleave', Swal.resumeTimer);
-                        }
-                    });
-
-                    Toast.fire({
-                         imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                        imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                        imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                        title: 'Đã thêm sản phẩm trong giỏ hàng'
-                    });
-                </script>";
-
-                    }
-                    // cập nhật lại giỏ hàng
-                    $mCart->updateCartTotals($cart_id);
-                } else {
-                    $mCart = new Cart();
-                    $checkCartItem = $mCart->checkCartItem0($cart_id, $idPro);
-                    if ($checkCartItem) {
-                        $newQuantity = $checkCartItem->quantity + $quantity;
-                        $newTotalPrice = $checkCartItem->total_price + $total_price;
-                        $mCart->updateCartItem0($newQuantity, $newTotalPrice, $cart_id, $idPro);
-                        echo "<script>
-                            const Toast = Swal.mixin({
-                                toast: false,
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                timer: 800,
-                                timerProgressBar: false,
-                                customClass: {
-                                popup: 'small-toast'  
-                            },
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                                }
-                            });
-
-                            Toast.fire({
-                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                                title: 'Đã cập nhật sản phẩm trong giỏ hàng'
-                            });
-                        </script>";
-                    } else {
-                        // thêm mới sản phẩm vào giỏ hàng
-                        $addToCart = $mCart->addProductToCartItem(null, $cart_id, $idPro, $variant_id, $quantity, $price, $total_price);
-                        echo "<script>
-                            const Toast = Swal.mixin({
-                                toast: false,
-                                position: 'top-right',
-                                showConfirmButton: false,
-                                timer: 800,
-                                timerProgressBar: false,
-                                customClass: {
-                                popup: 'small-toast'  
-                            },
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                                }
-                            });
-
-                            Toast.fire({
-                                 imageUrl: 'https://img.pikbest.com/png-images/qiantu/shopping-cart-icon-png-free-image_2605207.png!sw800', // Thay URL này bằng URL của biểu tượng giỏ hàng
-                                imageWidth: 50, // Điều chỉnh kích thước hình ảnh
-                                imageHeight: 50, // Điều chỉnh kích thước hình ảnh
-                                title: 'Đã thêm sản phẩm trong giỏ hàng'
-                            });
-                        </script>";
-
-                    }
-                    // cập nhật lại giỏ hàng
-                    $mCart->updateCartTotals($cart_id);
-                }
-
-            }
         }
 
-         ////////////////////////////////////////////////////////////////////
-         $m=new cart();      
-         $thanhtoan=$m->all_thanhtoan();
-         $thanhtien=$m->all_thanhtien();
-         $tk=new Taikhoan();
-         $taikhoan=$tk-> getAllTaikhoan();
-         if(isset($_POST['submit-binhluan'])&& isset($_SESSION['user'])){
-             $comment=$_POST['noidungbl']; 
-             $rating=$_POST['sao'];
-             $user_id=$_POST['user_id'];
-             $product_id=$_POST['idsp'];
-             $mbinhluan=new binhluan();
-            $binhluan=$mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
-            
-         }else{
-             if(isset($_POST['submit-binhluan'])){
-             $comment=$_POST['noidungbl']; 
-             $rating=$_POST['sao'];
-             $product_id=$_POST['idsp'];
-             $mbinhluan=new binhluan();
-            $binhluan=$mbinhluan->Insert_binhluan2(null, $product_id,$rating, $comment);
-         }
-     }
-         $mbinhluan=new binhluan();
-         $listbl = $mbinhluan->ID_binhluan_sanpham($_GET['idPro']);
- ////////////////////////////////////////////////////////////////////
+
+
+        ////////////////////////////////////////////////////////////////////
+        $m = new cart();
+        $thanhtoan = $m->all_thanhtoan();
+        $thanhtien = $m->all_thanhtien();
+        $tk = new Taikhoan();
+        $taikhoan = $tk->getAllTaikhoan();
+        if (isset($_POST['submit-binhluan']) && isset($_SESSION['user'])) {
+            $comment = $_POST['noidungbl'];
+            $rating = $_POST['sao'];
+            $user_id = $_POST['user_id'];
+            $product_id = $_POST['idsp'];
+            $mbinhluan = new binhluan();
+            $binhluan = $mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
+
+        } else {
+            if (isset($_POST['submit-binhluan'])) {
+                $comment = $_POST['noidungbl'];
+                $rating = $_POST['sao'];
+                $product_id = $_POST['idsp'];
+                $mbinhluan = new binhluan();
+                $binhluan = $mbinhluan->Insert_binhluan2(null, $product_id, $rating, $comment);
+            }
+        }
+        $mbinhluan = new binhluan();
+        $listbl = $mbinhluan->ID_binhluan_sanpham($_GET['idPro']);
+        ////////////////////////////////////////////////////////////////////
 
         require_once "./view/client/sanphamchitiet.php";
     }
@@ -494,22 +303,26 @@ class ProductController
 
     public function addVariant()
     {
+        $mProduct = new Product();
         if (isset($_POST['submit-addVariant'])) {
 
             $product_id = $_POST['product_id'];
             $size = $_POST['size'];
             $price = $_POST['price'];
             $stock_quantity = $_POST['stock_quantity'];
-
-            $mProduct = new Product();
-            $variantExists = $mProduct->kiemTraTonTaiVariant($product_id, $size);
-            if ($variantExists) {
-                $thongbao = "Sản phẩm đã tồn tại biến thể này, không thể thêm!";
-            } else {
-                $addVariant = $mProduct->insertVariant(null, $product_id, $size, $price, $stock_quantity);
-                if (!$addVariant) {
-                    $thongbao = "Thêm biến thể thành công!";
+            $check = $mProduct->getProductById($product_id);
+            if ($check) {
+                $variantExists = $mProduct->kiemTraTonTaiVariant($product_id, $size);
+                if ($variantExists) {
+                    $thongbao = "Sản phẩm đã tồn tại biến thể này, không thể thêm!";
+                } else {
+                    $addVariant = $mProduct->insertVariant(null, $product_id, $size, $price, $stock_quantity);
+                    if (!$addVariant) {
+                        $thongbao = "Thêm biến thể thành công!";
+                    }
                 }
+            } else {
+                $thongbao = "ID sản phẩm không tồn tại không thể thêm!";
             }
         }
 
@@ -535,9 +348,14 @@ class ProductController
                 $price = $_POST['price'];
                 $stock_quantity = $_POST['stock_quantity'];
 
-                $updateVariant = $mProduct->updateVariant($product_id, $size, $price, $stock_quantity, $idVariant);
-                if (!$updateVariant) {
-                    $thongbao = "Cập nhật thành công!";
+                $check = $mProduct->getProductById($product_id);
+                if ($check) {
+                    $updateVariant = $mProduct->updateVariant($product_id, $size, $price, $stock_quantity, $idVariant);
+                    if (!$updateVariant) {
+                        $thongbao = "Cập nhật thành công!";
+                    }
+                } else {
+                    $thongbao = "ID sản phẩm không tồn tại không thể sửa!";
                 }
             }
         }

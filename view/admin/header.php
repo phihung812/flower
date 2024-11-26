@@ -54,22 +54,22 @@
         <ul class="link-items">
             <li class="link-item">
                 <a href="index.php" class="link">
-                    <span class="icon">&#8962;</span> Home
+                    <span class="icon">&#127968;</span> Home
                 </a>
             </li>
             <li class="link-item">
                 <a href="index.php?act=listProduct" class="link">
-                    <span class="icon">&#128295;</span> Sản Phẩm
+                    <span class="icon">&#128717;</span> Sản Phẩm
                 </a>
             </li>
             <li class="link-item">
                 <a href="index.php?act=listBanner " class="link">
-                    <span class="icon">&#128295;</span> Banner
+                    <span class="icon">&#128278;</span> Banner
                 </a>
             </li>
             <li class="link-item">
                 <a href="index.php?act=Variant" class="link">
-                    <span class="icon">&#128295;</span> Biến thể sản phẩm
+                    <span class="icon">&#129513;</span> Biến thể sản phẩm
                 </a>
             </li>
             <li class="link-item">
@@ -89,7 +89,7 @@
             </li>
             <li class="link-item">
                 <a href="#" class="link">
-                    <span class="icon">&#128202;</span> Thống Kê
+                    <span class="icon">&#128200;</span> Thống Kê
                 </a>
                 <ul class="submenu">
                     <li><a href="index.php?act=categoryStatisticsView">Danh Mục</a></li>
@@ -98,12 +98,12 @@
             </li>
             <li class="link-item">
                 <a href="index.php?act=order" class="link">
-                    <span class="icon">&#128202;</span> Đơn Hàng
+                    <span class="icon">&#128230;</span> Đơn Hàng
                 </a>
             </li>
             <li class="link-item">
                 <a href="../index.php" class="link">
-                    <span class="icon">&#128682;</span> Thoát Khỏi Admin
+                    <span class="icon">&#8617;</span> Thoát Khỏi Admin
                 </a>
             </li>
         </ul>

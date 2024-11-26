@@ -13,7 +13,7 @@
                 <div class="form__label">
                     <label>ID sản phẩm</label>
                     <div class="form__input">
-                        <input type="number" name="product_id" value="<?php echo $variant->product_id ?>">
+                        <input type="number" required name="product_id" value="<?php echo $variant->product_id ?>">
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="form__label">
                     <label>Giá tiền</label>
                     <div class="form__input">
-                        <input type="number" name="price" value="<?php echo $variant->price ?>">
+                        <input type="number" required name="price" value="<?php echo $variant->price ?>">
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                 <div class="form__label">
                     <label>Số lượng</label>
                     <div class="form__input">
-                        <input type="number" name="stock_quantity" value="<?php echo $variant->stock_quantity ?>">
+                        <input type="number" required name="stock_quantity" value="<?php echo $variant->stock_quantity ?>">
                     </div>
                 </div>
             </div>

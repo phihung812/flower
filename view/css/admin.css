@@ -7,7 +7,7 @@ body {
 
 .container {
     width: 200px;
-    background-color: #000;
+    background-color: #7d374a;
     color: white;
     height: 100vh;
     padding-top: 20px;
@@ -94,7 +94,7 @@ body {
 .form__submit {
     width: 100%;
     padding: 10px;
-    background-color: #007BFF;
+    background-color: #fa4fb3;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -104,7 +104,7 @@ body {
 }
 
 .form__submit:hover {
-    background-color: #0056b3;
+    background-color: #63091b;
 }
 
 /* css danh sách sản phẩm */
@@ -115,7 +115,7 @@ body {
 }
 
 .listPro .thead {
-    background-color: #fc548c;
+    background-color: #95415d;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -147,7 +147,7 @@ td {
 .btn-listPro {
     width: 600px;
     height: 40px;
-    background-color: #007BFF;
+    background-color: #f447a3;
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -197,7 +197,7 @@ td {
 }
 
 .table_danhmuc .thead {
-    background-color: #fb3b7b;
+    background-color: #87304d;
     color: white;
     height: 45px;
 }
@@ -294,7 +294,7 @@ td {
 .form-register form button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #f95697;
     color: white;
     border: none;
     border-radius: 4px;

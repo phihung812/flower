@@ -13,7 +13,7 @@
         <div class="form__label">
           <label>Chọn ảnh</label>
           <div class="form__input">
-            <input type="file" name="image">
+            <input required type="file" name="image">
           </div>
         </div>
       </div>
