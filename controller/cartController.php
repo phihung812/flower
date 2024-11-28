@@ -9,12 +9,24 @@ class CartController
 {
     public function listCart()
     {
-        $cart_id = isset($_SESSION['cart_id']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'] ;
+        $cart_id = isset($_SESSION['cart_id']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'];
         $mCart = new Cart();
+        $mProduct = new Product();
         $cartItem = $mCart->getCartItems($cart_id);
         $cartAll = $mCart->getCart($cart_id);
 
-        
+        foreach ($cartItem as $cart) {
+            $product_id = $cart->product_id;
+            $variant_id = $cart->variant_id;
+            $variant = isset($variant_id) ? $mProduct->getVariantById($variant_id) : null;
+            $product = !isset($variant) ? $mProduct->getProductById($product_id) : null;
+
+            // Gắn thông tin tồn kho
+            $cart->available_stock = $product ? $product->available_stock : null; 
+            $cart->stock_quantity = $variant ? $variant->stock_quantity : null;   
+        }
+
+
         require_once "./view/client/cart.php";
     }
 
@@ -52,7 +64,7 @@ class CartController
             $price = isset($variant_id) ? $variant->price : $product->base_price;
             $total_price = $quantity * $price;
 
-            if ($quantity < $product->available_stock || (isset($variant) && is_object($variant) && $quantity < $variant->stock_quantity)) {
+            if ($quantity <= $product->available_stock || (isset($variant) && is_object($variant) && $quantity <= $variant->stock_quantity)) {
                 $cart_id = isset($_SESSION['user']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'];
                 $update = $mCart->updateCartItem($quantity, $total_price, $cart_id, $variant_id, $idProduct);
                 if (!$update) {

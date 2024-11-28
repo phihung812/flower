@@ -1,7 +1,4 @@
-
-
-
-<form action="" method="post">
+<form class="frm-order" action="" method="post">
     <h1>Cập nhật đơn hàng</h1><br><br>
 
     <label for="customer">Khách hàng:</label>
@@ -16,14 +13,34 @@
     <label for="shipping_address">số điện thoại:</label>
     <span class="info-text">0<?php echo $sua->phone; ?></span>
 
-    <label for="payment_status">Trạng thái thanh toán:</label>
-    <input type="text"  name=trangthai_tien value="<?php echo $thanhtoan->payment_status; ?>">
+
+    <label>Trạng thái đơn hàng: </label>
+    <div class="form__input">
+        <select name="status" value="<?php echo $sua->status ?>">
+            <option value="available" <?php echo ($sua->status === 'pending') ? 'selected' : ''; ?>>Đang chờ giao
+            </option>
+            <option value="unavailable" <?php echo ($sua->status === 'shipped') ? 'selected' : ''; ?>>Đang giao
+            </option>
+            <option value="unavailable" <?php echo ($sua->status === 'delivered') ? 'selected' : ''; ?>>Đã giao
+            </option>
+            <option value="unavailable" <?php echo ($sua->status === 'canceled') ? 'selected' : ''; ?>>Đã hủy
+            </option>
+        </select>
+    </div>
 
 
-    <label for="payment_status">Trạng thái đơn hàng:</label>
-    <input type="text"  name=trangthai_don value="<?php echo $sua->status; ?>">
+    <label>Trạng thái thanh toán: </label>
+    <div class="form__input">
+        <select name="status" value="<?php echo $thanhtoan->payment_status ?>">
+            <option value="available" <?php echo ($thanhtoan->payment_status === 'pending') ? 'selected' : ''; ?>>Chưa thanh toán
+            </option>
+            <option value="unavailable" <?php echo ($thanhtoan->payment_status === 'completed') ? 'selected' : ''; ?>>Đã thanh toán
+            </option>
+            <option value="unavailable" <?php echo ($thanhtoan->payment_status === 'failed') ? 'selected' : ''; ?>>Đã hủy
+            </option>
+        </select>
+    </div>
 
-    <input type="submit" name="capnhat" value="Cập nhật">
+
+    <input style="margin-top:15px;" type="submit" name="capnhat" value="Cập nhật">
 </form>
-
-

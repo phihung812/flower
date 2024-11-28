@@ -79,7 +79,7 @@
                 chính, các loại hoa lá phụ sẽ thay đổi phù hợp giá cả và thiết kế sản phẩm.</em>
         </div>
         <div class="binhluan">
-            <h2>đánh giá sản phẩm</h2>
+            <h2>Đánh giá sản phẩm</h2>
 <!-- //////////////////////////////////////////////////////////////////////////// -->
 
 <?php  
@@ -95,11 +95,10 @@ foreach ($listbl as $bl) {
     if (isset($userMap[$bl->user_id])) {
         $tk = $userMap[$bl->user_id];
         ?>
-        <div>
-            <?php echo $bl->created_at; ?>
-            <div><?php echo $tk->last_name; ?>: <?php echo $bl->comment; ?></div>
+        <div class="chitietbl">
+            <h3><?php echo $tk->last_name; ?></h3>
+            <p style="font-size:13px; margin-top:-15px"><?php echo $bl->created_at; ?></p>
             <div class='box1'>
-                Đánh giá: <?php echo $bl->rating; ?> sao
                 <div id="star" class="star-rating">
                     <span data-value="5">☆</span>
                     <span data-value="4">☆</span>
@@ -109,16 +108,17 @@ foreach ($listbl as $bl) {
                 </div>
                 <input type="hidden" onclick="updateStars()" class="rating-input" value="<?php echo $bl->rating; ?>">
             </div>
+            <p style="margin-top:0px; font-size:17px;"><?php echo $bl->comment; ?></p>
+            
         </div>
-        <br><br>
+        
         <?php
     } else {
         ?>
-        <div>
-            <?php echo $bl->created_at; ?>
-            <div>Người ẩn danh: <?php echo $bl->comment; ?></div>
+        <div class="chitietbl">
+            <h3>Người ẩn danh </h3>
+            <p style="font-size:13px; margin-top:-15px"><?php echo $bl->created_at; ?></p>
             <div class='box1'>
-              Đánh giá: <?php echo $bl->rating; ?> sao
                 <div id="star" class="star-rating">
                     <span data-value="5">☆</span>
                     <span data-value="4">☆</span>
@@ -128,8 +128,11 @@ foreach ($listbl as $bl) {
                 </div>
                 <input type="hidden" onclick="updateStars()" class="rating-input" value="<?php echo $bl->rating; ?>">
             </div>
+            <p style="margin-top:0px; font-size:17px;"><?php echo $bl->comment; ?></p>
+            
+            
         </div>
-        <br><br>
+        
         <?php
     }
 }
@@ -152,22 +155,17 @@ foreach ($listbl as $bl) {
             foreach ($thanhtoan as $order) {
                 // Kiểm tra nếu đơn hàng có trạng thái là "shipped" và thuộc về người dùng hiện tại
                 if($t->order_id==$order->id&&$user->id==$order->user_id){
-
-               
-
-                
                 
                  if ($order->status =="delivered" ) {
                     // Hiển thị form bình luận
                     ?>
                     <form class="fomb" action="" method="post" class="binhluan"> 
                         <div>
-                            <div class="leson">đánh giá sản phẩm : 
+                            <div class="leson">Đánh giá sản phẩm: 
                                 <div class="star-ratin" style="margin-top:-15px;">
                                     <span data-value="1">☆</span>
                                     <span data-value="2">☆</span>
                                     <span data-value="3">☆</span>
-                          
                                     <span data-value="4">☆</span>
                                     <span data-value="5">☆</span>
                                 </div>
@@ -211,7 +209,7 @@ foreach ($thanhtien as $t) {
                     ?>
                     <form class="fomb" action="" method="post" class="binhluan"> 
                         <div>
-                            <div class="leson">đánh giá sản phẩm : 
+                            <div class="leson"><span style="font-size:18px;">Đánh giá sản phẩm :</span> 
                                 <div class="star-ratin" style="margin-top:-15px;">
                                     <span data-value="1">☆</span>
                                     <span data-value="2">☆</span>
@@ -268,6 +266,17 @@ foreach ($thanhtien as $t) {
     function formatPrice(price) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VND";
     }
+    function updatePrice() {
+        const sizeSelect = document.getElementById('size');
+        const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
+        const price = selectedOption.getAttribute('data-price');
+
+        // Cập nhật giá hiển thị
+        document.getElementById('variant-price').textContent = formatPrice(price);
+    }
+
+
+    
     document.addEventListener('DOMContentLoaded', () => {
     const stars = document.querySelectorAll('.star-ratin span');
     const ratingInput = document.getElementById('rating-inpu');

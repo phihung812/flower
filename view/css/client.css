@@ -1309,6 +1309,7 @@ button:hover {
   }
   .box1{
       display: flex;
+      margin-top: -10px;
   }
   
   
@@ -1347,3 +1348,7 @@ button:hover {
   .leson{
       display: flex;
   }
+  .chitietbl{
+    margin-top: 0;
+  }
+  

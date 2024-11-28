@@ -43,6 +43,7 @@ class Cart
                 ci.quantity, 
                 ci.total_price,
                 ci.id, 
+                pv.id AS variant_id,
                 IFNULL(pv.size, 'Mặc định') AS size, 
                 IFNULL(pv.price, p.base_price) AS price       
             FROM 

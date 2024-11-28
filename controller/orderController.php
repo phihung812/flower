@@ -260,41 +260,38 @@ class OrderController
     public function cancleOrder()
     {
         $mOrder = new Order();
+        $mProduct = new Product();
         if (isset($_GET['order_id'])) {
             $order_id = $_GET['order_id'];
-            $status = 'canceled';
+
             $order = $mOrder->getOrderById($order_id);
             $status_order = $order->status;
             $payment = $mOrder->getPaymentByOrderId($order_id);
             $payment_id = $payment->id;
-            $payment_status = $payment->payment_status;
-            if ($status_order == 'pending' && $payment_status !== 'completed') {
+
+            if ($status_order == 'pending') {
+                $status = 'canceled';
                 $cancle = $mOrder->cancleOrder($status, $order_id);
-                $status_payment = 'failed';
-                $mOrder->canclePayment($status_payment, $payment_id);
+                // $status_payment = 'failed';
+                // $mOrder->canclePayment($status_payment, $payment_id);
+
+                //cập nhật tồn kho
+                $orderItem = $mOrder->getOrderItemByOrderId($order_id);
+                foreach ($orderItem as $item) {
+                    $quantity = $item->quantity;
+                    $product_id = $item->product_id;
+                    $variant_id = $item->variant_id;
+                    $mProduct->updateAvailableStock2($quantity, $product_id);
+                    $mProduct->updateVariantAvailableStock2($quantity, $variant_id);
+
+                }
+
                 if (!$cancle) {
                     echo '<script type="text/javascript">
                                 Swal.fire({
                                     icon: "success",
                                     title: "Thành công",
                                     text: "Hủy đơn hàng thành công",
-                                    confirmButtonText: "OK"
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.href = "index.php?act=myAccount&check=historyOrder";
-                                    }
-                                });
-                            </script>';
-                    exit();
-                }
-            } elseif ($status_order == 'pending' && $payment_status == 'completed') {
-                $cancle = $mOrder->cancleOrder($status, $order_id);
-                if (!$cancle) {
-                    echo '<script type="text/javascript">
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Thành công",
-                                    text: "Hủy thành công. Bạn sẽ được hoàn tiền vào tài khoản",
                                     confirmButtonText: "OK"
                                 }).then((result) => {
                                     if (result.isConfirmed) {

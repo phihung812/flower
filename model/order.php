@@ -86,6 +86,12 @@ class Order
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$id], false);
     }
+    public function getOrderItemByOrderId($order_id)
+    {
+        $sql = "SELECT * FROM `orderitem` WHERE order_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$order_id], true);
+    }
     public function getAllOrder()
     {
         $sql = "SELECT 
