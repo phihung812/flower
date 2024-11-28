@@ -28,7 +28,7 @@
                 <span>Trạng thái thanh toán: </span>
                 <?php if (!empty($detailOrder)) { ?>
                     <?php if ($detailOrder[0]->payment_status == 'pending') { ?>
-                        <label style="color:blue;">Chờ thanh toán...</label>
+                        <label style="color:blue;">Chưa thanh toán</label>
                     <?php } elseif ($detailOrder[0]->payment_status == 'completed') { ?>
                         <label style="color:green;">Đã thanh toán</label>
                     <?php } else { ?>

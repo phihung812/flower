@@ -1,58 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cập nhật thông tin</title>
-    <style>
-        form {
-            width: 50%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .info-text {
-            display: block;
-            padding: 8px;
-            margin-bottom: 15px;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-
-<form action="" method="post">
+<form class="frm-order" action="" method="post">
     <h1>Cập nhật đơn hàng</h1><br><br>
 
     <label for="customer">Khách hàng:</label>
@@ -67,15 +13,34 @@
     <label for="shipping_address">số điện thoại:</label>
     <span class="info-text">0<?php echo $sua->phone; ?></span>
 
-    <label for="payment_status">Trạng thái thanh toán:</label>
-    <input type="text"  name=trangthai_tien value="<?php echo $thanhtoan->payment_status; ?>">
+
+    <label>Trạng thái đơn hàng: </label>
+    <div class="form__input">
+        <select name="status" value="<?php echo $sua->status ?>">
+            <option value="available" <?php echo ($sua->status === 'pending') ? 'selected' : ''; ?>>Đang chờ giao
+            </option>
+            <option value="unavailable" <?php echo ($sua->status === 'shipped') ? 'selected' : ''; ?>>Đang giao
+            </option>
+            <option value="unavailable" <?php echo ($sua->status === 'delivered') ? 'selected' : ''; ?>>Đã giao
+            </option>
+            <option value="unavailable" <?php echo ($sua->status === 'canceled') ? 'selected' : ''; ?>>Đã hủy
+            </option>
+        </select>
+    </div>
 
 
-    <label for="payment_status">Trạng thái đơn hàng:</label>
-    <input type="text"  name=trangthai_don value="<?php echo $sua->status; ?>">
+    <label>Trạng thái thanh toán: </label>
+    <div class="form__input">
+        <select name="status" value="<?php echo $thanhtoan->payment_status ?>">
+            <option value="available" <?php echo ($thanhtoan->payment_status === 'pending') ? 'selected' : ''; ?>>Chưa thanh toán
+            </option>
+            <option value="unavailable" <?php echo ($thanhtoan->payment_status === 'completed') ? 'selected' : ''; ?>>Đã thanh toán
+            </option>
+            <option value="unavailable" <?php echo ($thanhtoan->payment_status === 'failed') ? 'selected' : ''; ?>>Đã hủy
+            </option>
+        </select>
+    </div>
 
-    <input type="submit" name="capnhat" value="Cập nhật">
+
+    <input style="margin-top:15px;" type="submit" name="capnhat" value="Cập nhật">
 </form>
-
-</body>
-</html>

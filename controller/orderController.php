@@ -107,8 +107,8 @@ class OrderController
                 $stock_quantityVariant = $variant ? $variant->stock_quantity : null;
 
                 if ($quantity > $available_stockProduct || ($variant && $quantity > $stock_quantityVariant)) {
-                    $checkCreateOrder = false; 
-                    break; 
+                    $checkCreateOrder = false;
+                    break;
                 }
             }
 
@@ -260,41 +260,38 @@ class OrderController
     public function cancleOrder()
     {
         $mOrder = new Order();
+        $mProduct = new Product();
         if (isset($_GET['order_id'])) {
             $order_id = $_GET['order_id'];
-            $status = 'canceled';
+
             $order = $mOrder->getOrderById($order_id);
             $status_order = $order->status;
             $payment = $mOrder->getPaymentByOrderId($order_id);
             $payment_id = $payment->id;
-            $payment_status = $payment->payment_status;
-            if ($status_order == 'pending' && $payment_status !== 'completed') {
+
+            if ($status_order == 'pending') {
+                $status = 'canceled';
                 $cancle = $mOrder->cancleOrder($status, $order_id);
-                $status_payment = 'failed';
-                $mOrder->canclePayment($status_payment, $payment_id);
+                // $status_payment = 'failed';
+                // $mOrder->canclePayment($status_payment, $payment_id);
+
+                //cập nhật tồn kho
+                $orderItem = $mOrder->getOrderItemByOrderId($order_id);
+                foreach ($orderItem as $item) {
+                    $quantity = $item->quantity;
+                    $product_id = $item->product_id;
+                    $variant_id = $item->variant_id;
+                    $mProduct->updateAvailableStock2($quantity, $product_id);
+                    $mProduct->updateVariantAvailableStock2($quantity, $variant_id);
+
+                }
+
                 if (!$cancle) {
                     echo '<script type="text/javascript">
                                 Swal.fire({
                                     icon: "success",
                                     title: "Thành công",
                                     text: "Hủy đơn hàng thành công",
-                                    confirmButtonText: "OK"
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.href = "index.php?act=myAccount&check=historyOrder";
-                                    }
-                                });
-                            </script>';
-                    exit();
-                }
-            } elseif ($status_order == 'pending' && $payment_status == 'completed') {
-                $cancle = $mOrder->cancleOrder($status, $order_id);
-                if (!$cancle) {
-                    echo '<script type="text/javascript">
-                                Swal.fire({
-                                    icon: "success",
-                                    title: "Thành công",
-                                    text: "Hủy thành công. Bạn sẽ được hoàn tiền vào tài khoản",
                                     confirmButtonText: "OK"
                                 }).then((result) => {
                                     if (result.isConfirmed) {
@@ -330,42 +327,43 @@ class OrderController
         require_once "../view/admin/donhang/listOrder.php";
     }
 
-    public function edit_donhang(){
-        if(isset($_GET['id'])&&isset($_GET['status'])){
-            $id=$_GET['id'];
-            $payment_status=$_GET['status'];
-            $msua=new Order();
-            $sua=$msua->getOrderById($id);
-           $thanhtoan=$msua->trangthaipamy($payment_status);
-            if(isset($_POST['capnhat'])){
-             $status=$_POST['trangthai_don'];
-             $payment_status=$_POST['trangthai_tien'];
-             $update=$msua->updateoder($payment_status,$id);
-             $updet=$msua->updatepamy($status,$id);
-                     if(!$update&& !$updet){
-                header("location:index.php?act=order");
-            }  
+    public function edit_donhang()
+    {
+        if (isset($_GET['id']) && isset($_GET['status'])) {
+            $id = $_GET['id'];
+            $payment_status = $_GET['status'];
+            $msua = new Order();
+            $sua = $msua->getOrderById($id);
+            $thanhtoan = $msua->trangthaipamy($payment_status);
+            if (isset($_POST['capnhat'])) {
+                $status = $_POST['trangthai_don'];
+                $payment_status = $_POST['trangthai_tien'];
+                $update = $msua->updateoder($payment_status, $id);
+                $updet = $msua->updatepamy($status, $id);
+                if (!$update && !$updet) {
+                    header("location:index.php?act=order");
+                }
             }
 
         }
-        require_once "../view/admin/donhang/edit_donhang.php";  
+        require_once "../view/admin/donhang/edit_donhang.php";
     }
-    
+
     public function chitiet_oder()
     {
-        if(isset($_GET['id'])){
-            $id=$_GET['id'];
-            $chitietm=new Order();
-            $chitiet=$chitietm-> getOrderById($id);
-            $payment=$chitietm->getpaytem();
-          $anh=$chitietm->anh();
-          $bienthem=$chitietm->bienthe();
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $chitietm = new Order();
+            $chitiet = $chitietm->getOrderById($id);
+            $payment = $chitietm->getpaytem();
+            $anh = $chitietm->anh();
+            $bienthem = $chitietm->bienthe();
         }
-       
 
-        require_once "../view/admin/donhang/chitiet.php";  
+
+        require_once "../view/admin/donhang/chitiet.php";
     }
 
-    
+
 }
 ?>

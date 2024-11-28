@@ -58,6 +58,18 @@ class Product
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$quantity, $idVariant]);
     }
+    public function updateAvailableStock2($quantity, $idProduct)
+    {
+        $sql = "UPDATE `product` SET `available_stock`= available_stock + ?  WHERE `id` = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$quantity, $idProduct]);
+    }
+    public function updateVariantAvailableStock2($quantity, $idVariant)
+    {
+        $sql = "UPDATE `productvariant` SET `stock_quantity`= stock_quantity + ?  WHERE `id` = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$quantity, $idVariant]);
+    }
     public function productNew()
     {
         $sql = "SELECT * FROM `product` ORDER BY created_at DESC LIMIT 8";
