@@ -55,7 +55,7 @@
             <input class="form__submit" type="submit" value="Cập nhật" name="submit-updateVariant">
 
             <a class="href-listPro" href="index.php?act=listVariant">
-                <div class="btn-listPro">Danh sách</div>
+                <div class="btn-listPro">Hủy</div>
             </a>
 
         </form>

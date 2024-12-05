@@ -100,17 +100,17 @@ if (isset($_GET['act'])) {
             $order = new OrderController();
             $order->listOrder();
             break;
-        
-            case 'chitiet':
-                $chitiet_oder = new OrderController();
-                $chitiet_oder->chitiet_oder();
-                break;
-    
-                case 'sua':
-                    $sua = new OrderController();
-                    $sua->edit_donhang();
-                    break;
-            
+
+        case 'chitiet':
+            $chitiet_oder = new OrderController();
+            $chitiet_oder->chitiet_oder();
+            break;
+
+        case 'editOrder':
+            $sua = new OrderController();
+            $sua->updateStatus();
+            break;
+
 
         ////////////////////////////////////////
 
@@ -138,7 +138,7 @@ if (isset($_GET['act'])) {
         case 'delete_bl':
             $controller = new binhluancontronler();
             $controller->delete();
-             break;
+            break;
 
 
 

@@ -54,10 +54,15 @@ body {
 
 .welcome_admin {
     width: 100%;
+    height: 60px;
     text-align: center;
     font-size: 40px;
     font-weight: bold;
     margin-bottom: 20px;
+    position: sticky;
+    top: 0; /* Khoảng cách từ trên xuống */
+    background-color: white; /* Đặt màu nền để tiêu đề không bị mờ nếu nền trong suốt */
+    z-index: 1000; /* Đảm bảo tiêu đề nằm trên các phần tử khác */
 }
 
 .add {
@@ -108,8 +113,8 @@ body {
 }
 
 /* css danh sách sản phẩm */
-.listPro { 
-    width: 100%;
+.listPro {
+    width: 97%;
     border-collapse: collapse;
     border: #d4d2d2;
 }
@@ -191,9 +196,9 @@ td {
 
 /* css danh danh muc */
 .table_danhmuc {
-    width: 100%;
+    width: 97%;
     border-collapse: collapse;
-    border:  #e0dcdc;
+    border: #e0dcdc;
 }
 
 .table_danhmuc .thead {
@@ -233,11 +238,13 @@ td {
     margin-left: 1050px;
     margin-top: 20px;
 }
-.href-add_danhmuc{
+
+.href-add_danhmuc {
     text-decoration: none;
-    
+
 }
-.href-add_danhmuc button{
+
+.href-add_danhmuc button {
     color: white;
     font-size: 17px;
     border: none;
@@ -273,10 +280,11 @@ td {
     flex-direction: column;
     margin-bottom: 15px;
 }
+
 .form-group-register select {
     height: 40px;
 }
-    
+
 
 .form-group-register label {
     margin-bottom: 5px;
@@ -410,7 +418,8 @@ button:hover {
     margin-bottom: 20px;
 }
 
-.invoice-table th, .invoice-table td {
+.invoice-table th,
+.invoice-table td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
@@ -454,8 +463,35 @@ button:hover {
 }
 
 
+.frm-searchProductAdm {
+    width: 500px;
+    height: 50px;
+    text-align: right;
+    margin-left: 750px;
+}
 
+.frm-searchProductAdm input {
+    width: 300px;
+    height: 40px;
+    border-radius: 5px;
+    border: 0.5px solid #888;
+}
 
+.frm-searchProductAdm select {
+    width: 100px;
+    height: 43px;
+    border-radius: 5px;
+    border: 0.5px solid #888;
+}
 
+.frm-searchProductAdm button {
+    height: 43px;
+    width: 43px;
+    border-radius: 3px;
+    background-color: #da7f9d;
+    border: none;
+}
 
-
+.frm-searchProductAdm button i {
+    color: white;
+}

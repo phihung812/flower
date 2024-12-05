@@ -64,7 +64,7 @@ class CartController
             $price = isset($variant_id) ? $variant->price : $product->base_price;
             $total_price = $quantity * $price;
 
-            if ($quantity <= $product->available_stock || (isset($variant) && is_object($variant) && $quantity <= $variant->stock_quantity)) {
+            if ($variant ? $quantity <= $variant->stock_quantity : $quantity <= $product->available_stock ) {
                 $cart_id = isset($_SESSION['user']) ? $_SESSION['cart_id'] : $_COOKIE['cart_id'];
                 $update = $mCart->updateCartItem($quantity, $total_price, $cart_id, $variant_id, $idProduct);
                 if (!$update) {
@@ -111,7 +111,6 @@ class CartController
     {
         $mInit = new Init();
         $mCart = new Cart();
-        // $idUser = isset($_SESSION['user']->id) ? $_SESSION['user']->id : null;
         $total_items = 0;
         $total_price = 0;
         $Token = $mInit->cartToken();

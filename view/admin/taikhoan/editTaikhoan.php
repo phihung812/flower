@@ -49,7 +49,11 @@
                     placeholder="Nhập mật khẩu">
             </div>
             <button type="submit" name="submit-updateTaikhoan">Cập nhật</button>
+            <a class="href-listPro" href="index.php?act=listTaikhoan">
+                <div style="width:650px; margin-top:15px;" class="btn-listPro">Hủy</div>
+            </a>
         </form>
+
     </div>
 
 </main>

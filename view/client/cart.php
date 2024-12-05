@@ -23,7 +23,7 @@
                     <td>
                         <?php
                         // Kiểm tra tồn kho
-                        $stock_available = ($cart->stock_quantity > 0) ? $cart->stock_quantity : $cart->available_stock ;
+                        $stock_available = ($cart->stock_quantity > 0) ? $cart->stock_quantity : $cart->available_stock;
                         if ($stock_available > 0) { ?>
                             <form class="frm-qtt" action="index.php?act=updateCartItem" method="POST"
                                 style="display: flex; align-items: center; gap: 10px;">
@@ -40,6 +40,9 @@
                             </form>
                         <?php } else { ?>
                             <span style="color: red; font-weight: bold;">Hết hàng</span>
+                            <a href="index.php?act=deleteCartItem&cartItemId=<?php echo $cart->id ?>" class="btn-deleteCartItem">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
                         <?php } ?>
                     </td>
                     <td><?php echo $cart->price ?></td>

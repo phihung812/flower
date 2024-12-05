@@ -2,7 +2,6 @@
   <div class="welcome_admin">Danh Sách Danh Mục</div>
 
   <?php
-  // Kiểm tra và hiển thị thông báo nếu có
   if (isset($thongbao) && ($thongbao != "")) {
     echo "<h3 style='color:red;'>$thongbao</h3>";
   }
