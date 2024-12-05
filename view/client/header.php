@@ -98,7 +98,7 @@
                     <?php foreach ($listMenu as $list) { ?>
                         <li>
                             <a
-                                href="<?php echo 'index.php?act=search-pro&iddm=' . $list->id ?>"><?php echo $list->name ?></a>
+                                href="<?php echo 'index.php?act=search-pro&category_id=' . $list->id ?>"><?php echo $list->name ?></a>
                         </li>
                     <?php } ?>
 

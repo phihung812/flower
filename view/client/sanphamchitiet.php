@@ -41,11 +41,11 @@
                     <input type="hidden" id="product-id" value="<?php echo $sanphamchitiet->id; ?>">
                     <div class="quantyti">
                         <h3>SỐ LƯỢNG:</h3>
-                        <input type="number" name="quantity" id="" value="1">
+                        <input type="number" min="1" name="quantity" id="" value="1">
                     </div>
                     <?php if (isset($sizePro) && (!empty($sizePro))) { ?>
                         <div class="variant">
-                            <h3>SIZE:</h3>
+                            <h3>KÍCH CỠ:</h3>
                             <select id="size" name="size" onchange="updatePrice()">
                                 <!-- Các option sẽ được lấy từ database -->
                                 <?php foreach ($sizePro as $sizes) { ?>

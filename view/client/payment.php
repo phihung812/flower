@@ -1,5 +1,12 @@
 <main>
+    <?php
+    if (isset($thongbao) && ($thongbao != "")) {
+        echo "<h3 style='color:red;'>$thongbao</h3>";
+    }
+
+    ?>
     <div class="payment">
+
         <div class="inforcustomer">
             <div class="titleinforcustomer">
                 <p>Thông tin nhận hàng</p>
@@ -44,12 +51,15 @@
                         </select>
                     </div>
                     <div class="row2">
-                        <span>*</span><label for="">Yêu cầu, lưu ý</label><br>
+                        <label for="">Yêu cầu, lưu ý (nếu có)</label><br>
                         <textarea name="" id="" cols="86" rows="10"></textarea>
                     </div>
                     <button type="submit" name="submit-payment">Xác nhận</button>
 
                 </form>
+                <a href="index.php?act=cart">
+                    <button style="background-color: red;">Quay lại</button>
+                </a>
             </div>
             <div class="infororder">
                 <div class="titleinfororder">

@@ -44,9 +44,16 @@ class ProductController
     public function listProduct()
     {
         $mProduct = new Product();
-        $listProduct = $mProduct->list_product();
         $mDanhmuc = new danhmuc();
         $listCategory = $mDanhmuc->all_danhmuc();
+        if (isset($_POST['submit-search'])) {
+            $kyw = $_POST['kyw'];
+            $iddm = $_POST['category_id'];
+        } else {
+            $kyw = "";
+            $iddm = 0;
+        }
+        $listProduct = $mProduct->listProductByKeyword($kyw, $iddm, '');
 
         require_once "../view/admin/sanpham/listProduct.php";
     }
@@ -61,11 +68,13 @@ class ProductController
         if (isset($_GET['idProduct'])) {
             $idProduct = $_GET['idProduct'];
             $mProduct = new Product();
-            $checkPro = $mProduct->checkProduct($idProduct);
-            $count = $checkPro[0]->{'COUNT(*)'}; //chuyển mảng về dạng int
-            $thongbao = "";
-            if ($count > 0) {
-                $thongbao = "Không thể xóa, sản phẩm này đã tồn tại trong giỏ hàng!";
+            $checkProductCart = $mProduct->checkProductCart($idProduct);
+            $countCart = $checkProductCart[0]->{'COUNT(*)'}; //chuyển mảng về dạng int
+            $checkProductOrder = $mProduct->checkProductOrder($idProduct);
+            $countOrder = $checkProductOrder[0]->{'COUNT(*)'};
+            
+            if ($countCart > 0 || $countOrder >0) {
+                $thongbao = "Không thể xóa, sản phẩm này đã tồn tại trong giỏ hàng hoặc đơn hàng!";
 
             } else {
                 $delete = $mProduct->deleteProduct($idProduct);
@@ -155,7 +164,8 @@ class ProductController
             $price = $variant_id ? $variant->price : $sanphamchitiet->base_price;
             $total_price = $quantity * $price;
 
-            if ($quantity <= $sanphamchitiet->available_stock || (isset($variant) && is_object($variant) && $quantity <= $variant->stock_quantity)) {
+            //người dùng thêm vào biến thể hay sản phẩm gốc
+            if ($variant ? ( $quantity <= $variant->stock_quantity) : $quantity <= $sanphamchitiet->available_stock) {
                 // kiểm tra sản phẩm có trong giỏ hàng hay chưa
                 $mCart = new Cart();
                 $checkCartItem = $mCart->checkCartItem($cart_id, $variant_id, $idPro);
@@ -164,7 +174,7 @@ class ProductController
                     $newQuantity = $checkCartItem->quantity + $quantity;
                     $newTotalPrice = $checkCartItem->total_price + $total_price;
                     // kiểm tra tồn kho
-                    if ($newQuantity <= $sanphamchitiet->available_stock || (isset($variant) && is_object($variant) && $newQuantity <= $variant->stock_quantity)) {
+                    if ($variant ? ($newQuantity <= $variant->stock_quantity) : $newQuantity <= $sanphamchitiet->available_stock) {
                         $mCart->updateCartItem($newQuantity, $newTotalPrice, $cart_id, $variant_id, $idPro);
                         echo "<script>
                                 const Toast = Swal.mixin({
@@ -276,30 +286,30 @@ class ProductController
 
 
         ////////////////////////////////////////////////////////////////////
-        $m=new cart();      
-        $thanhtoan=$m->all_thanhtoan();
-        $thanhtien=$m->all_thanhtien();
-    
-        $tk=new Taikhoan();
-        $taikhoan=$tk-> getAllTaikhoan();
-        if(isset($_POST['submit-binhluan'])&& isset($_SESSION['user'])){
-            $comment=$_POST['noidungbl']; 
-            $rating=$_POST['sao'];
-            $user_id=$_POST['user_id'];
-            $product_id=$_POST['idsp'];
-            $mbinhluan=new binhluan();
-           $binhluan=$mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
-           
-        }else{
-            if(isset($_POST['submit-binhluan'])){
-            $comment=$_POST['noidungbl']; 
-            $rating=$_POST['sao'];
-            $product_id=$_POST['idsp'];
-            $mbinhluan=new binhluan();
-           $binhluan=$mbinhluan->Insert_binhluan2(null, $product_id,$rating, $comment);
+        $m = new cart();
+        $thanhtoan = $m->all_thanhtoan();
+        $thanhtien = $m->all_thanhtien();
+
+        $tk = new Taikhoan();
+        $taikhoan = $tk->getAllTaikhoan();
+        if (isset($_POST['submit-binhluan']) && isset($_SESSION['user'])) {
+            $comment = $_POST['noidungbl'];
+            $rating = $_POST['sao'];
+            $user_id = $_POST['user_id'];
+            $product_id = $_POST['idsp'];
+            $mbinhluan = new binhluan();
+            $binhluan = $mbinhluan->Insert_binhluan1(null, $product_id, $user_id, $rating, $comment);
+
+        } else {
+            if (isset($_POST['submit-binhluan'])) {
+                $comment = $_POST['noidungbl'];
+                $rating = $_POST['sao'];
+                $product_id = $_POST['idsp'];
+                $mbinhluan = new binhluan();
+                $binhluan = $mbinhluan->Insert_binhluan2(null, $product_id, $rating, $comment);
+            }
         }
-    }
-        $mbinhluan=new binhluan();
+        $mbinhluan = new binhluan();
         $listbl = $mbinhluan->ID_binhluan_sanpham($_GET['idPro']);
         ////////////////////////////////////////////////////////////////////
 
@@ -315,8 +325,8 @@ class ProductController
         } else {
             $keyword = "";
         }
-        if (isset($_GET['iddm'])) {
-            $iddm = $_GET['iddm'];
+        if (isset($_GET['category_id'])) {
+            $iddm = $_GET['category_id'];
         } else {
             $iddm = "";
         }
@@ -340,8 +350,8 @@ class ProductController
             $stock_quantity = $_POST['stock_quantity'];
             $check = $mProduct->getProductById($product_id);
             if ($check) {
-                $variantExists = $mProduct->kiemTraTonTaiVariant($product_id, $size);
-                if ($variantExists) {
+                $checkVariant = $mProduct->kiemTraTonTaiVariant($product_id, $size);
+                if ($checkVariant) {
                     $thongbao = "Sản phẩm đã tồn tại biến thể này, không thể thêm!";
                 } else {
                     $addVariant = $mProduct->insertVariant(null, $product_id, $size, $price, $stock_quantity);
@@ -361,7 +371,12 @@ class ProductController
     public function listVariant()
     {
         $mProduct = new Product();
-        $listVariant = $mProduct->listVariant();
+        if(isset($_POST['submit-search'])){
+            $kyw = $_POST['kyw'];
+        }else{
+            $kyw = '';
+        }
+        $listVariant = $mProduct->listVariant($kyw);
         require_once "../view/admin/sanpham/listVariant.php";
     }
     public function updateVariant()
@@ -396,11 +411,23 @@ class ProductController
         if (isset($_GET['idVariant'])) {
             $idVariant = $_GET['idVariant'];
             $mProduct = new Product();
-            $delete = $mProduct->deleteVariant($idVariant);
-            if (!$delete) {
-                header("location:index.php?act=listVariant");
+            $listVariant = $mProduct->listVariant('');
+            $checkVariantCart = $mProduct->checkVariantCart($idVariant);
+            $countCart = $checkVariantCart[0]->{'COUNT(*)'}; //chuyển mảng về dạng int
+            $checkVariantOrder = $mProduct->checkVariantOrder($idVariant);
+            $countOrder = $checkVariantOrder[0]->{'COUNT(*)'};
+
+            if ($countCart > 0 || $countOrder) {
+                $thongbao = "Không thể xóa, biến thể sản phẩm này đã tồn tại trong giỏ hàng hoặc đơn hàng!";
+            } else {
+                $delete = $mProduct->deleteVariant($idVariant);
+                if (!$delete) {
+                    header("location:index.php?act=listVariant");
+                }
             }
+
         }
+        require_once "../view/admin/sanpham/listVariant.php";
     }
 
 }

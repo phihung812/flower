@@ -1,14 +1,22 @@
 <div class="main-content">
     <div class="welcome_admin">Danh Sách Sản Phẩm</div>
     <?php
-  // Kiểm tra và hiển thị thông báo nếu có
-  if (isset($thongbao) && ($thongbao != "")) {
-    echo "<h3 style='color:red;'>$thongbao</h3>";
-  }
-  
-  ?>
+    if (isset($thongbao) && ($thongbao != "")) {
+        echo "<h3 style='color:red;'>$thongbao</h3>";
+    }
 
-    
+    ?>
+
+    <form class="frm-searchProductAdm" action="" method="post">
+        <input type="text" name="kyw" placeholder="Nhập tên sản phẩm">
+        <select name="category_id" >
+            <option value="0" selected>Tất cả</option>
+            <?php foreach ($listCategory as $category) { ?>
+                <option value="<?php echo $category->id ?>"> <?php echo $category->name ?></option>
+            <?php } ?>
+        </select>
+        <button type="submit" name="submit-search"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
     <table border="1" class="listPro">
         <tr class="thead">
             <th>Mã sản phẩm</th>
@@ -34,7 +42,7 @@
                     foreach ($listCategory as $category) {
                         if ($category->id == $product->category_id) {
                             echo $category->name;
-                            break; 
+                            break;
                         }
                     }
                     ?>

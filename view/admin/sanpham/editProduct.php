@@ -27,7 +27,8 @@
                     <div class="form__input">
                         <select name="category">
                             <?php foreach ($listCategory as $category) { ?>
-                                <option value="<?php echo $category->id ?>" <?php echo ($category->id === $productById->category_id) ? 'selected' : ''; ?>> <?php echo $category->name ?></option>
+                                <option value="<?php echo $category->id ?>" <?php echo ($category->id === $productById->category_id) ? 'selected' : ''; ?>>
+                                    <?php echo $category->name ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -47,7 +48,8 @@
                 <div class="form__label">
                     <label>Số lượng</label>
                     <div class="form__input">
-                        <input type="number" required name="available_stock" value="<?php echo $productById->available_stock ?>">
+                        <input type="number" required name="available_stock"
+                            value="<?php echo $productById->available_stock ?>">
                     </div>
                 </div>
             </div>
@@ -88,5 +90,8 @@
 
             <input class="form__submit" type="submit" value="Cập nhật" name="submit-updateProduct">
         </form>
+        <a class="href-listPro" href="index.php?act=listProduct">
+            <div class="btn-listPro">Hủy</div>
+        </a>
     </div>
 </div>

@@ -5,10 +5,10 @@
                 <h1>Đặt mật khẩu mới</h1>
                 <p>Xác nhận mật khẩu mới</p>
             </div>
-            <form action="" method="POST" class="frm-repass">
+            <form action="" method="POST" class="frm-repass" onsubmit="return validateSubmit()">
                 <div class="ipt-repass">
                     <span>* </span><label for="">Mật khẩu mới</label>
-                    <input type="password" name="passwordNew" id="" placeholder="Nhập mật khẩu mới">
+                    <input type="password" name="passwordNew" id="passwordNew" placeholder="Nhập mật khẩu mới">
                 </div>
                 <div class="ipt-repass">
                     <span>* </span><label for="">Xác nhận mật khẩu</label>
@@ -37,3 +37,13 @@
         </div>
     </div>
 </main>
+<script>
+    function validateSubmit() {
+        var passNew = document.getElementById('passwordNew');
+        if (passNew.value.length < 6) {
+            alert('Mật khẩu phải từ 6 kí tự trở lên');
+            return false;
+        }
+
+    }
+</script>

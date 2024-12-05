@@ -25,11 +25,32 @@ class Product
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$id], false);
     }
-    public function checkProduct($productId)
+    public function checkProductCart($productId)
     {
         $sql = "SELECT COUNT(*) FROM cartitem WHERE product_id = ?";
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$productId]);
+
+    }
+    public function checkProductOrder($productId)
+    {
+        $sql = "SELECT COUNT(*) FROM orderitem WHERE product_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$productId]);
+
+    }
+    public function checkVariantCart($variant_id)
+    {
+        $sql = "SELECT COUNT(*) FROM cartitem WHERE variant_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$variant_id]);
+
+    }
+    public function checkVariantOrder($variant_id)
+    {
+        $sql = "SELECT COUNT(*) FROM orderitem WHERE variant_id = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$variant_id]);
 
     }
 
@@ -111,6 +132,8 @@ class Product
             $sql .= " ORDER BY base_price ASC";
         } elseif ($sort == 'price_desc') {
             $sql .= " ORDER BY base_price DESC";
+        }elseif ($sort == ''){
+            $sql .= " ORDER BY id DESC";
         }
 
 
@@ -123,9 +146,23 @@ class Product
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$id, $product_id, $size, $price, $stock_quantity]);
     }
-    public function listVariant()
+    public function listVariant($kyw)
     {
-        $sql = "SELECT * FROM `productvariant` ORDER BY `id` DESC";
+        $sql = "SELECT 
+                    productvariant.*, 
+                    product.main_image AS image_product, 
+                    product.name AS name_product
+                FROM 
+                    productvariant 
+                JOIN 
+                    product 
+                ON 
+                    productvariant.product_id = product.id 
+                WHERE 
+                    product.name LIKE '%$kyw%'
+                ORDER BY 
+                    productvariant.id DESC;
+                ";
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
     }

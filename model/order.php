@@ -103,7 +103,8 @@ class Order
             LEFT JOIN 
                 payment
             ON 
-                orders.id = payment.order_id;
+                orders.id = payment.order_id
+            ORDER BY orders.id desc
             ";
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
@@ -111,7 +112,8 @@ class Order
 
     //////////////////
 
-    public function chitiet_oder() {
+    public function chitiet_oder()
+    {
         $sql = "SELECT 
                     orders.*, 
                     payment.payment_method, 
@@ -127,7 +129,7 @@ class Order
                    orderitem
                 ON 
                     orders.id = shipping.order_id";
-    
+
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
     }
@@ -143,7 +145,7 @@ class Order
         $this->connect->setQuery($sql);
         return $this->connect->loadData();
     }
-    
+
     public function anh()
     {
         $sql = "SELECT * FROM `product`";
@@ -162,19 +164,21 @@ class Order
     {
         $sql = "SELECT * FROM `payment` WHERE payment_status = ?";
         $this->connect->setQuery($sql);
-        return $this->connect->loadData([$payment_status],false);
+        return $this->connect->loadData([$payment_status], false);
     }
-    public function updatepamy($status,$id){
+    public function updatepamy($status, $id)
+    {
         $sql = "UPDATE `orders` SET `status`= ? WHERE `id`= ?";
-        $this->connect->setQuery($sql);    
-        return $this->connect->loadData([$status, $id],false);
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$status, $id], false);
     }
-    public function updateoder($payment_status,$order_id){
+    public function updateoder($payment_status, $order_id)
+    {
         $sql = "UPDATE `payment` SET `payment_status`= ? WHERE `order_id`= ?";
-        $this->connect->setQuery($sql);    
-        return $this->connect->loadData([$payment_status,$order_id],false);
+        $this->connect->setQuery($sql);
+        return $this->connect->loadData([$payment_status, $order_id], false);
     }
-    
+
     /////////////////
 
     public function updateOrderStatus($status, $id)
@@ -189,13 +193,91 @@ class Order
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$payment_status, $id]);
     }
-    public function getPaymentByOrderId( $id)
+    public function getPaymentByOrderId($id)
     {
         $sql = "SELECT * FROM `payment` WHERE order_id = ?";
         $this->connect->setQuery($sql);
-        return $this->connect->loadData([$id],false);
+        return $this->connect->loadData([$id], false);
     }
-    
+
+
+
+
+
+
+    public function kiemtratrangthaidonhang($currentStatus, $newStatus)
+    {
+        $validTransitions = [
+            'pending' => ['pending','shipped', 'canceled'],
+            'shipped' => ['shipped','delivered'],
+            'delivered' => ['delivered'],
+            'canceled' => ['canceled'] // Không thể thay đổi trạng thái khi đã hủy
+        ];
+
+        return in_array($newStatus, $validTransitions[$currentStatus]);
+    }
+
+
+
+    public function capnhattrangthaidonhang($order_id, $newStatus)
+    {
+        // Lấy trạng thái hiện tại của đơn hàng
+        $sql = "SELECT `status` FROM `orders` WHERE `id` = ?";
+        $this->connect->setQuery($sql);
+        $Order = $this->connect->loadData([$order_id], false);
+
+        if ($Order) {
+            $currentStatus = $Order->status;
+
+            // Kiểm tra trạng thái mới có hợp lệ không
+            if ($this->kiemtratrangthaidonhang($currentStatus, $newStatus)) {
+                $sql = "UPDATE `orders` SET `status` = ? WHERE `id` = ?";
+                $this->connect->setQuery($sql);
+                return $this->connect->execute([$newStatus, $order_id]);
+            } else {
+                // Trạng thái không hợp lệ
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+    public function kiemtratrangthaithanhtoan($currentStatus, $newStatus)
+    {
+        $validTransitions = [
+            'pending' => ['pending','completed', 'failed'],
+            'completed' => ['completed'],
+            'failed' => ['failed'] // Không thể thay đổi trạng thái khi đã hủy
+        ];
+
+        return in_array($newStatus, $validTransitions[$currentStatus]);
+    }
+
+    public function capnhattrangthaithanhtoan($payment_id, $newStatus)
+    {
+        // Lấy trạng thái hiện tại của đơn hàng
+        $sql = "SELECT `payment_status` FROM `payment` WHERE `id` = ?";
+        $this->connect->setQuery($sql);
+        $payment = $this->connect->loadData([$payment_id], false);
+
+        if ($payment) {
+            $currentStatus = $payment->payment_status;
+            // Kiểm tra trạng thái mới có hợp lệ không
+            if ($this->kiemtratrangthaithanhtoan($currentStatus, $newStatus)) {
+                $sql = "UPDATE `payment` SET `payment_status` = ? WHERE `id` = ?";
+                $this->connect->setQuery($sql);
+                return $this->connect->execute([$newStatus, $payment_id]);
+            } else {
+                // Trạng thái không hợp lệ
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+
 }
 
 
