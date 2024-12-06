@@ -30,7 +30,7 @@ class Order
 
     public function historyOrder($user_id, $session_token)
     {
-        $sql = " SELECT * FROM `orders` WHERE user_id = ? or session_token = ?";
+        $sql = " SELECT * FROM `orders` WHERE user_id = ? or session_token = ? ORDER BY id DESC";
         $this->connect->setQuery($sql);
         return $this->connect->loadData([$user_id, $session_token]);
     }
@@ -208,8 +208,8 @@ class Order
     public function kiemtratrangthaidonhang($currentStatus, $newStatus)
     {
         $validTransitions = [
-            'pending' => ['pending','shipped', 'canceled'],
-            'shipped' => ['shipped','delivered'],
+            'pending' => ['pending', 'shipped', 'canceled'],
+            'shipped' => ['shipped', 'delivered'],
             'delivered' => ['delivered'],
             'canceled' => ['canceled'] // Không thể thay đổi trạng thái khi đã hủy
         ];
@@ -246,7 +246,7 @@ class Order
     public function kiemtratrangthaithanhtoan($currentStatus, $newStatus)
     {
         $validTransitions = [
-            'pending' => ['pending','completed', 'failed'],
+            'pending' => ['pending', 'completed', 'failed'],
             'completed' => ['completed'],
             'failed' => ['failed'] // Không thể thay đổi trạng thái khi đã hủy
         ];
@@ -274,6 +274,20 @@ class Order
             }
         }
         return false;
+    }
+
+    public function updatePaymentStatusByOrder($newStatus, $payment_id)
+    {
+        $sql = "UPDATE `payment` SET `payment_status` = ? WHERE `id` = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->execute([$newStatus, $payment_id]);
+    }
+
+    public function updateOrderStatusByPayment($newStatus, $order_id)
+    {
+        $sql = "UPDATE `orders` SET `status` = ? WHERE `id` = ?";
+        $this->connect->setQuery($sql);
+        return $this->connect->execute([$newStatus, $order_id]);
     }
 
 

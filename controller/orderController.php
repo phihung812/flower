@@ -251,7 +251,7 @@ class OrderController
                             });
                         </script>";
                 }
-            }else{
+            } else {
                 $thongbao = "Quản trị không thể thao tác mua hàng!";
             }
 
@@ -291,8 +291,8 @@ class OrderController
             if ($status_order == 'pending') {
                 $status = 'canceled';
                 $cancle = $mOrder->cancleOrder($status, $order_id);
-                // $status_payment = 'failed';
-                // $mOrder->canclePayment($status_payment, $payment_id);
+                $status_payment = 'failed';
+                $mOrder->canclePayment($status_payment, $payment_id);
 
                 //cập nhật tồn kho
                 $orderItem = $mOrder->getOrderItemByOrderId($order_id);
@@ -359,14 +359,34 @@ class OrderController
 
             if (isset($_POST['submit-order'])) {
                 $newStatusOrder = $_POST['order_status'];
-                $resultOrder = $mOrder->capnhattrangthaidonhang($order_id, $newStatusOrder);
                 $newStatusPayment = $_POST['payment_status'];
-                $resultPayment = $mOrder->capnhattrangthaithanhtoan($payment_id, $newStatusPayment);
 
-                if ($resultPayment && $resultOrder) {
-                    header("Location: index.php?act=order");
-                } else {
+                if (($newStatusOrder == 'delivered' || $newStatusOrder == 'shipped') && $newStatusPayment == 'failed') {
                     $thongbao = 'Trạng thái cập nhật không hợp lệ!';
+                } elseif ($newStatusOrder == 'canceled' && $newStatusPayment == 'completed') {
+                    $thongbao = 'Trạng thái cập nhật không hợp lệ!';
+                } else {
+                    $resultOrder = $mOrder->capnhattrangthaidonhang($order_id, $newStatusOrder);
+                    $resultPayment = $mOrder->capnhattrangthaithanhtoan($payment_id, $newStatusPayment);
+                    if ($resultOrder && $resultPayment) {
+                        if ($newStatusOrder === 'delivered') {
+                            $newStatusPayment = 'completed';
+                            $resultPaymentbyOrder = $mOrder->capnhattrangthaithanhtoan($payment_id, $newStatusPayment);
+                        } elseif ($newStatusOrder === 'canceled') {
+                            $newStatusPayment = 'failed';
+                            $resultPaymentbyOrder = $mOrder->capnhattrangthaithanhtoan($payment_id, $newStatusPayment);
+                        } elseif ($newStatusPayment === 'failed') {
+                            $newStatusOrder = 'canceled';
+                            $resultOrderbyPayment = $mOrder->capnhattrangthaidonhang($order_id, $newStatusOrder);
+                        }
+                        if (!isset($thongbao)) {
+                            header("Location: index.php?act=order");
+                            exit;
+                        }
+
+                    } else {
+                        $thongbao = 'Trạng thái cập nhật không hợp lệ!';
+                    }
                 }
 
             }

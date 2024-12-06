@@ -1,15 +1,18 @@
 <?php
 require_once 'connect.php';
 
-class ProductStatisticModel {
+class ProductStatisticModel
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = new connect();
     }
 
     // Lấy danh sách sản phẩm với thống kê
-    public function getProductStatistics() {
+    public function getProductStatistics()
+    {
         $sql = "
             SELECT 
                 p.id AS product_id,
@@ -32,5 +35,40 @@ class ProductStatisticModel {
         $this->db->setQuery($sql);
         return $this->db->loadData();
     }
+
+
+    public function all_product()
+    {
+        $sql = "SELECT * FROM `product`";
+        $this->db->setQuery($sql);
+        return $this->db->loadData();
+    }
+    public function all_odreitem()
+    {
+        $sql = "SELECT * FROM `orderitem`";
+        $this->db->setQuery($sql);
+        return $this->db->loadData();
+    }
+    public function all_oder()
+    {
+        $sql = "SELECT * FROM `orders`";
+        $this->db->setQuery($sql);
+        return $this->db->loadData();
+    }
+    public function all_danhmuc()
+    {
+        $sql = "SELECT * FROM `category`";
+        $this->db->setQuery($sql);
+        return $this->db->loadData();
+    }
+    public function all_bienthe()
+    {
+        $sql = "SELECT * FROM `productvariant`";
+        $this->db->setQuery($sql);
+        return $this->db->loadData();
+    }
 }
+
+
+
 ?>
