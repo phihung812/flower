@@ -79,7 +79,7 @@ class TaikhoanController
             $idTaikhoan = $_GET['idTaikhoan'];
             $mTaikhoan = new Taikhoan();
             $delete = $mTaikhoan->delete_Taikhoan($idTaikhoan);
-            if (!$delete) {
+            if ($delete) {
                 header("location:index.php?act=listTaikhoan");
             }
         }

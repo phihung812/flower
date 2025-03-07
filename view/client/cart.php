@@ -27,12 +27,15 @@
                         if ($stock_available > 0) { ?>
                             <form class="frm-qtt" action="index.php?act=updateCartItem" method="POST"
                                 style="display: flex; align-items: center; gap: 10px;">
+                                
                                 <input class="quantity-cartItem" type="number" required min="1" name="quantity"
                                     value="<?php echo $cart->quantity ?>">
                                 <input type="hidden" name="cartItemId" value="<?php echo $cart->id ?>">
+
                                 <button class="btn-updateCartItem" type="submit" name="submit-updateCartItemClick">
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </button>
+
                                 <a href="index.php?act=deleteCartItem&cartItemId=<?php echo $cart->id ?>"
                                     class="btn-deleteCartItem">
                                     <i class="fa-solid fa-trash-can"></i>

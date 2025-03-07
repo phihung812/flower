@@ -6,6 +6,9 @@
     }
 
     ?>
+    <a class="href-add_danhmuc" href="index.php?act=addVariant">
+        <button class="btn-table_danhmuc">Thêm biến thể</button>
+    </a>
     <?php if ($listVariant) { ?>
         <form class="frm-searchProductAdm" action="" method="post">
             <input type="text" name="kyw" placeholder="Nhập tên sản phẩm">
@@ -48,7 +51,5 @@
     <?php } else { ?>
         <p style="font-size:30px;">Chưa có biến thể nào</p>
     <?php } ?>
-    <a class="href-add_danhmuc" href="index.php?act=addVariant">
-        <button class="btn-table_danhmuc">Thêm biến thể</button>
-    </a>
+    
 </div>

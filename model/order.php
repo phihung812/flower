@@ -104,7 +104,7 @@ class Order
                 payment
             ON 
                 orders.id = payment.order_id
-            ORDER BY orders.id desc
+            ORDER BY orders.id asc
             ";
         $this->connect->setQuery($sql);
         return $this->connect->loadData();

@@ -29,9 +29,7 @@
                     <td><?php echo $taikhoan->created_at ?></td>
                     <td><?php echo $taikhoan->updated_at ?></td>
                     <td>
-                        <a href="index.php?act=delete_taikhoan&idTaikhoan=<?php echo $taikhoan->id ?>">
-                            <button>Xóa</button>
-                        </a>
+                        
                         <a href="index.php?act=edit_taikhoan&idTaikhoan=<?php echo $taikhoan->id ?>">
                             <button>Sửa</button>
                         </a>
