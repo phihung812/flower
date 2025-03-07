@@ -21,7 +21,7 @@ class CartController
             $variant = isset($variant_id) ? $mProduct->getVariantById($variant_id) : null;
             $product = !isset($variant) ? $mProduct->getProductById($product_id) : null;
 
-            // Gắn thông tin tồn kho
+            // Gắn thông tin tồn kho để kiểm tra con hàng không
             $cart->available_stock = $product ? $product->available_stock : null; 
             $cart->stock_quantity = $variant ? $variant->stock_quantity : null;   
         }

@@ -33,7 +33,7 @@
                     <td><?php echo $order->created_at ?></td>
                     
                     <td class="thaotac" style="text-align:center;">
-                        <?php if ($order->status != 'delivered' && $order->status != 'canceled') { ?>
+                        <?php if ($order->status != 'canceled') { ?>
                             <a href="index.php?act=myAccount&check=cancleOrder&order_id=<?php echo $order->id ?>">
                                 <button onclick="return confirmSubmit()">Hủy đơn</button>
                             </a>
